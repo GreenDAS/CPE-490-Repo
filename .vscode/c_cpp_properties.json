@@ -3,9 +3,14 @@
         {
             "name": "Target_1",
             "includePath": [
-                "c:\\Users\\green\\Desktop\\College\\CPE 490\\CPE-490-Repo"
+                "${workspaceFolder}/**",
+                "C:/ARM/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include",
+                "C:/ARM/Packs/Keil/STM32L4xx_DFP/3.0.0/CMSIS",
+                "C:/ARM/ARMCLANG/include",
+                "C:/ARM/ARMCLANG/lib/clang/19/include"
             ],
             "defines": [
+                "STM32L476xx",
                 "__alignof__(x)=",
                 "__asm(x)=",
                 "__asm__(x)=",
