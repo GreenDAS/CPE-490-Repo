@@ -26,7 +26,22 @@
 // Functions
 //------------------------------------------------------------------------------
 
-
+/* Sets or Clear the ISER or ICER bit for the respective peripheral 
+ Arg1 = The Object Itself
+ Arg2 = Either S, to set the ISER bit, or C, to set the ICER bit
+*/
+void setIRQn(IRQn_Type IRQN, char setOrDisable){
+	switch(setOrDisable){
+		case('S'):	// Sets the ISER Bit
+			__NVIC_EnableIRQ(IRQN);
+			break;
+		case('C'):	// Clears the ICER Bit
+			__NVIC_DisableIRQ(IRQN);
+			break;
+		default:
+			while(1){}	// Catches Improper use of the method
+	}
+}
 
 //------------------------------------------------------------------------------
 // # Classes
@@ -46,6 +61,7 @@ typedef struct PeripheralInteruptHandling{
 	//*-Function Pointers-*//
 	void (*setIXER)(struct PeripheralInteruptHandling* self, char setOrDisable); // Enables or Disables the Interupt
 	void (*setPriorityBit)(struct PeripheralInteruptHandling* self, uint32_t priority); // Sets the Priority of the Interupt
+	void (*initCCInterupt)(TIM_TypeDef *Timer); // Sets up the Capture & Compare of a peripheral (Only TIM2 For now)
 	
 }PeripheralInteruptHandling;
 
@@ -55,20 +71,7 @@ typedef struct PeripheralInteruptHandling{
  Arg1 = The Object Itself
  Arg2 = Either S, to set the ISER bit, or C, to set the ICER bit
 */
-void setIXER(PeripheralInteruptHandling* self, char setOrDisable){
-	switch(setOrDisable){
-		case('S'):	// Sets the ISER Bit
-			__NVIC_EnableIRQ(self->IRQN);
-			break;
-		case('C'):	// Clears the ICER Bit
-			__NVIC_DisableIRQ(self->IRQN);
-			break;
-		default:
-			while(1){}	// Catches Improper use of the method
-	}
-}
-
-
+void setIXER(PeripheralInteruptHandling* self, char setOrDisable){setIRQn(self->IRQN,setOrDisable);}
 
 /* Set Priority Bit of the Interupt
 Arg1 = The Object itself
@@ -78,6 +81,19 @@ void setPriorityBit(PeripheralInteruptHandling* self, uint32_t priority){
 	NVIC_SetPriority(self->IRQN, priority);
 }
 
+/* Sets up the Capture & Compare of a peripheral (Only TIM2 For now)
+ Arg1 = TIMX obj (TIM2)
+*/
+void initCCInterupt(TIM_TypeDef *Timer){
+	Timer->CCMR1 &= ~3UL; // Clear Pin Connection
+	Timer->CCMR1 |= 1UL; // Set Pin Connection
+	Timer->CCMR1 &= ~0xF0; // Clears Filtering bits
+	Timer->CCMR1 &= ~0b1100; // Clear Prescalar
+	Timer->CCER &= ~0b1011; // Clears Enable Register
+	Timer->CCER |= 1UL; // Enables Interupt
+	Timer->DIER &= ~0b10; // Clears Interupt Enabled for Channel 1
+	Timer->DIER |= 0b10; // Sets Interupt Enabled for Channel 1
+}
 
 /* Class Constructor
  Arg1 = The Peripheral's Interupt #
@@ -87,6 +103,7 @@ PeripheralInteruptHandling* PeripheralInteruptHandling_Create(IRQn_Type IRQn){
 	self->IRQN = IRQn;
 	self->setPriorityBit = setPriorityBit;
 	self->setIXER = setIXER;
+	self->initCCInterupt = initCCInterupt;
 	return self;
 }
 
@@ -137,39 +154,56 @@ void setPinInterupt(GPIOInteruptHandling* self, int pin){
  Arg2 = The IODevice's GPIO Base (A,B,C,D,...)
  Arg3 = The IRQn number of the Interupt
 */
-void _init_GPIOInterupt(int pin, char GPIOChar, IRQn_Type IRQn){
+void _init_GPIOInterupt(int pin, char GPIOChar, IRQn_Type IRQn, int ccInterupt){
 	if(!(RCC->APB2ENR & RCC_APB2ENR_SYSCFGEN)) {RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;} // Turns on Clk to Pin Interupts if not already enabled
 	GPIOInteruptHandling *self = malloc(sizeof(GPIOInteruptHandling)); // Creates spot in memory
-	int shift = (((pin)%4)*4);
-	self->IRQN = IRQn;
-	self->clearInteruptMask = 7<<shift; // Sets bit masks to 7 at ((pin X) % 4)*4
-	self->setInteruptMask = 0; // Sets bit mask to 0 to prep it
-	self->edgeMask = 1 <<(pin); // Sets bit masks to 1 at pin X
-	self->connectInteruptToNVICMask = 1 <<(pin);  // Sets bit masks to 1 at pin X
-	switch(GPIOChar){ // Sets bit masks to # at pin X
+	if(ccInterupt){
+		switch(GPIOChar){ // Enables the GPIO Interupt 
 		case('A'):
-			self->setInteruptMask = (0<<shift); // Sets bit mask to 0 at (pin X) % 4
+			GPIOA->AFR[pin] = 1UL; // Enables Pin A to Capture Interupt
 			break;
 		case('B'):
-			self->setInteruptMask = (1<<shift); // Sets bit mask to 1 at (pin X) % 4
-			break;
 		case('C'):
-			self->setInteruptMask = (2<<shift); // Sets bit mask to 2 at (pin X) % 4
-			break;
 		case('D'):
-			self->setInteruptMask = (3<<shift); // Sets bit mask to 3 at (pin X) % 4
-			break;
 		case('E'):
-			self->setInteruptMask = (4<<shift); // Sets bit mask to 4 at (pin X) % 4
-			break;
 		case('F'):
-			self->setInteruptMask = (5<<shift); // Sets bit mask to 5 at (pin X) % 4
-			break;
 		case('G'):
-			self->setInteruptMask = (6<<shift); // Sets bit mask to 6 at (pin X) % 4
-			break;
 		default:
 			while(1); // Catches Unkown GPIO Port
+		}
+	}
+	else{
+		int shift = (((pin)%4)*4);
+		self->IRQN = IRQn;
+		self->clearInteruptMask = 7<<shift; // Sets bit masks to 7 at ((pin X) % 4)*4
+		self->setInteruptMask = 0; // Sets bit mask to 0 to prep it
+		self->edgeMask = 1 <<(pin); // Sets bit masks to 1 at pin X
+		self->connectInteruptToNVICMask = 1 <<(pin);  // Sets bit masks to 1 at pin X
+		switch(GPIOChar){ // Sets bit masks to # at pin X
+			case('A'):
+				self->setInteruptMask = (0<<shift); // Sets bit mask to 0 at (pin X) % 4
+				break;
+			case('B'):
+				self->setInteruptMask = (1<<shift); // Sets bit mask to 1 at (pin X) % 4
+				break;
+			case('C'):
+				self->setInteruptMask = (2<<shift); // Sets bit mask to 2 at (pin X) % 4
+				break;
+			case('D'):
+				self->setInteruptMask = (3<<shift); // Sets bit mask to 3 at (pin X) % 4
+				break;
+			case('E'):
+				self->setInteruptMask = (4<<shift); // Sets bit mask to 4 at (pin X) % 4
+				break;
+			case('F'):
+				self->setInteruptMask = (5<<shift); // Sets bit mask to 5 at (pin X) % 4
+				break;
+			case('G'):
+				self->setInteruptMask = (6<<shift); // Sets bit mask to 6 at (pin X) % 4
+				break;
+			default:
+				while(1); // Catches Unkown GPIO Port
+			}
 	}
 	self->setPinInterupt = setPinInterupt;
 	self->setPinInterupt(self, pin);

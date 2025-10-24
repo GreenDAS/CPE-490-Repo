@@ -40,6 +40,7 @@ typedef struct PeripheralInteruptHandling{
 	//*-Function Pointers-*//
 	void (*setIXER)(struct PeripheralInteruptHandling* self, char setOrDisable); // Enables or Disables the Interupt
 	void (*setPriorityBit)(struct PeripheralInteruptHandling* self, uint32_t priority); // Sets the Priority of the Interupt
+	void (*initCCInterupt)(TIM_TypeDef *Timer); // Sets up the Capture & Compare of a peripheral (Only TIM2 For now)
 	
 }PeripheralInteruptHandling;
 
@@ -50,5 +51,5 @@ PeripheralInteruptHandling* PeripheralInteruptHandling_Create(IRQn_Type IRQn);
 
 #ifndef GPIOInteruptHandlingClass
 #define GPIOInteruptHandlingClass
-void _init_GPIOInterupt(int pin, char GPIOChar, IRQn_Type IRQn); // Does not return the structure (Purely to enable GPIO Interupts)
+void _init_GPIOInterupt(int pin, char GPIOChar, IRQn_Type IRQn, int ccInterupt); // Does not return the structure (Purely to enable GPIO Interupts)
 #endif

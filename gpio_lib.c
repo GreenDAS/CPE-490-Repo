@@ -84,7 +84,7 @@ typedef struct IODevice{
 	void (*getState)(struct IODevice*);
 	void (*setMODER)(struct IODevice*);
 	void (*toggle)(struct IODevice*);
-	void (*initInterupt)(int pin, char GPIOChar, IRQn_Type IRQn);
+	void (*initInterupt)(int pin, char GPIOChar, IRQn_Type IRQn, int ccInterupt);
 }IODevice;
 
 // Class Methods //

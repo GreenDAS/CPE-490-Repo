@@ -49,7 +49,7 @@ void combine2Strings(char* string1, char* string2, char* returnString, int addNe
 Descriptionn:
 
 */
-typedef struct stringClass{
+typedef struct StringClass{
 	//*-Parents-*//
 	
 	//*-Properties-*//
@@ -59,13 +59,13 @@ typedef struct stringClass{
 
 	//*-Function Pointers-*//
 	
-}stringClass;
+}StringClass;
 // Methods //
 // Public --
 /* Returns the Value in the string Class
  Arg1 = The stringClass to get the string from
 */
-char* getStr(stringClass *obj){
+char* getStr(StringClass *obj){
 	return obj->str;
 }
 
@@ -73,7 +73,7 @@ char* getStr(stringClass *obj){
  Arg1 = The stringClass to set the string to
  Arg2 = The String to set it to
 */
-void setStr(stringClass *obj, char* str){
+void setStr(StringClass *obj, char* str){
 	obj->length = strlen(str)+1; // Updates object's string's length
 	free(obj->str); // frees up the old string
 	obj->str = malloc(obj->length); // Reserves the space for the string
@@ -85,7 +85,7 @@ void setStr(stringClass *obj, char* str){
  Arg1 = The stringClass's maxLength to set
  Arg2 = The max length to be set too
 */
-void setMaxLength(stringClass *obj, int length){
+void setMaxLength(StringClass *obj, int length){
 	obj->maxLength = length; // Updates object's string's maxLength
 }
 
@@ -93,7 +93,7 @@ void setMaxLength(stringClass *obj, int length){
  Arg1 = The stringClass append the string onto
  Arg2 = The String to append to it
 */
-void appendStr(stringClass *obj, char* str){
+void appendStr(StringClass *obj, char* str){
 	obj->length = (strlen(obj->str) + 1); // holds the size of the old string
 	free(obj->str); // frees up the old string
 	obj->str = malloc((strlen(str) + 1) + obj->length); // Reserves the space for the new string
@@ -103,9 +103,10 @@ void appendStr(stringClass *obj, char* str){
 // Private --
 
 // Constructor //
-stringClass* stringClass_Create(char* str, int maxLength){
-	stringClass* self = malloc(sizeof(stringClass));
+StringClass* StringClass_Create(char* str, int maxLength){
+	StringClass* self = malloc(sizeof(StringClass));
 	self->maxLength = maxLength;
+	self->str = malloc(sizeof(char*));
 	setStr(self,str);
 	return self;
 }

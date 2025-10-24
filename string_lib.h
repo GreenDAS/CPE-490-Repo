@@ -37,36 +37,36 @@ void combine2Strings(char* string1, char* string2, char* returnString, int addNe
 //------------------------------------------------------------------------------
 
 // Forward Def //
-typedef struct stringClass stringClass;
+typedef struct StringClass StringClass;
 
 // Methods //
 
 /* Returns the Value in the string Class
  Arg1 = The stringClass to get the string from
 */
-char* getStr(stringClass *obj);
+char* getStr(StringClass *obj);
 
 /* Sets the string's value in the string Class
  Arg1 = The stringClass to set the string to
  Arg2 = The String to set it to
 */
-void setStr(stringClass *obj, char* str);
+void setStr(StringClass *obj, char* str);
 
 /* Sets the string's maxLength in the string Class
  Arg1 = The stringClass's maxLength to set
  Arg2 = The max length to be set too
 */
-void setMaxLength(stringClass *obj, int length);
+void setMaxLength(StringClass *obj, int length);
 
 /* Appends str onto the object's str
  Arg1 = The stringClass append the string onto
  Arg2 = The String to append to it
 */
-void appendStr(stringClass *obj, char* str);
+void appendStr(StringClass *obj, char* str);
 
 
 /* Constructor
  Arg1 = the initial string value
  Arg2 = the string's max char size (max length)
 */
-stringClass* stringClass_Create(char* str, int maxLength);
+StringClass* StringClass_Create(char* str, int maxLength);

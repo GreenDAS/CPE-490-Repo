@@ -45,7 +45,7 @@ typedef struct GeneralPurposeTimer{
 	//*-Function Pointers-*//
 	int (*greedyWait)(struct GeneralPurposeTimer*, int SecondsToWait, float Scalar); // Waits for a desired amount of time. (Holds the Processor Hostage)
 	int (*getBits)(int Register, int bitOffset, int bitMask); // Gets the bits in a certain register and returns them (
-	int (*setBits)(int *Register, int bitOffset, int value); // Sets the bits in a certain register and returns the register (Automatically Sets the bits in the register passed)
+	int (*setBits)(uint32_t *Register, int bitOffset, int value); // Sets the bits in a certain register and returns the register (Automatically Sets the bits in the register passed)
 	
 }GeneralPurposeTimer;
 
@@ -104,8 +104,8 @@ int getBits(int Register, int bitOffset, int bitMask){
  Arg2 = How far Left is the bit from the LSB to set
  Arg3 = What bits to set at the offest
 */
-int setBits(int *Register, int bitOffset, int value){
-	*Register &= (value<<bitOffset); // Clears the bits to set
+int setBits(uint32_t *Register, int bitOffset, int value){
+	*Register &= ~(value<<bitOffset); // Clears the bits to set
 	*Register |= (value<<bitOffset); // Sets the bits to set
 	return *Register; // Returns the register's value
 }

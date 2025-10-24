@@ -23,7 +23,7 @@
 // # defines
 //------------------------------------------------------------------------------
 
-// Hehe
+
 //------------------------------------------------------------------------------
 // Functions
 //------------------------------------------------------------------------------
@@ -130,9 +130,27 @@ void InitGeneralTimer(int timer, int PSC, int ARR, char DIR, int OPM){
 // Main
 //------------------------------------------------------------------------------
 
-
-
+extern IODevice FreqReader;
+extern GeneralPurposeTimer Timer2;
+GeneralPurposeTimer Timer3;
+extern GenevaLCDDevice Display;
+//extern StringClass* str;
+extern const int size;
 
 void _init_(){
-
-	}
+	FreqReader = IODevice_Create('A',0,0,1,'F');
+	FreqReader.initInterupt(FreqReader.pin,FreqReader.GPIOchar,EXTI0_IRQn,1);
+	
+	Timer2 = GeneralPurposeTimer_Create(2,0,0,(4000000000UL),'D',0); // Clock with 1/2 seconds counter
+	Timer2.InteruptHandler = PeripheralInteruptHandling_Create(TIM2_IRQn);
+	//Timer2.TIMX->DIER |= TIM_DIER_UIE; // Enables TIM2's interupt (TIM2's Side)
+	Timer2.InteruptHandler->setPriorityBit(Timer2.InteruptHandler,1); // Sets the Priority Bit
+	Timer2.InteruptHandler->setIXER(Timer2.InteruptHandler,'S'); // Enables the interupt in the NVIC
+	Timer2.InteruptHandler->initCCInterupt(Timer2.TIMX);
+	Timer2.setBits(&(Timer2.TIMX->CR1),0,1);
+	
+	Timer3 = GeneralPurposeTimer_Create(3,1,3999,10000,'D',0); // 1 count is 1ms
+	Display = GenevaLCDDevice_Create(&Timer3,5,10); // Stays on for 500ms off for 2ms
+	
+//	str = StringClass_Create("\0",16);
+}
