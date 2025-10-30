@@ -24,7 +24,7 @@
 // # defines
 //------------------------------------------------------------------------------
 
-
+#define SIZE 12
 
 //------------------------------------------------------------------------------
 // Functions
@@ -54,19 +54,19 @@ int calcFreqFlag = 0;
 int main(void){
 	_init_();	// Sets up classes and other variables
 	float freq = 0;
-	const int size = 12;
-	double freqMeasurements[size];
+
+	double freqMeasurements[SIZE];
 	int measurementsFilledTo = 0;
 	
 	while(True){
 		
 		freqMeasurements[measurementsFilledTo] = ((4000000.0/(Timer2.PSC+1))/freqCounts);
-		measurementsFilledTo = (measurementsFilledTo<size) ? measurementsFilledTo + 1: 0;
+		measurementsFilledTo = (measurementsFilledTo<SIZE) ? measurementsFilledTo + 1: 0;
 		freq = 0;
-		for(int i =0; i<size; i++){
+		for(int i =0; i<SIZE; i++){
 			freq += freqMeasurements[i];
 		}
-		freq /= size;
+		freq /= SIZE;
 		createFreqString(str, freq);
 		
 		Display.moveCursor(&Display,0,0);
