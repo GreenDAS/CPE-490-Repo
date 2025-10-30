@@ -249,9 +249,9 @@ void changeDimMODER(Numpad* self, char Dim, char MODERType){
 /* Read Pad and stop program to wait for X amount of time to pass 
 	(hence the Greedy as it steals valuable processing time by waiting.)
 --To manually index throgh a flattened 2D array, algorythoim is the following--
-	row = which row you want (0 … rows-1)
+	row = which row you want (0 ï¿½ rows-1)
 	cols = the total number of columns in each row (not cols-1)
-	col = which column in that row (0 … cols-1)
+	col = which column in that row (0 ï¿½ cols-1)
 	Array[row*cols+col]
 */
 void greedyReadPad(Numpad* self){
@@ -292,7 +292,7 @@ void greedyReadPad(Numpad* self){
 	if((truesCountRows >= 1) && (truesCountCollumns >= 1)){  // If not, update recent press value and state values
 		self->prevState = self->state; // Updates PrevState
 		self->state = 1; // Updates State
-		if ((truesCountRows = 1) && (truesCountCollumns = 1)){self->recentPress = self->numpadValues[rowVal*(self->colSize)+colVal];} // If only one 1 in row and one 1 in columns, then update the recent press value
+		if ((truesCountRows == 1) && (truesCountCollumns == 1)){self->recentPress = self->numpadValues[rowVal*(self->colSize)+colVal];} // If only one 1 in row and one 1 in columns, then update the recent press value
 	}
 	else{	// If so, update state values
 		self->prevState = self->state;  // Updates PrevState
