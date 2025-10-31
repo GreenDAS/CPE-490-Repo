@@ -81,9 +81,8 @@ extern GenevaLCDDevice Display;
 extern const int size;
 
 void _init_(){
-	Switch1 = IODevice_Create('C', SW1, 1, 0, 'I'); // Sets up Switch1 (PC4)
+	Switch1 = IODevice_Create('C', SW1, True, False, 'I'); // Sets up Switch1 (PC4)
 	Switch1.initInterupt(Switch1.pin, Switch1.GPIOchar, EXTI4_IRQn, 0); // Sets up Switch1 Interupt (PC4)
-	
 
 	Timer2 = GeneralPurposeTimer_Create(2,1,CountAtMilSecondRate,TimerPeriod1SecondInMilSeconds*10,'D',0); // Sets up Timer2
 	Timer3 = GeneralPurposeTimer_Create(3,1,CountAtMilSecondRate,TimerPeriod1SecondInMilSeconds*10,'D',0); // Sets up Timer3
