@@ -22,7 +22,11 @@
 // # defines
 //------------------------------------------------------------------------------
 
-#define msScalar = 0.001
+#define TimerPeriod1SecondInMilSeconds 1000
+
+#define CountAtMilSecondRate 3999
+
+#define MilSecondsScalar 0.001
 
 //------------------------------------------------------------------------------
 // # Classes
