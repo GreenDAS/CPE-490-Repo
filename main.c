@@ -35,7 +35,7 @@ void createFreqString(char* str, double freq){
 }
 
 void createVoltString(char* str, double volt){
-	snprintf(str, 15, "Voltage: %.2f V", volt);  // 2 decimal places
+	snprintf(str, 16, "Voltage: %.2f V", volt);  // 2 decimal places
 }
 
 //------------------------------------------------------------------------------
@@ -46,7 +46,7 @@ void createVoltString(char* str, double volt){
 IODevice VoltReader;
 GeneralPurposeTimer Timer2;
 GenevaLCDDevice Display;
-char str[15] = "Voltage: 0.00 V";
+char str[16] = "Voltage: 0.00 V";
 
 // FLAGS
 int calcVoltFlag = 0;
