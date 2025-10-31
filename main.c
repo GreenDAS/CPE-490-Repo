@@ -62,7 +62,7 @@ int main(void){
 		ADC1->ISR |= ADC_ISR_EOC; // Clear End of Conversion Flag
 		ADC1->CR |= ADC_CR_ADSTART; // Start ADC Conversion
 		while((ADC1->ISR & ADC_ISR_EOC) == 0){} // Wait for Conversion to finish
-		voltage = ((ADC1->DR) * 3.3) / 4095.0; // Calculate Voltage
+		voltage = ((ADC1->DR) /256); // Calculate Voltage
 		createVoltString(str, voltage); // Create Voltage String
 		calcVoltFlag = 0;
 		Timer2.greedyWait(&Timer2, 5, MilSecondsScalar); // Wait 5ms to debounce button press
