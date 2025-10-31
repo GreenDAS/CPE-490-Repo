@@ -34,41 +34,40 @@ void createFreqString(char* str, double freq){
 	snprintf(str, 8, "%.2f", freq);  // 2 decimal places
 }
 
+void createVoltString(char* str, double volt){
+	snprintf(str, 15, "%.2f", volt);  // 2 decimal places
+}
+
 //------------------------------------------------------------------------------
 // Main
 //------------------------------------------------------------------------------
 
 // Global Vars
-uint32_t freqCounts = 0;
-uint32_t countInitial = 0;
-uint32_t countFinal = 0;
-IODevice FreqReader;
+IODevice VoltReader;
 GeneralPurposeTimer Timer2;
 GenevaLCDDevice Display;
-char str[8] = "0000.00";
+char str[15] = "Voltage: 0.00 V";
 
 // FLAGS
-int calcFreqFlag = 0;
+int calcVoltFlag = 0;
 
  
 int main(void){
 	_init_();	// Sets up classes and other variables
-	float freq = 0;
-
-	double freqMeasurements[SIZE];
-	int measurementsFilledTo = 0;
+	float voltage = 0;
 	
 	while(True){
 		
-		freqMeasurements[measurementsFilledTo] = ((4000000.0/(Timer2.PSC+1))/freqCounts);
-		measurementsFilledTo = (measurementsFilledTo<SIZE) ? measurementsFilledTo + 1: 0;
-		freq = 0;
-		for(int i =0; i<SIZE; i++){
-			freq += freqMeasurements[i];
+		if(calcVoltFlag == 1){
+		ADC1->ISR |= ADC_ISR_EOC; // Clear End of Conversion Flag
+		ADC1->CR |= ADC_CR_ADSTART; // Start ADC Conversion
+		while((ADC1->ISR & ADC_ISR_EOC) == 0){} // Wait for Conversion to finish
+		voltage = ((ADC1->DR) * 3.3) / 4095.0; // Calculate Voltage
+		createVoltString(str, voltage); // Create Voltage String
+		calcVoltFlag = 0;
+		Timer2.greedyWait(&Timer2, 5, MilSecondsScalar); // Wait 5ms to debounce button press
 		}
-		freq /= SIZE;
-		createFreqString(str, freq);
-		
+
 		Display.moveCursor(&Display,0,0);
 		Display.writeString(&Display,str);
 		Display.clearDisplay(&Display);
