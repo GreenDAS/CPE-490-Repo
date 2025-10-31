@@ -31,8 +31,10 @@ void EXTI3_IRQHandler(void){
 }
  
 //Pin4
+extern int calcVoltFlag;
 void EXTI4_IRQHandler(void){
 	// Code Here
+	calcVoltFlag = 1;
 	NVIC_ClearPendingIRQ(EXTI4_IRQn);
 	EXTI->PR1 |= EXTI_PR1_PIF4;
  }
@@ -42,22 +44,13 @@ Peripheral ISRs
 ------------------------------------------------------------------------*/
 
 //Tim2
- 
-extern uint32_t freqCounts;
-extern uint32_t countInitial;
-extern uint32_t countFinal;
-extern int calcFreqFlag;
 void TIM2_IRQHandler(void){
 	
 	if(TIM2->SR & TIM_SR_UIF) { // UIF Interrupt
-		//calcFreqFlag = 1; // calcFreqFlag Set to true
+
 		TIM2->SR &= ~TIM_SR_UIF; // Clear interrupt flag
   } 
 	else if (TIM2->SR & TIM_SR_CC1IF) { // Channel #1
-		countFinal = TIM2->CCR1; 
-		if(countFinal > countInitial){freqCounts = TIM2->ARR-countFinal + countInitial;}  // Corrects for Overflow
-		else{freqCounts = countInitial-countFinal;} // Adds counts waited
-		countInitial = countFinal;
 		TIM2->SR &= ~ TIM_SR_CC1IF; // Clear interrupt flag
   } 
 	else if (TIM2->SR & TIM_SR_CC2IF) { // Channel #2
