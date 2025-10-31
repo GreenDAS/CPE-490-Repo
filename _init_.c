@@ -66,64 +66,6 @@ void InitSysTick(int load){
 	SysTick->CTRL |= (5UL); // Puts 1s into Systick Enable and Clk source
 }
 
-/* General Timer Init
-*** Timer Time Math
-	PSC = X+1
-	ClkInput/PSC = Counts/second; 1/Counts/second = seconds/count
-***
- Arg1 = TimerX
- Arg2 = Pre Scale Register
- Arg3 = Auto Reload Register
- Arg4 = Direction (U for Up Counter, D for Down Counter)
- Arg5 = One Pulse Mode (Dissables CEN after The clock runs up or down)
-*/
-void InitGeneralTimer(int timer, int PSC, int ARR, char DIR, int OPM){
-	
-	TIM_TypeDef* TIMx;
-	int CR1 = 1;
-	// int CR2 = 0;
-	switch(timer){ // Finds what timer should be initalized
-		case 2: 
-			  TIMx = TIM2;
-				RCC->APB1ENR1 |= RCC_APB1ENR1_TIM2EN;
-			break;
-		case 3: 
-			  TIMx = TIM3;
-				RCC->APB1ENR1 |= RCC_APB1ENR1_TIM3EN;
-			break;
-		case 4: 
-			  TIMx = TIM4;
-				RCC->APB1ENR1 |= RCC_APB1ENR1_TIM4EN;
-			break;
-		case 5: 
-			  TIMx = TIM5;
-				RCC->APB1ENR1 |= RCC_APB1ENR1_TIM5EN;
-			break;
-		default:
-			return;
-	}
-	
-	switch(DIR){ // Sets the Direction Bit in CR1
-		case 'U':
-			CR1 &= ~(1UL<<4);
-			break;
-		case 'D':
-			CR1 |= (1UL<<4);
-			break;
-	}
-	switch(OPM){ // Sets the One Pulse Mode Bit in CR1
-		case 0:
-			CR1 &= ~(1UL<<3);
-			break;
-		case 1:
-			CR1 |= (1UL<<3);
-			break;
-	}
-	
-	TIMx->PSC = PSC;
-	TIMx->ARR = ARR;
-	TIMx->CR1 = CR1;
-}
 
 
 //------------------------------------------------------------------------------
