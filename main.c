@@ -51,7 +51,7 @@ char str[16] = "Voltage: 0.00 V";
 // FLAGS
 int calcVoltFlag = 0;
 
- 
+
 int main(void){
 	_init_();	// Sets up classes and other variables
 	float voltage = 0;
@@ -65,7 +65,6 @@ int main(void){
 		voltage = ((ADC1->DR) * 3.33 )/ 255.0; // Calculate Voltage
 		createVoltString(str, voltage); // Create Voltage String
 		calcVoltFlag = 0;
-		Timer2.greedyWait(&Timer2, 5, MilSecondsScalar); // Wait 5ms to debounce button press
 		}
 
 		Display.moveCursor(&Display,0,0);
