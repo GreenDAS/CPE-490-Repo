@@ -14,6 +14,7 @@ INCUDES
  
  #include "stm32l476xx.h"
  #include "gpio_lib.h"
+ #include "timer_lib.h"
  
  // Make sure to clear NVIC_CearPendingIRQ(IRQn);
  
@@ -44,6 +45,14 @@ Peripheral ISRs
 ------------------------------------------------------------------------*/
 
 //Tim2
+// Externs
+extern int FlagCalcFreq;
+extern int freqCounts;
+extern GeneralPurposeTimer *Timer2;
+// Local Vars
+uint32_t timeI;
+uint32_t timeF;
+double timeElapsed;
 void TIM2_IRQHandler(void){
 	
 	if(TIM2->SR & TIM_SR_UIF) { // UIF Interrupt
@@ -51,6 +60,23 @@ void TIM2_IRQHandler(void){
 		TIM2->SR &= ~TIM_SR_UIF; // Clear interrupt flag
   } 
 	else if (TIM2->SR & TIM_SR_CC1IF) { // Channel #1
+		if(FlagCalcFreq){
+			timeI = TIM2->CCR1;
+		}
+		else{
+			freqCounts++;
+			timeF = TIM2->CCR1;
+			if(timeF >= timeI){
+				timeElapsed += ((double)(timeF - timeI) + Timer2->TIMX->ARR)*((Timer2->PSC+1)/clockSpeedHz); // in seconds
+			}
+			else{
+				timeElapsed += ((double)(timeI - timeF))*((Timer2->PSC+1)/clockSpeedHz); // in seconds
+			}
+			timeI = timeF;
+			if(timeElapsed >= 0.5){ // Every 0.5 seconds
+				FlagCalcFreq = 1;
+			}
+		}
 		TIM2->SR &= ~ TIM_SR_CC1IF; // Clear interrupt flag
   } 
 	else if (TIM2->SR & TIM_SR_CC2IF) { // Channel #2
