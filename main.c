@@ -45,7 +45,7 @@ void createVoltString(char* str, double volt){
 // Global Vars
 IODevice VoltReader;
 GeneralPurposeTimer Timer2;
-GenevaLCDDevice Display;
+GenevaLCDDevice *Display;
 char str[16] = "Voltage: 0.00 V";
 
 // FLAGS
@@ -67,8 +67,8 @@ int main(void){
 		calcVoltFlag = 0;
 		}
 
-		Display.moveCursor(&Display,0,0);
-		Display.writeString(&Display,str);
-		Display.clearDisplay(&Display);
+		Display->moveCursor(&Display,0,0);
+		Display->writeString(&Display,str);
+		Display->clearDisplay(&Display);
 	}
 }
