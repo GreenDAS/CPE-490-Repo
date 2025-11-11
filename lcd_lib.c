@@ -163,7 +163,8 @@ void sendBits(int data){
 /* Class Constructor
  Arg1 = The timer the object uses
  Arg2 = How many times it should retry commands
- Arg3 = what the onOffRatio should be
+ Arg3 = what the onOffRatio should be for the greedyClearDisplay method
+ Arg4 = The full message to be displayed on the LCD
 */
 GenevaLCDDevice* GenevaLCDDevice_Create(GeneralPurposeTimer* Timer, int ConnectionRetries, int OnOffRatio, int MSG[2][GenevaLCDRowSize][GenevaLCDColSize]){
 	GenevaLCDDevice *self = malloc(sizeof(GenevaLCDDevice));
