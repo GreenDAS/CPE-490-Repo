@@ -50,6 +50,11 @@ void EXTI4_IRQHandler(void){
 SysTick ISR
 ------------------------------------------------------------------------*/
 
+// Local Vars
+uint32_t timeI;
+uint32_t timeF;
+double timeElapsed;
+
 // Flags
 extern int calcVoltFlag;
 extern int calcFreqFlag;
@@ -63,6 +68,10 @@ extern GenevaLCDDevice* Display;
 extern float voltageMeasurements[VSIZE];
 extern float voltage;
 extern float frequency;
+extern int calcFreqFlag;
+extern int freqCounts;
+extern GeneralPurposeTimer *Timer2;
+
 
 // Currently a Cooperative RTOS & EDF
 void SysTick_Handler(void){ 
@@ -124,14 +133,7 @@ Peripheral ISRs
 ------------------------------------------------------------------------*/
 
 //Tim2
-// Externs
-extern int calcFreqFlag;
-extern int freqCounts;
-extern GeneralPurposeTimer *Timer2;
-// Local Vars
-uint32_t timeI;
-uint32_t timeF;
-double timeElapsed;
+
 void TIM2_IRQHandler(void){
 	
 	if(TIM2->SR & TIM_SR_UIF) { // UIF Interrupt
