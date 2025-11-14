@@ -27,7 +27,15 @@ Project File Date:  10/24/2025
 <h2>Output:</h2>
 *** Using Compiler 'V6.22', folder: 'C:\ARM\ARMCLANG\Bin'
 Build target 'Target_1'
-".\Objects\Template.axf" - 0 Error(s), 0 Warning(s).
+interupt_handlers.c(84): warning: variable 'previousDispState' set but not used [-Wunused-but-set-variable]
+   84 |         static dispStates previousDispState = SUCCESS;
+      |                           ^
+1 warning generated.
+compiling interupt_handlers.c...
+linking...
+Program Size: Code=17960 RO-data=1212 RW-data=16 ZI-data=2360  
+FromELF: creating hex file...
+".\Objects\Template.axf" - 0 Error(s), 1 Warning(s).
 
 <h2>Software Packages used:</h2>
 

@@ -34,7 +34,7 @@
 // Initializes the LCD
 void _initLCD_(){
 	lcd_Init(5); // Initialized the LCD
-	//lcd_Command(0b1100,5); // Turns off the Cursor and blinking cursor from displaying (Improves Image)
+	lcd_Command(0b1100,5); // Turns off the Cursor and blinking cursor from displaying (Improves Image)
 }
 
 //------------------------------------------------------------------------------
@@ -193,7 +193,7 @@ GenevaLCDDevice* GenevaLCDDevice_Create(GeneralPurposeTimer* Timer, int Connecti
 		}
 	}
 	_initLCD_();
-	self->timer->greedyWait(self->timer,5,0.001);
+	self->moveCursor(self,0,0);
 	return self;
 
 	#endif
