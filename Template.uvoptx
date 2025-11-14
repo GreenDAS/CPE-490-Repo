@@ -170,16 +170,16 @@
           <Type>0</Type>
           <LineNumber>122</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134226018</Address>
+          <Address>0</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
+          <BreakIfRCount>0</BreakIfRCount>
           <Filename>.\interupt_handlers.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\Template\interupt_handlers.c\122</Expression>
+          <Expression></Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -212,6 +212,16 @@
           <count>5</count>
           <WinNumber>1</WinNumber>
           <ItemText>cursorPos</ItemText>
+        </Ww>
+        <Ww>
+          <count>6</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>cursorPos</ItemText>
+        </Ww>
+        <Ww>
+          <count>7</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Display</ItemText>
         </Ww>
       </WatchWindow1>
       <Tracepoint>
