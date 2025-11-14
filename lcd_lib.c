@@ -133,15 +133,14 @@ void startTalking (void) {
 	
 int working; //working variable
 			
-		I2C1->ICR = I2C_NACKCF;	//Clear the NACK flag.
-				
-		working = I2C1->CR2; //Get current value of I2C1_CR2
-		working &=I2C_CR2_WRITE0; //Clear NBYTES in CR2 to prepare a new transmission.
-		working |= I2C_CR2_WRITE2; //Prepare to write 2-bytes of data to the LCD.
-		working |= (LCD_ADDRESS << 1); //Load I2C1 with the LCD address. Shift it by one for the 7-bit addressing mode (See reference pg. 1328)
-		working |= I2C_START; //Start transmission, seeking response from LCD.
-			
-		I2C1->CR2 = working;
+	I2C1->ICR = I2C_NACKCF;	//Clear the NACK flag.
+	working = I2C1->CR2; //Get current value of I2C1_CR2
+	working &=I2C_CR2_WRITE0; //Clear NBYTES in CR2 to prepare a new transmission.
+	working |= I2C_CR2_WRITE2; //Prepare to write 2-bytes of data to the LCD.
+	working |= (LCD_ADDRESS << 1); //Load I2C1 with the LCD address. Shift it by one for the 7-bit addressing mode (See reference pg. 1328)
+	working |= I2C_START; //Start transmission, seeking response from LCD.
+		
+	I2C1->CR2 = working;
 }
 
 
