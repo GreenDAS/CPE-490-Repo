@@ -159,4 +159,5 @@ void _init_(){
 	Timer2.InteruptHandler->initCCInterupt(Timer2.TIMX);
 	Timer2.setBits(&(Timer2.TIMX->CR1),0,1);
 
+	InitSysTick(3999, 1); // Sets up SysTick for 1ms interrupts with interrupts enabled
 }
