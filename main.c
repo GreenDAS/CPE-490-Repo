@@ -31,11 +31,11 @@
 //------------------------------------------------------------------------------
 
 void createFreqString(char* str, double freq){
-	snprintf(str, 8, "%.2f", freq);  // 2 decimal places
+	snprintf(str, 8, "FREQ: %4.2f", freq);  // 2 decimal places
 }
 
 void createVoltString(char* str, double volt){
-	snprintf(str, 16, "Voltage: %.2f V", volt);  // 2 decimal places
+	snprintf(str, 16, "VOLTAGE: %2.2f V", volt);  // 2 decimal places
 }
 
 //------------------------------------------------------------------------------
