@@ -118,7 +118,7 @@ void SysTick_Handler(void){
 				Display->cursorPos[0] = Display->cursorPos[1] > lineSize ? 0 : 1;
 			}
 			calcVoltFlag = (Display->cursorPos[0] == 1) && (Display->cursorPos[1] == lineSize) ? 1 : calcVoltFlag;	
-			Display->cursorPos[1] = Display->cursorPos[1] > lineSize ? 0 : Display->cursorPos[1]++;
+			Display->cursorPos[1] = Display->cursorPos[1] > lineSize ? 0 : Display->cursorPos[1] + 1;
 			dispState = START;
 
 			break;
