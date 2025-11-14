@@ -30,7 +30,7 @@
 #define fDeadline 500
 #define dDeadline 600
 #define systick_counterMax 600
-#define lineSize 16 // 16 Max however index 15 is the control character
+#define lineSize 15 // 16 Max however index 15 is the control character
 
 //------------------------------------------------------------------------------
 // Functions
@@ -93,9 +93,10 @@ int main(void){
 	uint32_t freqDeadline = 500;
 	uint32_t displayDeadline = 300;
 	uint32_t systick_counter = 0;
+	enum {START, UPPER, LOWER, SUCCESS} dispState = SUCCESS;
 	while(True){
 		while(!systickFlag){} // Wait for SysTick
-		static enum {START, UPPER, LOWER, SUCCESS} dispState = START;
+
 		systick_counter = systick_counter > systick_counterMax ? 0 : systick_counter + 1;
 
 		readVoltage(&voltageMeasurements, &voltage);
@@ -128,16 +129,12 @@ int main(void){
 				Display->sendMSGBits(Display, 1); // Second Portion of Message})
 				break;
 			case 3:
-				switch (Display->cursorPos[0])
-				{
-				case 0:
-					Display->cursorPos[0] = Display->cursorPos[1] > lineSize ? 1 : 0;
-					break;
-				case 1:
-					Display->cursorPos[0] = Display->cursorPos[1] > lineSize ? 0 : 1;
+				Display->cursorPos[1]++;
+				if (Display->cursorPos[1] >= lineSize) {
+						Display->cursorPos[1] = 0;
+						Display->cursorPos[0] = (Display->cursorPos[0] + 1) % GenevaLCDRowSize;
 				}
-				calcVoltFlag = (Display->cursorPos[0] == 1) && (Display->cursorPos[1] == lineSize) ? 1 : calcVoltFlag;	
-				Display->cursorPos[1] = Display->cursorPos[1] > lineSize ? 0 : Display->cursorPos[1] + 1;
+				//calcVoltFlag = (Display->cursorPos[0] == 1) && (Display->cursorPos[1] == lineSize) ? 1 : calcVoltFlag;	
 				break;
 			default:
 				while(1); // Error Catching
