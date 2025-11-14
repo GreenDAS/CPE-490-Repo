@@ -157,8 +157,7 @@ int lcd_Nack(void){
  Arg1 = index: which part of the wholeMSG to send (0: command/write, 1: data)
 */
 void sendMSGBits(GenevaLCDDevice *self,int index){
-	uint32_t msg = self->wholeMSG[index][self->cursorPos[0]][self->cursorPos[1]];
-	I2C1->TXDR = msg; //Tell the LCD that a command or data value is going to be sent
+	I2C1->TXDR = self->wholeMSG[index][self->cursorPos[0]][self->cursorPos[1]]; //Tell the LCD that a command or data value is going to be sent
 }
 
 

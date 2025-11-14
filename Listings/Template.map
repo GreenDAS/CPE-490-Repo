@@ -1533,7 +1533,7 @@ Image Symbol Table
     MODERSet                                 0x08001c39   Thumb Code   172  gpio_lib.o(.text.MODERSet)
     PeripheralInteruptHandling_Create        0x08001ce5   Thumb Code    66  interupt_lib.o(.text.PeripheralInteruptHandling_Create)
     SetGPIO                                  0x08001d29   Thumb Code    44  gpio_lib.o(.text.SetGPIO)
-    SysTick_Handler                          0x08001d55   Thumb Code   808  interupt_handlers.o(.text.SysTick_Handler)
+    SysTick_Handler                          0x08001d55   Thumb Code   806  interupt_handlers.o(.text.SysTick_Handler)
     TIM2_IRQHandler                          0x08002081   Thumb Code   616  interupt_handlers.o(.text.TIM2_IRQHandler)
     _initLCD_                                0x08002411   Thumb Code    24  lcd_lib.o(.text._initLCD_)
     _init_                                   0x08002429   Thumb Code   764  _init_.o(.text._init_)
@@ -1821,8 +1821,8 @@ Memory Map of the image
     0x08001ce4   0x08001ce4   0x00000042   Code   RO          117    .text.PeripheralInteruptHandling_Create  interupt_lib.o
     0x08001d26   0x08001d26   0x00000002   PAD
     0x08001d28   0x08001d28   0x0000002c   Code   RO           61    .text.SetGPIO       gpio_lib.o
-    0x08001d54   0x08001d54   0x00000328   Code   RO          186    .text.SysTick_Handler  interupt_handlers.o
-    0x0800207c   0x0800207c   0x00000004   PAD
+    0x08001d54   0x08001d54   0x00000326   Code   RO          186    .text.SysTick_Handler  interupt_handlers.o
+    0x0800207a   0x0800207a   0x00000006   PAD
     0x08002080   0x08002080   0x00000270   Code   RO          188    .text.TIM2_IRQHandler  interupt_handlers.o
     0x080022f0   0x080022f0   0x00000030   Code   RO          182    .text.__NVIC_ClearPendingIRQ  interupt_handlers.o
     0x08002320   0x08002320   0x00000038   Code   RO          107    .text.__NVIC_DisableIRQ  interupt_lib.o
@@ -1971,7 +1971,7 @@ Image component sizes
 
        908          4        156          0         24       8215   _init_.o
        768         20          0          0          0       8553   gpio_lib.o
-      1532         12          0         12         21       5252   interupt_handlers.o
+      1530         12          0         12         21       5252   interupt_handlers.o
        902          8          0          0          0       7978   interupt_lib.o
        702          8          0          0          0       6185   lcd_lib.o
       1212          0         48          0          0       4284   lcd_routines.o
@@ -1982,7 +1982,7 @@ Image component sizes
     ----------------------------------------------------------------------
       7336        112        660         12       2268      53680   Object Totals
          0          0         32          0          0          0   (incl. Generated)
-        48          0          1          0         11          0   (incl. Padding)
+        50          0          1          0         11          0   (incl. Padding)
 
     ----------------------------------------------------------------------
 
