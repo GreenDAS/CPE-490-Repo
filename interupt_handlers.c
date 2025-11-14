@@ -41,6 +41,20 @@ void EXTI4_IRQHandler(void){
  }
  
 /*------------------------------------------------------------------------
+SysTick ISR
+------------------------------------------------------------------------*/
+
+// Add your SysTick counter or flags here if needed
+volatile uint32_t systick_counter = 0;
+
+void SysTick_Handler(void){
+	// This handler is called at every SysTick interrupt
+	systick_counter++;
+	// Add your code here - no need to clear flags manually for SysTick
+	// The hardware automatically clears the interrupt when you read from ICSR
+}
+
+/*------------------------------------------------------------------------
 Peripheral ISRs
 ------------------------------------------------------------------------*/
 
