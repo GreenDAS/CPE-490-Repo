@@ -149,8 +149,8 @@ void _init_(){
 	while((ADC1->ISR & ADC_ISR_ADRDY) == 0){} // Wait for ADC to be ready
 
 	// Sets up Frequency Reader need to use a different pin than Volt Reader (PA0)
-	FreqReader = IODevice_Create('A',0,0,1,'F');
-	FreqReader.initInterupt(FreqReader.pin,FreqReader.GPIOchar,EXTI0_IRQn,1);
+	FreqReader = IODevice_Create('A',5,0,1,'F');
+	FreqReader.initInterupt(FreqReader.pin,FreqReader.GPIOchar,EXTI9_5_IRQn,1,4);
 	
 	Timer2 = GeneralPurposeTimer_Create(2,0,0,(4000000000UL),'D',0); // Clock with 1/2 seconds counter
 	Timer2.InteruptHandler = PeripheralInteruptHandling_Create(TIM2_IRQn);
