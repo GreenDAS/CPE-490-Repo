@@ -31,14 +31,22 @@
 // Functions
 //------------------------------------------------------------------------------
 
-void createFreqString(char* str, double freq){
-	snprintf(str, 16, "FREQ: %4.2fHz", freq);  // 2 decimal places
-	str[15] = 172; // Move to Line 2
+void createFreqString(int* msg, double freq){
+	char buffer[16];
+	snprintf(buffer, 16, "FREQ: %4.2fHz", freq);  // 2 decimal places
+	buffer[15] = 172; // Move to Line 2
+	for (int i =0; i<16; i++){
+		msg[i] = buffer[i];
+	}
 }
 
-void createVoltString(char* str, double volt){
-	snprintf(str, 16, "VOLTAGE: %2.2f V", volt);  // 2 decimal places
-	str[15] = 128; // Move to Line 1
+void createVoltString(int* msg, double volt){
+	char buffer[16];
+	snprintf(buffer, 16, "VOLTAGE: %2.2f V", volt);  // 2 decimal places
+	buffer[15] = 128; // Move to Line 1
+	for(int i =0; i<16; i++){
+		msg[i] = buffer[i];
+	}
 }
 
 void calcVoltage(GenevaLCDDevice* Disp,float voltageMeasurements[VSIZE], float* voltage){
@@ -46,13 +54,13 @@ void calcVoltage(GenevaLCDDevice* Disp,float voltageMeasurements[VSIZE], float* 
 	ADC1->ISR |= ADC_ISR_EOC; // Clear End of Conversion Flag
 	ADC1->CR |= ADC_CR_ADSTART; // Start ADC Conversion
 	while((ADC1->ISR & ADC_ISR_EOC) == 0){} // Wait for Conversion to finish
-		voltageMeasurements[voltIndex] = ((ADC1->DR) * 3.33 )/ 255.0;
-			voltIndex = (voltIndex<VSIZE) ? voltIndex + 1: 0;
-			*voltage = 0;
-			for(int i =0; i<VSIZE; i++){
-				*voltage += voltageMeasurements[i];
-			}
-			*voltage /= VSIZE;
+	voltageMeasurements[voltIndex] = ((ADC1->DR) * (10/3))/ 255.0;
+		voltIndex = (voltIndex<VSIZE) ? voltIndex + 1: 0;
+		*voltage = 0;
+		for(int i =0; i<VSIZE; i++){
+			*voltage += voltageMeasurements[i];
+		}
+		*voltage /= VSIZE;
 	createVoltString(&(Disp->wholeMSG[1][0][0]), *voltage); // Update Voltage String
 }
 
