@@ -94,7 +94,9 @@ void SysTick_Handler(void){
 	}
 	else // display
 	{
-		if(Display->lcd_Nack()){dispState = START;}else{dispState++;}
+		if(Display->lcd_Nack()){
+			dispState = START;}
+			else{dispState++;}
 		switch (dispState)
 		{
 		case 0:
