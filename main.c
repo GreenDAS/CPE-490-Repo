@@ -67,6 +67,7 @@ void calcFrequency(GenevaLCDDevice* Disp, int freqCounts, double timeElapsed, fl
 
 // Global Vars
 IODevice VoltReader;
+IODevice FreqReader;
 GeneralPurposeTimer Timer2;
 GenevaLCDDevice *Display;
 float voltageMeasurements[VSIZE];

@@ -86,6 +86,7 @@ void InitSysTick(int load, int enableInterrupt){
 //------------------------------------------------------------------------------
 
 extern IODevice VoltReader;
+extern IODevice FreqReader;
 extern GeneralPurposeTimer Timer2;
 GeneralPurposeTimer Timer3;
 extern GenevaLCDDevice *Display;
@@ -146,5 +147,17 @@ void _init_(){
 	ADC1->ISR |= ADC_ISR_ADRDY; // Clear ADC Ready flag
 	ADC1->CR |= ADC_CR_ADEN; // Enable ADC
 	while((ADC1->ISR & ADC_ISR_ADRDY) == 0){} // Wait for ADC to be ready
+
+	// Sets up Frequency Reader need to use a different pin than Volt Reader (PA0)
+	FreqReader = IODevice_Create('A',0,0,1,'F');
+	FreqReader.initInterupt(FreqReader.pin,FreqReader.GPIOchar,EXTI0_IRQn,1);
+	
+	Timer2 = GeneralPurposeTimer_Create(2,0,0,(4000000000UL),'D',0); // Clock with 1/2 seconds counter
+	Timer2.InteruptHandler = PeripheralInteruptHandling_Create(TIM2_IRQn);
+	//Timer2.TIMX->DIER |= TIM_DIER_UIE; // Enables TIM2's interupt (TIM2's Side)
+	Timer2.InteruptHandler->setPriorityBit(Timer2.InteruptHandler,1); // Sets the Priority Bit
+	Timer2.InteruptHandler->setIXER(Timer2.InteruptHandler,'S'); // Enables the interupt in the NVIC
+	Timer2.InteruptHandler->initCCInterupt(Timer2.TIMX);
+	Timer2.setBits(&(Timer2.TIMX->CR1),0,1);
 
 }
