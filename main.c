@@ -85,15 +85,6 @@ int calcFreqFlag = 0;
 int main(void){
 	_init_();	// Sets up classes and other variables
 	while(True){
-		
-		if(calcVoltFlag == 1){
-		calcVoltage(Display,voltageMeasurements, &voltage);
-		calcVoltFlag = 0;
-		}
-
-		if(calcFreqFlag == 1){
-		calcFrequency(Display,freqCounts, timeElapsed, &frequency);
-		freqCounts, timeElapsed, calcFreqFlag = 0;
-		}
+		// Main Loop does nothing, everything is handled in interupts
 	}
 }
