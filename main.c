@@ -32,11 +32,13 @@
 //------------------------------------------------------------------------------
 
 void createFreqString(char* str, double freq){
-	snprintf(str, 8, "FREQ: %4.2fHz", freq);  // 2 decimal places
+	snprintf(str, 16, "FREQ: %4.2fHz", freq);  // 2 decimal places
+	str[15] = 172; // Move to Line 2
 }
 
 void createVoltString(char* str, double volt){
 	snprintf(str, 16, "VOLTAGE: %2.2f V", volt);  // 2 decimal places
+	str[15] = 128; // Move to Line 1
 }
 
 void calcVoltage(GenevaLCDDevice* Disp,float voltageMeasurements[VSIZE], float* voltage){
