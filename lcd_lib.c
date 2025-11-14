@@ -58,7 +58,7 @@ typedef struct GenevaLCDDevice{
 	int retries; // How many times should it retry communicating
 	int cursorPos[2]; // Where the cursor is
 	int onOffRatio; // How long the display should wait before clearing the display relative to the time the display is off
-	int wholeMSG[2][GenevaLCDRowSize][GenevaLCDColSize]; // The message to send to the LCD: First Portion or 2nd Portion of msg,the row, the col
+	unsigned char wholeMSG[2][GenevaLCDRowSize][GenevaLCDColSize]; // The message to send to the LCD: First Portion or 2nd Portion of msg,the row, the col
 	
 	//*-Function Pointers-*//
 	void (*moveCursor)(struct GenevaLCDDevice*, int row, int col); // Moves the cursor on the display
@@ -176,7 +176,7 @@ void sendBits(int data){
  Arg3 = what the onOffRatio should be for the greedyClearDisplay method
  Arg4 = The full message to be displayed on the LCD
 */
-GenevaLCDDevice* GenevaLCDDevice_Create(GeneralPurposeTimer* Timer, int ConnectionRetries, int OnOffRatio, int MSG[2][GenevaLCDRowSize][GenevaLCDColSize]){
+GenevaLCDDevice* GenevaLCDDevice_Create(GeneralPurposeTimer* Timer, int ConnectionRetries, int OnOffRatio, char MSG[2][GenevaLCDRowSize][GenevaLCDColSize]){
 	GenevaLCDDevice *self = malloc(sizeof(GenevaLCDDevice));
 	self->timer = Timer;
 	self->retries = ConnectionRetries;

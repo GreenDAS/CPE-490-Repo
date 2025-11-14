@@ -31,22 +31,14 @@
 // Functions
 //------------------------------------------------------------------------------
 
-void createFreqString(int msg[GenevaLCDColSize], double freq){
-	char buffer[16];
-	snprintf(buffer, 16, "FREQ: %4.2fHz", freq);  // 2 decimal places
-	buffer[15] = 172; // Move to Line 2
-	for (int i =0; i<16; i++){
-		msg[i] = buffer[i];
-	}
+void createFreqString(unsigned char msg[GenevaLCDColSize], double freq){
+	snprintf((char*)msg, 16, "FREQ: %4.2fHz", freq);  // 2 decimal places
+	msg[15] = 172; // Move to Line 2
 }
 
-void createVoltString(int msg[GenevaLCDColSize], double volt){
-	char buffer[16];
-	snprintf(buffer, 16, "VOLTAGE: %2.2f V", volt);  // 2 decimal places
-	buffer[15] = 128; // Move to Line 1
-	for(int i =0; i<16; i++){
-		msg[i] = buffer[i];
-	}
+void createVoltString(unsigned char msg[GenevaLCDColSize], double volt){
+	snprintf((char*)msg, 16, "VOLTAGE: %2.2f V", volt);  // 2 decimal places
+	msg[15] = 128; // Move to Line 1
 }
 
 void calcVoltage(GenevaLCDDevice* Disp,float voltageMeasurements[VSIZE], float* voltage){
