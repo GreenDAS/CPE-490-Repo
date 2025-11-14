@@ -31,7 +31,7 @@
 // Functions
 //------------------------------------------------------------------------------
 
-void createFreqString(int* msg, double freq){
+void createFreqString(int msg[GenevaLCDColSize], double freq){
 	char buffer[16];
 	snprintf(buffer, 16, "FREQ: %4.2fHz", freq);  // 2 decimal places
 	buffer[15] = 172; // Move to Line 2
@@ -40,7 +40,7 @@ void createFreqString(int* msg, double freq){
 	}
 }
 
-void createVoltString(int* msg, double volt){
+void createVoltString(int msg[GenevaLCDColSize], double volt){
 	char buffer[16];
 	snprintf(buffer, 16, "VOLTAGE: %2.2f V", volt);  // 2 decimal places
 	buffer[15] = 128; // Move to Line 1
