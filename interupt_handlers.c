@@ -40,10 +40,8 @@ void EXTI3_IRQHandler(void){
 }
  
 //Pin4
-extern int calcVoltFlag;
 void EXTI4_IRQHandler(void){
 	// Code Here
-	calcVoltFlag = 1;
 	NVIC_ClearPendingIRQ(EXTI4_IRQn);
 	EXTI->PR1 |= EXTI_PR1_PIF4;
  }
@@ -108,16 +106,16 @@ void SysTick_Handler(void){
 			case 1:
 				Display->cursorPos[0] = Display->cursorPos[1] > lineSize ? 0 : 1;
 			}
+			calcVoltFlag = (Display->cursorPos[0] == 1) && (Display->cursorPos[1] == lineSize) ? 1 : calcVoltFlag;	
 			Display->cursorPos[1] = Display->cursorPos[1] > lineSize ? 0 : Display->cursorPos[1]++;
 			dispState = START;
+
 			break;
 		default:
 			while(1); // Error Catching
 		}
 		
 	}
-	
-	
 	
 }
 
