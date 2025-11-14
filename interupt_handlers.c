@@ -15,9 +15,15 @@ INCUDES
  #include "stm32l476xx.h"
  #include "gpio_lib.h"
  #include "timer_lib.h"
+ #include "lcd_lib.h"
  
  // Make sure to clear NVIC_CearPendingIRQ(IRQn);
  
+#define VSIZE 6
+#define vDeadline 100
+#define fDeadline 500
+#define dDeadline 600
+
 /*------------------------------------------------------------------------
 GPIO ISRs
 ------------------------------------------------------------------------*/
@@ -46,12 +52,39 @@ SysTick ISR
 
 // Add your SysTick counter or flags here if needed
 volatile uint32_t systick_counter = 0;
+extern int calcVoltFlag;
+extern int calcFreqFlag;
+extern void calcVoltage(GenevaLCDDevice* Disp,float voltageMeasurements[VSIZE], float* voltage);
+extern void calcFrequency(GenevaLCDDevice* Disp, int freqCounts, double timeElapsed, float* frequency);
+
+extern GenevaLCDDevice* Display;
+extern float voltageMeasurements[VSIZE];
+extern float voltage;
+
+extern float frequency;
 
 void SysTick_Handler(void){
-	// This handler is called at every SysTick interrupt
-	systick_counter++;
-	// Add your code here - no need to clear flags manually for SysTick
-	// The hardware automatically clears the interrupt when you read from ICSR
+	static uint32_t voltDeadline = 100;
+	static uint32_t freqDeadline = 500;
+	static uint32_t displayDeadline = 600;
+	systick_counter = systick_counter > 600 ? 0 : systick_counter++;
+
+	if(calcVoltFlag && (((voltDeadline - systick_counter) <= (freqDeadline - systick_counter)) || ((voltDeadline - systick_counter) <= (displayDeadline - systick_counter)))){
+		calcVoltage(Display,voltageMeasurements, &voltage);
+		voltDeadline = voltDeadline > 600 ? vDeadline : voltDeadline + vDeadline;
+		calcVoltFlag = 0;
+	}
+	else if(calcFreqFlag && ((freqDeadline - systick_counter) <= (displayDeadline - systick_counter))){
+		calcFrequency(Display, freqCounts, timeElapsed, &frequency);
+		freqDeadline = freqDeadline > 600 ? fDeadline : freqDeadline + fDeadline;
+		calcFreqFlag = 0;
+	}
+	else // display
+	{
+		if(Display->)
+	}
+	
+	
 }
 
 /*------------------------------------------------------------------------
