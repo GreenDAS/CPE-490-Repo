@@ -80,7 +80,7 @@ void SysTick_Handler(void){
 	static uint32_t displayDeadline = 600;
 	static uint32_t systick_counter = 0;
 	static enum {START, UPPER, LOWER, SUCCESS} dispState = 0;
-	systick_counter = systick_counter > systick_counterMax ? 0 : systick_counter++;
+	systick_counter = systick_counter > systick_counterMax ? 0 : systick_counter + 1;
 
 	if(calcVoltFlag && (((voltDeadline - systick_counter) <= (freqDeadline - systick_counter)) || ((voltDeadline - systick_counter) <= (displayDeadline - systick_counter)))){
 		calcVoltage(Display,voltageMeasurements, &voltage); // Calculate Voltage & Update Message
