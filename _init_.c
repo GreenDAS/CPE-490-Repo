@@ -137,8 +137,10 @@ void _init_(){
 	if ((ADC1->CR & ADC_CR_DEEPPWD) == ADC_CR_DEEPPWD){ADC1->CR &= ~ADC_CR_DEEPPWD;} // Wake up ADC from Deep Power Down
 	ADC1->CR |= ADC_CR_ADVREGEN; // Enable ADC Voltage Regulator
 	Timer3.greedyWait(&Timer2, 1, MilSecondsScalar); // Wait for ADC Voltage Regulator to start up (min 10us)
+
 	VoltReader = IODevice_Create('A', 0, 1, 0, 'A'); // Sets up VoltReader ADC Pin (PA0)
 	VoltReader.GPIOX->ASCR |= (1UL); // Enable Analog Switch for PA0
+
 	ADC1->SQR1 |= 0x140UL; // Set ADC to use channel 0 (PA0) as 1st conversion
 	ADC123_COMMON->CCR &= ~(0xFUL); // Divide by 1 for ADC clock
 	ADC123_COMMON->CCR &= ~(0x30000UL); // Setup the ADC1 timer so that it will take the HCLK w/ a divide by 1
@@ -148,4 +150,5 @@ void _init_(){
 	ADC1->ISR |= ADC_ISR_ADRDY; // Clear ADC Ready flag
 	ADC1->CR |= ADC_CR_ADEN; // Enable ADC
 	while((ADC1->ISR & ADC_ISR_ADRDY) == 0){} // Wait for ADC to be ready
+	
 }
