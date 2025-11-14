@@ -154,7 +154,6 @@ void _init_(){
 	
 	Timer2 = GeneralPurposeTimer_Create(2,0,0,(4000000000UL),'D',0); // Clock with 1/2 seconds counter
 	Timer2.InteruptHandler = PeripheralInteruptHandling_Create(TIM2_IRQn);
-	//Timer2.TIMX->DIER |= TIM_DIER_UIE; // Enables TIM2's interupt (TIM2's Side)
 	Timer2.InteruptHandler->setPriorityBit(Timer2.InteruptHandler,1); // Sets the Priority Bit
 	Timer2.InteruptHandler->setIXER(Timer2.InteruptHandler,'S'); // Enables the interupt in the NVIC
 	Timer2.InteruptHandler->initCCInterupt(Timer2.TIMX);
