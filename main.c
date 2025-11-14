@@ -81,6 +81,7 @@ GenevaLCDDevice *Display;
 float voltageMeasurements[VSIZE];
 float voltage = 0;
 float frequency = 0;
+int freqCounts = 0;
 
 
 // FLAGS
