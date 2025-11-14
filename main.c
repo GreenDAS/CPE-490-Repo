@@ -32,7 +32,7 @@
 //------------------------------------------------------------------------------
 
 void createFreqString(char* str, double freq){
-	snprintf(str, 8, "FREQ: %4.2f", freq);  // 2 decimal places
+	snprintf(str, 8, "FREQ: %4.2fHz", freq);  // 2 decimal places
 }
 
 void createVoltString(char* str, double volt){
