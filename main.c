@@ -73,10 +73,7 @@ GenevaLCDDevice *Display;
 float voltageMeasurements[VSIZE];
 float voltage = 0;
 float frequency = 0;
-char str[16] = "Voltage: 0.00 V";
 
-extern int freqCounts;
-extern double timeElapsed;
 
 // FLAGS
 int calcVoltFlag = 0;

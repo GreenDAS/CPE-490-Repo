@@ -19,10 +19,11 @@ INCUDES
  
  // Make sure to clear NVIC_CearPendingIRQ(IRQn);
  
-#define VSIZE 6
-#define vDeadline 100
+#define VSIZE 4
+#define vDeadline 200
 #define fDeadline 500
 #define dDeadline 600
+#define systick_counterMax 600
 #define lineSize 15 // 16 Max however index 15 is the control character
 
 /*------------------------------------------------------------------------
@@ -51,34 +52,37 @@ void EXTI4_IRQHandler(void){
 SysTick ISR
 ------------------------------------------------------------------------*/
 
-// Add your SysTick counter or flags here if needed
-volatile uint32_t systick_counter = 0;
+// Flags
 extern int calcVoltFlag;
 extern int calcFreqFlag;
+
+// Function Externs
 extern void calcVoltage(GenevaLCDDevice* Disp,float voltageMeasurements[VSIZE], float* voltage);
 extern void calcFrequency(GenevaLCDDevice* Disp, int freqCounts, double timeElapsed, float* frequency);
 
+// Externs
 extern GenevaLCDDevice* Display;
 extern float voltageMeasurements[VSIZE];
 extern float voltage;
-
 extern float frequency;
 
-void SysTick_Handler(void){
-	static uint32_t voltDeadline = 100;
+// Currently a Cooperative RTOS & EDF
+void SysTick_Handler(void){ 
+	static uint32_t voltDeadline = 200;
 	static uint32_t freqDeadline = 500;
 	static uint32_t displayDeadline = 600;
+	static uint32_t systick_counter = 0;
 	static enum {START, UPPER, LOWER, SUCCESS} dispState = 0;
-	systick_counter = systick_counter > 600 ? 0 : systick_counter++;
+	systick_counter = systick_counter > systick_counterMax ? 0 : systick_counter++;
 
 	if(calcVoltFlag && (((voltDeadline - systick_counter) <= (freqDeadline - systick_counter)) || ((voltDeadline - systick_counter) <= (displayDeadline - systick_counter)))){
-		calcVoltage(Display,voltageMeasurements, &voltage);
-		voltDeadline = voltDeadline > 600 ? vDeadline : voltDeadline + vDeadline;
+		calcVoltage(Display,voltageMeasurements, &voltage); // Calculate Voltage & Update Message
+		voltDeadline = (voltDeadline + vDeadline) > systick_counterMax ? (voltDeadline + vDeadline) - systick_counterMax : voltDeadline + vDeadline; // Handles Clock Overflow
 		calcVoltFlag = 0;
 	}
 	else if(calcFreqFlag && ((freqDeadline - systick_counter) <= (displayDeadline - systick_counter))){
 		calcFrequency(Display, freqCounts, timeElapsed, &frequency);
-		freqDeadline = freqDeadline > 600 ? fDeadline : freqDeadline + fDeadline;
+		freqDeadline = (freqDeadline + fDeadline) > systick_counterMax ? (freqDeadline + fDeadline) - systick_counterMax : freqDeadline + fDeadline; // Handles Clock Overflow
 		calcFreqFlag = 0;
 	}
 	else // display
