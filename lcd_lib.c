@@ -60,6 +60,10 @@ typedef struct GenevaLCDDevice{
 	void (*writeString)(struct GenevaLCDDevice*, char* string); // Writes to the display
 	void (*clearDisplay)(struct GenevaLCDDevice*); // Clears the display but waits onOffRatio*screenOffTime amount of ms before clearing the display
 	void (*runCommand)(struct GenevaLCDDevice*, int command); // Sends a command to the display
+	void (*startTalking)(void); // Starts talking to the LCD over I2C
+	int (*lcd_Nack)(void); // Checks for NACK from LCD
+	void (*sendMSGBits)(struct GenevaLCDDevice*, int index); // Sends the bits from wholeMSG to the LCD
+	void (*sendBits)(int data); // Sends bits to the LCD
 	
 }GenevaLCDDevice;
 
@@ -173,6 +177,10 @@ GenevaLCDDevice* GenevaLCDDevice_Create(GeneralPurposeTimer* Timer, int Connecti
 	self->moveCursor = greedyMoveCursor;
 	self->writeString = greedyWriteString;
 	self->clearDisplay = greedyClearDisplay;
+	self->runCommand = greedyRunCommand;
+	self->startTalking = startTalking;
+	self->lcd_Nack = lcd_Nack;
+	self->sendMSGBits = sendMSGBits;
 	self->onOffRatio = OnOffRatio;
 	for (int r = 0; r < GenevaLCDRowSize; r++){
 		for (int c = 0; c < GenevaLCDColSize; c++){
