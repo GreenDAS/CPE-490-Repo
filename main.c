@@ -46,7 +46,7 @@ void createVoltString(unsigned char msg[GenevaLCDColSize], double volt){
 	msg[15] = 128; // Move to Line 1
 }
 
-void readVoltage(GenevaLCDDevice* Disp,int* voltageMeasurements, float* voltage){
+void readVoltage(int* voltageMeasurements, float* voltage){
 	ADC1->ISR |= ADC_ISR_EOC; // Clear End of Conversion Flag
 	ADC1->CR |= ADC_CR_ADSTART; // Start ADC Conversion
 	while((ADC1->ISR & ADC_ISR_EOC) == 0){} // Wait for Conversion to finish
@@ -56,12 +56,14 @@ void readVoltage(GenevaLCDDevice* Disp,int* voltageMeasurements, float* voltage)
 
 void calcVoltage(GenevaLCDDevice* Disp,int* voltageMeasurements, float* voltage){
 	createVoltString(&(Disp->wholeMSG[1][0][0]), *voltage/(*voltageMeasurements)); // Update Voltage String
-	*voltage, *voltageMeasurements = 0;
+	*voltage = 0;
+	*voltageMeasurements = 0;
 }
 
 void calcFrequency(GenevaLCDDevice* Disp, int* freqCounts, double* timeElapsed){
 	createFreqString(&(Disp->wholeMSG[1][1][0]), *freqCounts / *timeElapsed); // Update Frequency String
-	*freqCounts, *timeElapsed = 0;
+	*freqCounts = 0;
+	*timeElapsed = 0;
 }
 
 //------------------------------------------------------------------------------
@@ -96,7 +98,7 @@ int main(void){
 		static enum {START, UPPER, LOWER, SUCCESS} dispState = START;
 		systick_counter = systick_counter > systick_counterMax ? 0 : systick_counter + 1;
 
-		readVoltage(Display, &voltageMeasurements, &voltage);
+		readVoltage(&voltageMeasurements, &voltage);
 
 		if(calcVoltFlag && ((calcFreqFlag && (((voltDeadline - systick_counter) <= (freqDeadline - systick_counter))) || ((voltDeadline - systick_counter) <= (displayDeadline - systick_counter))))){
 			calcVoltage(Display, &voltageMeasurements, &voltage); // Calculate Voltage & Update Message
@@ -104,7 +106,7 @@ int main(void){
 			calcVoltFlag = 0;
 		}
 		else if(calcFreqFlag && ((freqDeadline - systick_counter) <= (displayDeadline - systick_counter))){
-			calcFrequency(Display, freqCounts, &timeElapsed, &frequency);
+			calcFrequency(Display, &freqCounts, &timeElapsed);
 			freqDeadline = (freqDeadline + fDeadline) > systick_counterMax ? (freqDeadline + fDeadline) - systick_counterMax : freqDeadline + fDeadline; // Handles Clock Overflow
 			calcFreqFlag = 0;
 		}
