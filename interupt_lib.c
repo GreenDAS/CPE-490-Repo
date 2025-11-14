@@ -127,7 +127,7 @@ typedef struct GPIOInteruptHandling{
 	uint32_t connectInteruptToNVICMask; // Mask that connects the external interupt to the NVIC
 	
 	//*-Function Pointers-*//
-	void (*setPinInterupt)(struct GPIOInteruptHandling* self, int pin); // Enables the interupt
+	void (*setPinInterupt)(struct GPIOInteruptHandling* self, int pin, int priority); // Enables the interupt
 	
 }GPIOInteruptHandling;
 
@@ -137,13 +137,13 @@ typedef struct GPIOInteruptHandling{
  Arg1 = The Object Itself
  Arg2 = The IODevice's Pin #
 */
-void setPinInterupt(GPIOInteruptHandling* self, int pin){
+void setPinInterupt(GPIOInteruptHandling* self, int pin,int priority){
 	SYSCFG->EXTICR[pin/4] &= ~self->clearInteruptMask; // Clear's pin #'s bit
 	SYSCFG->EXTICR[pin/4] |= self->setInteruptMask; // Sets pin #'s bit (GPIOC)
 	EXTI->RTSR1 &= ~self->edgeMask; // Masks over rising edge Register
 	EXTI->FTSR1 |= self->edgeMask; // Set Falling edge register
 	EXTI->IMR1 |= self->connectInteruptToNVICMask; // "Connects" the interupt to the NVIC
-	NVIC_SetPriority(self->IRQN,0); // 0 is highest priority
+	NVIC_SetPriority(self->IRQN,1); // 0 is highest priority
 	NVIC_EnableIRQ(self->IRQN);
 
 }
@@ -154,7 +154,7 @@ void setPinInterupt(GPIOInteruptHandling* self, int pin){
  Arg2 = The IODevice's GPIO Base (A,B,C,D,...)
  Arg3 = The IRQn number of the Interupt
 */
-void _init_GPIOInterupt(int pin, char GPIOChar, IRQn_Type IRQn, int ccInterupt){
+void _init_GPIOInterupt(int pin, char GPIOChar, IRQn_Type IRQn, int ccInterupt, int priority){
 	if(!(RCC->APB2ENR & RCC_APB2ENR_SYSCFGEN)) {RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;} // Turns on Clk to Pin Interupts if not already enabled
 	GPIOInteruptHandling *self = malloc(sizeof(GPIOInteruptHandling)); // Creates spot in memory
 	if(ccInterupt){
@@ -206,7 +206,7 @@ void _init_GPIOInterupt(int pin, char GPIOChar, IRQn_Type IRQn, int ccInterupt){
 			}
 	}
 	self->setPinInterupt = setPinInterupt;
-	self->setPinInterupt(self, pin);
+	self->setPinInterupt(self, pin, priority);
 	free(self); // Kills itself (Frees spot in memory)
 }
 #endif

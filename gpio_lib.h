@@ -60,7 +60,7 @@ typedef struct IODevice{
 	void (*getState)(struct IODevice*); // Gets the state of the IODevice
 	void (*setMODER)(struct IODevice*); // Sets the MODER of the IODevice
 	void (*toggle)(struct IODevice*); // Toggles the State of the IODevice
-	void (*initInterupt)(int pin, char GPIOChar, IRQn_Type IRQn, int ccInterupt);	// Initializes the IODevice's Interupt
+	void (*initInterupt)(int pin, char GPIOChar, IRQn_Type IRQn, int ccInterupt, int priority);	// Initializes the IODevice's Interupt
 }IODevice;
 
 /* IODevice Constructor

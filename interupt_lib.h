@@ -51,5 +51,5 @@ PeripheralInteruptHandling* PeripheralInteruptHandling_Create(IRQn_Type IRQn);
 
 #ifndef GPIOInteruptHandlingClass
 #define GPIOInteruptHandlingClass
-void _init_GPIOInterupt(int pin, char GPIOChar, IRQn_Type IRQn, int ccInterupt); // Does not return the structure (Purely to enable GPIO Interupts)
+void _init_GPIOInterupt(int pin, char GPIOChar, IRQn_Type IRQn, int ccInterupt, int priority); // Does not return the structure (Purely to enable GPIO Interupts)
 #endif
