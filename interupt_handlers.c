@@ -23,6 +23,7 @@ INCUDES
 #define vDeadline 100
 #define fDeadline 500
 #define dDeadline 600
+#define lineSize 15 // 16 Max however index 15 is the control character
 
 /*------------------------------------------------------------------------
 GPIO ISRs
@@ -98,13 +99,12 @@ void SysTick_Handler(void){
 			switch (Display->cursorPos[0])
 			{
 			case 0:
-				Display->cursorPos[0] = Display->cursorPos[1] > 16 ? 1 : 0;
+				Display->cursorPos[0] = Display->cursorPos[1] > lineSize ? 1 : 0;
 				break;
 			case 1:
-				Display->cursorPos[0] = Display->cursorPos[1] > 16 ? 0 : 1;
+				Display->cursorPos[0] = Display->cursorPos[1] > lineSize ? 0 : 1;
 			}
-			
-			Display->cursorPos[1] = Display->cursorPos[1] > 16 ? 0 : Display->cursorPos[1]++;
+			Display->cursorPos[1] = Display->cursorPos[1] > lineSize ? 0 : Display->cursorPos[1]++;
 			dispState = START;
 			break;
 		default:
