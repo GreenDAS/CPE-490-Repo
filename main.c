@@ -24,7 +24,8 @@
 // # defines
 //------------------------------------------------------------------------------
 
-#define SIZE 12
+#define FSIZE 12
+#define VSIZE 4
 
 //------------------------------------------------------------------------------
 // Functions
@@ -38,6 +39,21 @@ void createVoltString(char* str, double volt){
 	snprintf(str, 16, "VOLTAGE: %2.2f V", volt);  // 2 decimal places
 }
 
+void calcVoltage(GenevaLCDDevice* Disp,float voltageMeasurements[VSIZE], float* voltage){
+	static int voltIndex = 0;
+	ADC1->ISR |= ADC_ISR_EOC; // Clear End of Conversion Flag
+	ADC1->CR |= ADC_CR_ADSTART; // Start ADC Conversion
+	while((ADC1->ISR & ADC_ISR_EOC) == 0){} // Wait for Conversion to finish
+		voltageMeasurements[voltIndex] = ((ADC1->DR) * 3.33 )/ 255.0;
+			voltIndex = (voltIndex<VSIZE) ? voltIndex + 1: 0;
+			*voltage = 0;
+			for(int i =0; i<VSIZE; i++){
+				*voltage += voltageMeasurements[i];
+			}
+			*voltage /= VSIZE;
+	createVoltString(Disp->wholeMSG[1][0][0], *voltage); // Create Voltage String
+}
+
 //------------------------------------------------------------------------------
 // Main
 //------------------------------------------------------------------------------
@@ -46,6 +62,8 @@ void createVoltString(char* str, double volt){
 IODevice VoltReader;
 GeneralPurposeTimer Timer2;
 GenevaLCDDevice *Display;
+float voltageMeasurements[VSIZE];
+float voltage = 0;
 char str[16] = "Voltage: 0.00 V";
 
 // FLAGS
@@ -54,21 +72,11 @@ int calcVoltFlag = 0;
 
 int main(void){
 	_init_();	// Sets up classes and other variables
-	float voltage = 0;
-	
 	while(True){
 		
 		if(calcVoltFlag == 1){
-		ADC1->ISR |= ADC_ISR_EOC; // Clear End of Conversion Flag
-		ADC1->CR |= ADC_CR_ADSTART; // Start ADC Conversion
-		while((ADC1->ISR & ADC_ISR_EOC) == 0){} // Wait for Conversion to finish
-		voltage = ((ADC1->DR) * 3.33 )/ 255.0; // Calculate Voltage
-		createVoltString(str, voltage); // Create Voltage String
+		calcVoltage(Display,voltageMeasurements, &voltage);
 		calcVoltFlag = 0;
 		}
-
-		Display->moveCursor(&Display,0,0);
-		Display->writeString(&Display,str);
-		Display->clearDisplay(&Display);
 	}
 }
