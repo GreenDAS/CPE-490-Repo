@@ -61,10 +61,22 @@ Numpad CreateNumpad(){
 
 // TIMER SETUP //
 /* Sets up the Systick Timer
+ Arg1 = The load value for the SysTick Timer
+ Arg2 = 1 to enable interrupts, 0 to disable interrupts
 */
-void InitSysTick(int load){
+void InitSysTick(int load, int enableInterrupt){
+	/*	4MHz Processor Clock,  */
+	// SysTick Frequency = Processor Clock / (LOAD + 1)
+	// For 1ms SysTick Interrupts: LOAD = (4,000,000 / 1000) - 1 = 3999
 	SysTick->LOAD = load; // Tells the Systick Timer to a max of 0xFFFFFF
-	SysTick->CTRL |= (5UL); // Puts 1s into Systick Enable and Clk source
+
+
+	SysTick->CTRL |= SysTick_CTRL_ENABLE_Msk;     // Enable SysTick
+	SysTick->CTRL |= enableInterrupt == 1 ? SysTick_CTRL_TICKINT_Msk : 0;    // Enable SysTick interrupt
+	SysTick->CTRL |= SysTick_CTRL_CLKSOURCE_Msk;  // Use processor clock
+
+	// Set SysTick interrupt priority (optional, but recommended)
+	NVIC_SetPriority(SysTick_IRQn, 0); // 0 = highest priority
 }
 
 
@@ -85,8 +97,8 @@ void _init_(){
 	Switch1 = IODevice_Create('C', SW1, True, False, 'I'); // Sets up Switch1 (PC4)
 	Switch1.initInterupt(Switch1.pin, Switch1.GPIOchar, EXTI4_IRQn, 0); // Sets up Switch1 Interupt (PC4)
 
-	Timer2 = GeneralPurposeTimer_Create(2,1,CountAtMilSecondRate,TimerPeriod1SecondInMilSeconds*10,'D',0); // Sets up Timer2
-	Timer3 = GeneralPurposeTimer_Create(3,1,CountAtMilSecondRate,TimerPeriod1SecondInMilSeconds*10,'D',0); // Sets up Timer3
+	Timer2 = GeneralPurposeTimer_Create(2,1,0xFFFFFFFF - 1,1,'D',0); // Sets up Timer2 to run as fast as possible for CC Interupt
+	Timer3 = GeneralPurposeTimer_Create(3,1,CountAtMilSecondRate,TimerPeriod1SecondInMilSeconds*10,'D',0); // Sets up Timer3 for GP Timer Use & for the Display
 
 	int msg[2][GenevaLCDRowSize][GenevaLCDColSize] = {
 		{ // First Portion of Message
@@ -119,12 +131,12 @@ void _init_(){
 		}
 	};
 
-	Display = GenevaLCDDevice_Create(&Timer2, 5, 10, msg); // Sets up LCD Display
+	Display = GenevaLCDDevice_Create(&Timer3, 5, 10, msg); // Sets up LCD Display
 
 	RCC->AHB2ENR |= RCC_AHB2ENR_ADCEN; // Enable ADC Clock
 	if ((ADC1->CR & ADC_CR_DEEPPWD) == ADC_CR_DEEPPWD){ADC1->CR &= ~ADC_CR_DEEPPWD;} // Wake up ADC from Deep Power Down
 	ADC1->CR |= ADC_CR_ADVREGEN; // Enable ADC Voltage Regulator
-	Timer2.greedyWait(&Timer2, 1, MilSecondsScalar); // Wait for ADC Voltage Regulator to start up (min 10us)
+	Timer3.greedyWait(&Timer2, 1, MilSecondsScalar); // Wait for ADC Voltage Regulator to start up (min 10us)
 	VoltReader = IODevice_Create('A', 0, 1, 0, 'A'); // Sets up VoltReader ADC Pin (PA0)
 	VoltReader.GPIOX->ASCR |= (1UL); // Enable Analog Switch for PA0
 	ADC1->SQR1 |= 0x140UL; // Set ADC to use channel 0 (PA0) as 1st conversion
