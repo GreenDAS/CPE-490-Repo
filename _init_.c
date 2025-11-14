@@ -86,7 +86,6 @@ void InitSysTick(int load, int enableInterrupt){
 //------------------------------------------------------------------------------
 
 extern IODevice VoltReader;
-IODevice Switch1;
 extern GeneralPurposeTimer Timer2;
 GeneralPurposeTimer Timer3;
 extern GenevaLCDDevice *Display;
@@ -150,5 +149,5 @@ void _init_(){
 	ADC1->ISR |= ADC_ISR_ADRDY; // Clear ADC Ready flag
 	ADC1->CR |= ADC_CR_ADEN; // Enable ADC
 	while((ADC1->ISR & ADC_ISR_ADRDY) == 0){} // Wait for ADC to be ready
-	
+
 }
