@@ -68,6 +68,7 @@ char str[16] = "Voltage: 0.00 V";
 
 // FLAGS
 int calcVoltFlag = 0;
+int calcFreqFlag = 0;
 
 
 int main(void){

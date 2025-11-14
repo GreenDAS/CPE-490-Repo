@@ -60,7 +60,7 @@ Peripheral ISRs
 
 //Tim2
 // Externs
-extern int FlagCalcFreq;
+extern int calcFreqFlag;
 extern int freqCounts;
 extern GeneralPurposeTimer *Timer2;
 // Local Vars
@@ -74,7 +74,7 @@ void TIM2_IRQHandler(void){
 		TIM2->SR &= ~TIM_SR_UIF; // Clear interrupt flag
   } 
 	else if (TIM2->SR & TIM_SR_CC1IF) { // Channel #1
-		if(FlagCalcFreq){
+		if(calcFreqFlag){
 			timeI = TIM2->CCR1;
 		}
 		else{
@@ -88,7 +88,7 @@ void TIM2_IRQHandler(void){
 			}
 			timeI = timeF;
 			if(timeElapsed >= 0.5){ // Every 0.5 seconds
-				FlagCalcFreq = 1;
+				calcFreqFlag = 1;
 			}
 		}
 		TIM2->SR &= ~ TIM_SR_CC1IF; // Clear interrupt flag
