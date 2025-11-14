@@ -51,7 +51,12 @@ void calcVoltage(GenevaLCDDevice* Disp,float voltageMeasurements[VSIZE], float* 
 				*voltage += voltageMeasurements[i];
 			}
 			*voltage /= VSIZE;
-	createVoltString(&(Disp->wholeMSG[1][0][0]), *voltage); // Create Voltage String
+	createVoltString(&(Disp->wholeMSG[1][0][0]), *voltage); // Update Voltage String
+}
+
+void calcFrequency(GenevaLCDDevice* Disp, int freqCounts, double timeElapsed, float* frequecy){
+	*frequecy = freqCounts / timeElapsed;
+	createFreqString(&(Disp->wholeMSG[1][1][0]), *frequecy); // Update Frequency String
 }
 
 //------------------------------------------------------------------------------
@@ -64,7 +69,11 @@ GeneralPurposeTimer Timer2;
 GenevaLCDDevice *Display;
 float voltageMeasurements[VSIZE];
 float voltage = 0;
+float frequency = 0;
 char str[16] = "Voltage: 0.00 V";
+
+extern int freqCounts;
+extern double timeElapsed;
 
 // FLAGS
 int calcVoltFlag = 0;
@@ -78,6 +87,11 @@ int main(void){
 		if(calcVoltFlag == 1){
 		calcVoltage(Display,voltageMeasurements, &voltage);
 		calcVoltFlag = 0;
+		}
+
+		if(calcFreqFlag == 1){
+		calcFrequency(Display,freqCounts, timeElapsed, &frequency);
+		freqCounts, timeElapsed, calcFreqFlag = 0;
 		}
 	}
 }
