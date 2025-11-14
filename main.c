@@ -51,7 +51,7 @@ void calcVoltage(GenevaLCDDevice* Disp,float voltageMeasurements[VSIZE], float* 
 				*voltage += voltageMeasurements[i];
 			}
 			*voltage /= VSIZE;
-	createVoltString(Disp->wholeMSG[1][0][0], *voltage); // Create Voltage String
+	createVoltString(&(Disp->wholeMSG[1][0][0]), *voltage); // Create Voltage String
 }
 
 //------------------------------------------------------------------------------
