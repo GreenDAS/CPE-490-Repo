@@ -27,35 +27,22 @@ Project File Date:  10/24/2025
 <h2>Output:</h2>
 *** Using Compiler 'V6.22', folder: 'C:\ARM\ARMCLANG\Bin'
 Build target 'Target_1'
-compiling interupt_handlers.c...
-main.c(49): warning: unused parameter 'Disp' [-Wunused-parameter]
-   49 | void readVoltage(GenevaLCDDevice* Disp,int* voltageMeasurements, float* voltage){
-      |                                   ^
 main.c(54): warning: expression result unused [-Wunused-value]
    54 |         *voltageMeasurements++;
       |         ^~~~~~~~~~~~~~~~~~~~~~
-main.c(59): warning: left operand of comma operator has no effect [-Wunused-value]
-   59 |         *voltage, *voltageMeasurements = 0;
-      |         ^~~~~~~~
-main.c(64): warning: left operand of comma operator has no effect [-Wunused-value]
-   64 |         *freqCounts, *timeElapsed = 0;
-      |         ^~~~~~~~~~~
-main.c(101): warning: '&&' within '||' [-Wlogical-op-parentheses]
-  101 |                 if(calcVoltFlag && ((calcFreqFlag && (((voltDeadline - systick_counter) <= (freqDeadline - systick_counter))) || ((voltDeadline - systick_counter) <= (displayDeadline - systick_counter))))){
+main.c(103): warning: '&&' within '||' [-Wlogical-op-parentheses]
+  103 |                 if(calcVoltFlag && ((calcFreqFlag && (((voltDeadline - systick_counter) <= (freqDeadline - systick_counter))) || ((voltDeadline - systick_counter) <= (displayDeadline - systick_counter))))){
       |                                      ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ~~
-main.c(101): note: place parentheses around the '&&' expression to silence this warning
-  101 |                 if(calcVoltFlag && ((calcFreqFlag && (((voltDeadline - systick_counter) <= (freqDeadline - systick_counter))) || ((voltDeadline - systick_counter) <= (displayDeadline - systick_counter))))){
+main.c(103): note: place parentheses around the '&&' expression to silence this warning
+  103 |                 if(calcVoltFlag && ((calcFreqFlag && (((voltDeadline - systick_counter) <= (freqDeadline - systick_counter))) || ((voltDeadline - systick_counter) <= (displayDeadline - systick_counter))))){
       |                                                   ^
       |                                      (                                                                                       )
-main.c(107): error: too many arguments to function call, expected 3, have 4
-  107 |                         calcFrequency(Display, freqCounts, &timeElapsed, &frequency);
-      |                         ~~~~~~~~~~~~~                                    ^~~~~~~~~~
-main.c(62): note: 'calcFrequency' declared here
-   62 | void calcFrequency(GenevaLCDDevice* Disp, int* freqCounts, double* timeElapsed){
-      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-5 warnings and 1 error generated.
+2 warnings generated.
 compiling main.c...
-".\Objects\Template.axf" - 1 Error(s), 5 Warning(s).
+linking...
+Program Size: Code=17772 RO-data=1196 RW-data=0 ZI-data=2336  
+FromELF: creating hex file...
+".\Objects\Template.axf" - 0 Error(s), 2 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -77,8 +64,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE@6.1.0
-Target not created.
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:00
 </pre>
 </body>
 </html>

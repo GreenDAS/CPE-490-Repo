@@ -100,7 +100,7 @@ int main(void){
 
 		readVoltage(&voltageMeasurements, &voltage);
 
-		if(calcVoltFlag && ((calcFreqFlag && (((voltDeadline - systick_counter) <= (freqDeadline - systick_counter))) || ((voltDeadline - systick_counter) <= (displayDeadline - systick_counter))))){
+		if(calcVoltFlag && (((calcFreqFlag && ((voltDeadline - systick_counter) <= (freqDeadline - systick_counter))) || ((voltDeadline - systick_counter) <= (displayDeadline - systick_counter))))){
 			calcVoltage(Display, &voltageMeasurements, &voltage); // Calculate Voltage & Update Message
 			voltDeadline = (voltDeadline + vDeadline) > systick_counterMax ? (voltDeadline + vDeadline) - systick_counterMax : voltDeadline + vDeadline; // Handles Clock Overflow
 			calcVoltFlag = 0;
