@@ -30,7 +30,7 @@
 #define fDeadline 500
 #define dDeadline 600
 #define systick_counterMax 600
-#define lineSize 15 // 16 Max however index 15 is the control character
+#define lineSize 16 // 16 Max however index 15 is the control character
 
 //------------------------------------------------------------------------------
 // Functions
