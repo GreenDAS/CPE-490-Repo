@@ -27,28 +27,6 @@ Project File Date:  10/24/2025
 <h2>Output:</h2>
 *** Using Compiler 'V6.22', folder: 'C:\ARM\ARMCLANG\Bin'
 Build target 'Target_1'
-_init_.c(118): error: incompatible pointer to integer conversion initializing 'int' with an expression of type 'char[2]' [-Wint-conversion]
-  118 |                          ' ', '0', '0', ".", '0', '0', 'V', 172,
-      |                                         ^~~
-_init_.c(124): error: incompatible pointer to integer conversion initializing 'int' with an expression of type 'char[2]' [-Wint-conversion]
-  124 |                          '0', '0', '.', '0', '0', 'H', "z", 128,
-      |                                                        ^~~
-_init_.c(160): warning: passing 'volatile uint32_t *' (aka 'volatile unsigned int *') to parameter of type 'uint32_t *' (aka 'unsigned int *') discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
-  160 |         Timer2.setBits(&(Timer2.TIMX->CR1),0,1);
-      |                        ^~~~~~~~~~~~~~~~~~~
-1 warning and 2 errors generated.
-compiling _init_.c...
-interupt_handlers.c(82): error: use of undeclared identifier 'freqCounts'
-   82 |                 calcFrequency(Display, freqCounts, timeElapsed, &frequency);
-      |                                        ^
-interupt_handlers.c(82): error: use of undeclared identifier 'timeElapsed'
-   82 |                 calcFrequency(Display, freqCounts, timeElapsed, &frequency);
-      |                                                    ^
-interupt_handlers.c(74): warning: multiple unsequenced modifications to 'systick_counter' [-Wunsequenced]
-   74 |         systick_counter = systick_counter > systick_counterMax ? 0 : systick_counter++;
-      |                         ~                                                           ^
-1 warning and 2 errors generated.
-compiling interupt_handlers.c...
 lcd_lib.c(155): error: incompatible pointer to integer conversion assigning to 'volatile uint32_t' (aka 'volatile unsigned int') from 'int[2][39]' [-Wint-conversion]
   155 |         I2C1->TXDR = self->wholeMSG[index,self->cursorPos[0],self->cursorPos[1]]; //Tell the LCD that a command or data value is going to be sent
       |                    ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -64,15 +42,23 @@ lcd_lib.c(174): error: call to undeclared library function 'malloc' with type 'v
 lcd_lib.c(174): note: include the header <stdlib.h> or explicitly provide a declaration for 'malloc'
 2 warnings and 2 errors generated.
 compiling lcd_lib.c...
-compiling timer_lib.c...
-compiling main.c...
-interupt_lib.c(140): warning: unused parameter 'priority' [-Wunused-parameter]
-  140 | void setPinInterupt(GPIOInteruptHandling* self, int pin,int priority){
-      |                                                             ^
+interupt_handlers.c(82): error: use of undeclared identifier 'freqCounts'
+   82 |                 calcFrequency(Display, freqCounts, timeElapsed, &frequency);
+      |                                        ^
+interupt_handlers.c(82): error: use of undeclared identifier 'timeElapsed'
+   82 |                 calcFrequency(Display, freqCounts, timeElapsed, &frequency);
+      |                                                    ^
+interupt_handlers.c(74): warning: multiple unsequenced modifications to 'systick_counter' [-Wunsequenced]
+   74 |         systick_counter = systick_counter > systick_counterMax ? 0 : systick_counter++;
+      |                         ~                                                           ^
+1 warning and 2 errors generated.
+compiling interupt_handlers.c...
+_init_.c(160): warning: passing 'volatile uint32_t *' (aka 'volatile unsigned int *') to parameter of type 'uint32_t *' (aka 'unsigned int *') discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
+  160 |         Timer2.setBits(&(Timer2.TIMX->CR1),0,1);
+      |                        ^~~~~~~~~~~~~~~~~~~
 1 warning generated.
-compiling interupt_lib.c...
-compiling gpio_lib.c...
-".\Objects\Template.axf" - 6 Error(s), 5 Warning(s).
+compiling _init_.c...
+".\Objects\Template.axf" - 4 Error(s), 4 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -95,7 +81,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE@6.1.0
 Target not created.
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:00
 </pre>
 </body>
 </html>

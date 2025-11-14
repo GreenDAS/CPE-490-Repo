@@ -43,6 +43,11 @@ void _initLCD_(){
 
 /*---IODevice---*/
 
+#ifndef GenevaLCDDeviceClassCode
+#define GenevaLCDDeviceClassCode
+#include "stdlib.h"
+
+
 // Class Declaration
 typedef struct GenevaLCDDevice{
 	//*-Parents-*//
@@ -152,7 +157,8 @@ int lcd_Nack(void){
  Arg1 = index: which part of the wholeMSG to send (0: command/write, 1: data)
 */
 void sendMSGBits(GenevaLCDDevice *self,int index){
-	I2C1->TXDR = self->wholeMSG[index,self->cursorPos[0],self->cursorPos[1]]; //Tell the LCD that a command or data value is going to be sent
+	uint32_t msg = self->wholeMSG[index][self->cursorPos[0]][self->cursorPos[1]];
+	I2C1->TXDR = msg; //Tell the LCD that a command or data value is going to be sent
 }
 
 
@@ -191,4 +197,6 @@ GenevaLCDDevice* GenevaLCDDevice_Create(GeneralPurposeTimer* Timer, int Connecti
 	_initLCD_();
 	self->timer->greedyWait(self->timer,5,0.001);
 	return self;
+
+	#endif
 }
