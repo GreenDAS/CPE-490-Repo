@@ -37,7 +37,7 @@
 //------------------------------------------------------------------------------
 
 void createFreqString(unsigned char msg[GenevaLCDColSize], double freq){
-	snprintf((char*)msg, 16, "FREQ: %4.2fHz", freq);  // 2 decimal places
+	snprintf((char*)msg, 16, "FREQ: %04.2fHz", freq);  // 2 decimal places
 	msg[15] = 172; // Move to Line 2
 }
 
