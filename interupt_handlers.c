@@ -79,9 +79,7 @@ void SysTick_Handler(void){
 	static uint32_t freqDeadline = 500;
 	static uint32_t displayDeadline = 600;
 	static uint32_t systick_counter = 0;
-	typedef enum {START, UPPER, LOWER, SUCCESS}dispStates;
-	static dispStates dispState = START;
-	static dispStates previousDispState = SUCCESS;
+	static enum {START, UPPER, LOWER, SUCCESS} dispState = START;
 	systick_counter = systick_counter > systick_counterMax ? 0 : systick_counter + 1;
 
 	if(calcVoltFlag && (((voltDeadline - systick_counter) <= (freqDeadline - systick_counter)) || ((voltDeadline - systick_counter) <= (displayDeadline - systick_counter)))){
@@ -99,12 +97,11 @@ void SysTick_Handler(void){
 		if(Display->lcd_Nack() || dispState == SUCCESS){
 			dispState = START;
 		}
-			else if (1){dispState++;}
+			else{dispState++;}
 		switch (dispState)
 		{
 		case 0:
 			Display->startTalking();
-
 			break;
 		case 1:
 			Display->sendMSGBits(Display, 0); // First Portion of Message
@@ -123,16 +120,11 @@ void SysTick_Handler(void){
 			}
 			calcVoltFlag = (Display->cursorPos[0] == 1) && (Display->cursorPos[1] == lineSize) ? 1 : calcVoltFlag;	
 			Display->cursorPos[1] = Display->cursorPos[1] > lineSize ? 0 : Display->cursorPos[1] + 1;
-
 			break;
 		default:
 			while(1); // Error Catching
 		}
-		previousDispState = dispState;
-		
-		
 	}
-	
 }
 
 /*------------------------------------------------------------------------
