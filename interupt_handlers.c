@@ -67,6 +67,8 @@ extern GeneralPurposeTimer* Timer2;
 uint32_t timeI;
 uint32_t timeF;
 double timeElapsed;
+int deltaTime;
+double clkSpeed;
 
 void TIM2_IRQHandler(void){
 	
@@ -81,11 +83,13 @@ void TIM2_IRQHandler(void){
 		else{
 			freqCounts++;
 			timeF = TIM2->CCR1;
+			deltaTime = timeI - timeF;
+			clkSpeed = clockSpeedHz / (Timer2->PSC + 1);
 			if(timeF >= timeI){
-				timeElapsed += ((double)(timeF - timeI) + Timer2->TIMX->ARR)/((clockSpeedHz)/(Timer2->PSC+1)); // in seconds
+				timeElapsed += ((double)(Timer2->TIMX->ARR - deltaTime))/clkSpeed; // in seconds
 			}
 			else{
-				timeElapsed += ((double)(timeI - timeF))/((clockSpeedHz)/(Timer2->PSC+1)); // in seconds
+				timeElapsed += ((double)(deltaTime))/clkSpeed; // in seconds
 			}
 			timeI = timeF;
 			if(timeElapsed >= 0.5){ // Every 0.5 seconds
