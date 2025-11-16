@@ -94,37 +94,22 @@ extern GenevaLCDDevice *Display;
 extern const int size;
 
 void _init_(){
-	Timer2 = GeneralPurposeTimer_Create(2,1,0xFFFFFFFF - 1,1,'D',0); // Sets up Timer2 to run as fast as possible for CC Interupt
 	Timer3 = GeneralPurposeTimer_Create(3,1,CountAtMilSecondRate,TimerPeriod1SecondInMilSeconds*10,'D',0); // Sets up Timer3 for GP Timer Use & for the Display
 
-	unsigned char msg[2][GenevaLCDRowSize][GenevaLCDColSize] = {
-		{ // First Portion of Message
-			//1st Row
-			{	LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA,
-			  LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_COMMAND,
-			 	LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA,
-			 	LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA,
-			 	LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA},
-			//2nd Row
-			{	LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA,
-			 	LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_COMMAND,
-			 	LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA,
-			 	LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA,
-			 	LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA}
-		},
-		{ // Second Portion of Message
+	unsigned char msg[GenevaLCDRowSize + 1][GenevaLCDColSize + 1] = {
+		{ // The Message to Display
 			//1st Row
 			{'V', 'O', 'L', 'T', 'A', 'G', 'E', ':',
-			 ' ', '0', '0', '.', '0', '0', 'V', 172,
+			 ' ', '0', '0', '.', '0', '0', 'V', 0x00,
 			 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 			 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-			 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
+			 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
 			//2nd Row
 			{'F', 'R', 'E', 'Q', ':', ' ', '0', '0',
-			 '0', '0', '.', '0', '0', 'H', '.', 128,
+			 '0', '0', '.', '0', '0', 'H', 'z', 0x00,
 			 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 			 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-			 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
+			 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 		}
 	};
 
@@ -151,13 +136,13 @@ void _init_(){
 	// Sets up Frequency Reader need to use a different pin than Volt Reader (PA0)
 	FreqReader = IODevice_Create('A',5,0,1,'F');
 	FreqReader.initInterupt(FreqReader.pin,FreqReader.GPIOchar,EXTI9_5_IRQn,1,4);
-	
-	Timer2 = GeneralPurposeTimer_Create(2,0,0,(4000000000UL),'D',0); // Clock with 1/2 seconds counter
+
+	Timer2 = GeneralPurposeTimer_Create(2,1,0xFFFFFFFF - 1,'D',0); // Sets up Timer2 to run as fast as possible for CC Interrupt
 	Timer2.InteruptHandler = PeripheralInteruptHandling_Create(TIM2_IRQn);
-	Timer2.InteruptHandler->setPriorityBit(Timer2.InteruptHandler,1); // Sets the Priority Bit
+	Timer2.InteruptHandler->setPriorityBit(Timer2.InteruptHandler,0b0100); // Sets the Priority Bit's preemption priority to 1, sub priority to 0
 	Timer2.InteruptHandler->setIXER(Timer2.InteruptHandler,'S'); // Enables the interupt in the NVIC
 	Timer2.InteruptHandler->initCCInterupt(Timer2.TIMX);
 	Timer2.setBits(&(Timer2.TIMX->CR1),0,1);
 
-	InitSysTick(3999, 1); // Sets up SysTick for 1ms interrupts with interrupts enabled
+	InitSysTick(3999, 1); // Sets up SysTick for 1ms interrupts with interrupt enabled
 }

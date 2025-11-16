@@ -58,7 +58,7 @@ typedef struct GenevaLCDDevice{
 	int retries; // How many times should it retry communicating
 	int cursorPos[2]; // Where the cursor is
 	int onOffRatio; // How long the display should wait before clearing the display relative to the time the display is off
-	unsigned char wholeMSG[2][GenevaLCDRowSize][GenevaLCDColSize]; // The message to send to the LCD: First Portion or 2nd Portion of msg,the row, the col
+	unsigned char wholeMSG[GenevaLCDRowSize + 1][GenevaLCDColSize + 1]; // The message to send to the LCD: First Portion or 2nd Portion of msg,the row, the col
 	
 	//*-Function Pointers-*//
 	void (*moveCursor)(struct GenevaLCDDevice*, int row, int col); // Moves the cursor on the display
@@ -153,10 +153,23 @@ int lcd_Nack(void){
 
 
 /* Starts talking to the LCD over I2C
- Arg1 = index: which part of the wholeMSG to send (0: command/write, 1: data)
+ Arg1 = cmdWriteData: either send the upper bits for a command or write, or just sends data(0: command, 1: write, 2: data)
 */
-void sendMSGBits(GenevaLCDDevice *self,int index){
-	I2C1->TXDR = self->wholeMSG[index][self->cursorPos[0]][self->cursorPos[1]]; //Tell the LCD that a command or data value is going to be sent
+void sendMSGBits(GenevaLCDDevice *self,int cmdWriteData){
+	switch(cmdWriteData){
+		case 0: // Command Portion
+			I2C1->TXDR = LCD_CTRL_COMMAND; //Tell the LCD that a command value is going to be sent
+			break;
+		case 1: // Write Portion
+			I2C1->TXDR = LCD_CTRL_DATA; //Tell the LCD that a write value is going to be sent
+			break;
+		case 2: // Data Portion
+			I2C1->TXDR = self->wholeMSG[self->cursorPos[0]][self->cursorPos[1]]; //Send the data to the LCD
+			break;
+		default:
+			while(1); // Error Catching
+	}
+
 }
 
 
@@ -174,7 +187,7 @@ void sendBits(int data){
  Arg3 = what the onOffRatio should be for the greedyClearDisplay method
  Arg4 = The full message to be displayed on the LCD
 */
-GenevaLCDDevice* GenevaLCDDevice_Create(GeneralPurposeTimer* Timer, int ConnectionRetries, int OnOffRatio, char MSG[2][GenevaLCDRowSize][GenevaLCDColSize]){
+GenevaLCDDevice* GenevaLCDDevice_Create(GeneralPurposeTimer* Timer, int ConnectionRetries, int OnOffRatio, char MSG[GenevaLCDRowSize + 1][GenevaLCDColSize + 1]){
 	GenevaLCDDevice *self = malloc(sizeof(GenevaLCDDevice));
 	self->timer = Timer;
 	self->retries = ConnectionRetries;
@@ -188,8 +201,7 @@ GenevaLCDDevice* GenevaLCDDevice_Create(GeneralPurposeTimer* Timer, int Connecti
 	self->onOffRatio = OnOffRatio;
 	for (int r = 0; r < GenevaLCDRowSize; r++){
 		for (int c = 0; c < GenevaLCDColSize; c++){
-			self->wholeMSG[0][r][c] = MSG[0][r][c];
-			self->wholeMSG[1][r][c] = MSG[1][r][c];
+			self->wholeMSG[r][c] = MSG[r][c];
 		}
 	}
 	_initLCD_();
