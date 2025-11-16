@@ -32,6 +32,10 @@
 #define systick_counterMax 12000
 #define lineSize 15 // 16 Max however index 15 is the control character
 
+/*
+	128 + 64 = 192
+*/
+
 //------------------------------------------------------------------------------
 // # Type Definitions
 //------------------------------------------------------------------------------
@@ -53,11 +57,15 @@ void createVoltString(unsigned char msg[GenevaLCDColSize], double volt){
 }
 
 void readVoltage(int* voltageMeasurements, float* voltageAccum){
-	ADC1->ISR |= ADC_ISR_EOC; // Clear End of Conversion Flag
-	ADC1->CR |= ADC_CR_ADSTART; // Start ADC Conversion
-	while((ADC1->ISR & ADC_ISR_EOC) == 0){} // Wait for Conversion to finish
-	*voltageAccum += ((ADC1->DR) * (10/3))/ 255.0;
-	*voltageMeasurements += 1;
+	if((ADC1->ISR & ADC_ISR_EOC)){ // Wait for Conversion to finish
+		// Read Voltage
+		*voltageAccum += ((ADC1->DR) * (10/3))/ 255.0;
+		*voltageMeasurements += 1;
+
+		// Start New Conversion
+		ADC1->ISR |= ADC_ISR_EOC; // Clear End of Conversion Flag
+		ADC1->CR |= ADC_CR_ADSTART; // Start ADC Conversion
+	}
 }
 
 void calcVoltage(GenevaLCDDevice* Disp,int* voltageMeasurements, float* voltageAccum){
@@ -91,7 +99,7 @@ void displayUpdate(GenevaLCDDevice* Disp, dispState* state){
 			switch (Disp->cursorPos[0])
 			{
 			case 0:
-				Disp->sendBits(172); // Go to 2nd Line
+				Disp->sendBits(192); // Go to 2nd Line
 				break;
 			case 1:
 				Disp->sendBits(128); // Go to 1st Line
