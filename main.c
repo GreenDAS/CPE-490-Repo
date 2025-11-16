@@ -153,18 +153,18 @@ int main(void){
 
 		if(calcVoltFlag && (((calcFreqFlag && (diffVDead <= diffFDead)) || (diffVDead <= diffDDead)))){
 			calcVoltage(Display, &voltageMeasurements, &voltageAccum); // Calculate Voltage & Update Message
-			voltDeadline = (voltDeadline + vDeadline) > systick_counterMax ? (voltDeadline + vDeadline) - systick_counterMax : voltDeadline + vDeadline; // Handles Clock Overflow
+			voltDeadline = (voltDeadline + vDeadline) > systick_counterMax ? diffVDead + vDeadline : voltDeadline + vDeadline; // Handles Clock Overflow
 			calcVoltFlag = 1;
 		}
 		else if(calcFreqFlag && (diffFDead <= diffDDead)){
 			calcFrequency(Display, &freqCounts, &timeElapsed);
-			freqDeadline = (freqDeadline + fDeadline) > systick_counterMax ? (freqDeadline + fDeadline) - systick_counterMax : freqDeadline + fDeadline; // Handles Clock Overflow
+			freqDeadline = (freqDeadline + fDeadline) > systick_counterMax ? diffFDead + fDeadline : freqDeadline + fDeadline; // Handles Clock Overflow
 			calcFreqFlag = 0;
 		}
 		else // display
 		{
 			displayUpdate(Display, &displayState);
-			displayDeadline = (displayDeadline + dDeadline) > systick_counterMax ? (displayDeadline + dDeadline) - systick_counterMax : displayDeadline + dDeadline; // Handles Clock Overflow
+			displayDeadline = (displayDeadline + dDeadline) > systick_counterMax ? diffDDead + dDeadline : displayDeadline + dDeadline; // Handles Clock Overflow
 		}
 		systickFlag = 0;
 	}
