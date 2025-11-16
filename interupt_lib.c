@@ -91,6 +91,8 @@ void initCCInterupt(TIM_TypeDef *Timer){
 	Timer->CCMR1 &= ~0b1100; // Clear Prescalar
 	Timer->CCER &= ~0b1011; // Clears Enable Register
 	Timer->CCER |= 1UL; // Enables Interupt
+	Timer->CCER &= ~TIM_CCER_CC1P;   // Clear polarity bit → rising edge
+	Timer->CCER &= ~TIM_CCER_CC1NP;  // Not both edges
 	Timer->DIER &= ~0b10; // Clears Interupt Enabled for Channel 1
 	Timer->DIER |= 0b10; // Sets Interupt Enabled for Channel 1
 }
