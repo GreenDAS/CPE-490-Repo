@@ -82,7 +82,7 @@ void TIM2_IRQHandler(void){
 			timeF = TIM2->CCR1;
 
 			int deltaTime = timeI - timeF;
-			double clkSpeed = clockSpeedHz / (Timer2->PSC + 1);
+			double clkSpeed = (double)clockSpeedHz / (double)(Timer2->PSC + 1);
 
 			if (deltaTime < 0) deltaTime += TIM2->ARR + 1;    // Wrap-around
 			timeElapsed += (double)deltaTime / clkSpeed;
