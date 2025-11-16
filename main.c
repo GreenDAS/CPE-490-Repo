@@ -32,10 +32,6 @@
 #define systick_counterMax 1200
 #define lineSize 15 // 16 Max however index 15 is the control character
 
-/*
-	128 + 64 = 192
-*/
-
 //------------------------------------------------------------------------------
 // # Type Definitions
 //------------------------------------------------------------------------------
@@ -47,12 +43,12 @@ typedef enum dispState {START, UPPER, LOWER, SUCCESS} dispState;
 //------------------------------------------------------------------------------
 
 void createFreqString(unsigned char msg[GenevaLCDColSize], double freq){
-	snprintf((char*)msg, 40, "FREQ: %04.2fHz", freq);  // 2 decimal places
+	snprintf((char*)msg, 40, "FREQ: %06.2fHz", freq);  // 2 decimal places
 	msg[39] = 0x00; // Null Terminator
 }
 
 void createVoltString(unsigned char msg[GenevaLCDColSize], double volt){
-	snprintf((char*)msg, 40, "VOLTAGE: %02.2f V", volt);  // 2 decimal places
+	snprintf((char*)msg, 40, "VOLTAGE: %04.2f V", volt);  // 2 decimal places
 	msg[39] = 0x00; // Null Terminator
 }
 
