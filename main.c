@@ -162,7 +162,7 @@ int main(void){
 
 		readVoltage(&voltageMeasurements, &voltageAccum); // always read voltage every systick (should a few us)
 
-		if(calcVoltFlag && (((calcFreqFlag && (diffVDead <= diffFDead)) || (diffVDead <= diffDDead)))){ // should only calculate voltage if its deadline is the soonest
+		if(calcVoltFlag && (diffVDead == 0)){ // calculate voltage if its deadline is met and the flag is set
 			calcVoltage(Display, &voltageMeasurements, &voltageAccum); // Calculate Voltage & Update Message
 			voltDeadline = (voltDeadline + vDeadline) > systick_counterMax ? diffVDead + vDeadline : voltDeadline + vDeadline; // Handles Clock Overflow
 			calcVoltFlag = 1;
