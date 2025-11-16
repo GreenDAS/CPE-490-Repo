@@ -136,13 +136,13 @@ void _init_(){
 	// Sets up Frequency Reader need to use a different pin than Volt Reader (PA0)
 	FreqReader = IODevice_Create('A',5,0,1,'F');
 	FreqReader.initInterupt(FreqReader.pin,FreqReader.GPIOchar,EXTI9_5_IRQn,1,4);
-	
-	Timer2 = GeneralPurposeTimer_Create(2,1,0xFFFFFFFF - 1,'D',0); // Sets up Timer2 to run as fast as possible for CC Interupt
+
+	Timer2 = GeneralPurposeTimer_Create(2,1,0xFFFFFFFF - 1,'D',0); // Sets up Timer2 to run as fast as possible for CC Interrupt
 	Timer2.InteruptHandler = PeripheralInteruptHandling_Create(TIM2_IRQn);
-	Timer2.InteruptHandler->setPriorityBit(Timer2.InteruptHandler,1); // Sets the Priority Bit
+	Timer2.InteruptHandler->setPriorityBit(Timer2.InteruptHandler,0b0100); // Sets the Priority Bit's preemption priority to 1, sub priority to 0
 	Timer2.InteruptHandler->setIXER(Timer2.InteruptHandler,'S'); // Enables the interupt in the NVIC
 	Timer2.InteruptHandler->initCCInterupt(Timer2.TIMX);
 	Timer2.setBits(&(Timer2.TIMX->CR1),0,1);
 
-	InitSysTick(3999, 1); // Sets up SysTick for 1ms interrupts with interrupts enabled
+	InitSysTick(3999, 1); // Sets up SysTick for 1ms interrupts with interrupt enabled
 }
