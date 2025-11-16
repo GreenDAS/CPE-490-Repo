@@ -97,34 +97,20 @@ void _init_(){
 	Timer2 = GeneralPurposeTimer_Create(2,1,0xFFFFFFFF - 1,1,'D',0); // Sets up Timer2 to run as fast as possible for CC Interupt
 	Timer3 = GeneralPurposeTimer_Create(3,1,CountAtMilSecondRate,TimerPeriod1SecondInMilSeconds*10,'D',0); // Sets up Timer3 for GP Timer Use & for the Display
 
-	unsigned char msg[2][GenevaLCDRowSize][GenevaLCDColSize] = {
-		{ // First Portion of Message
-			//1st Row
-			{	LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA,
-			  LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_COMMAND,
-			 	LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA,
-			 	LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA,
-			 	LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA},
-			//2nd Row
-			{	LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA,
-			 	LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_COMMAND,
-			 	LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA,
-			 	LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA,
-			 	LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA, LCD_CTRL_DATA}
-		},
-		{ // Second Portion of Message
+	unsigned char msg[GenevaLCDRowSize + 1][GenevaLCDColSize + 1] = {
+		{ // The Message to Display
 			//1st Row
 			{'V', 'O', 'L', 'T', 'A', 'G', 'E', ':',
-			 ' ', '0', '0', '.', '0', '0', 'V', 172,
+			 ' ', '0', '0', '.', '0', '0', 'V', 0x00,
 			 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 			 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-			 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
+			 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
 			//2nd Row
 			{'F', 'R', 'E', 'Q', ':', ' ', '0', '0',
-			 '0', '0', '.', '0', '0', 'H', '.', 128,
+			 '0', '0', '.', '0', '0', 'H', '.', 0x00,
 			 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 			 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-			 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
+			 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 		}
 	};
 

@@ -32,6 +32,8 @@
 #define systick_counterMax 600
 #define lineSize 15 // 16 Max however index 15 is the control character
 
+typedef enum dispState {START, UPPER, LOWER, SUCCESS} dispState;
+
 //------------------------------------------------------------------------------
 // Functions
 //------------------------------------------------------------------------------
@@ -66,6 +68,48 @@ void calcFrequency(GenevaLCDDevice* Disp, int* freqCounts, double* timeElapsed){
 	*timeElapsed = 0;
 }
 
+void displayUpdate(GenevaLCDDevice* Disp, dispState* state){
+
+	if(Disp->lcd_Nack() || *state == SUCCESS){
+		*state = START;
+	}
+	else{(*state)++;}
+	switch (*state)
+	{
+	case 0:
+		Disp->startTalking();
+		break;
+	case 1:
+		Disp->sendMSGBits(Disp, (Disp->wholeMSG[Disp->cursorPos[0]][Disp->cursorPos[1]] == 0x00) ? 0: 1); // First Portion of Message
+		break;
+	case 2:
+		if (Disp->wholeMSG[Disp->cursorPos[0]][Disp->cursorPos[1]] == 0x00){
+			switch (Disp->cursorPos[0])
+			{
+			case 0:
+				Disp->sendBits(172); // Go to 2nd Line
+				break;
+			case 1:
+				Disp->sendBits(128); // Go to 1st Line
+				break;
+			}
+		}
+		else{
+			Disp->sendMSGBits(Disp, 2); // Data Portion of Message
+		}
+		break;
+	case 3:
+		if (Disp->wholeMSG[Disp->cursorPos[0]][Disp->cursorPos[1]] == 0x00) {
+				Disp->cursorPos[1] = 0;
+				Disp->cursorPos[0] = (Disp->cursorPos[0] + 1) % GenevaLCDRowSize;
+		}
+		Disp->cursorPos[1]++;
+		break;
+	default:
+		while(1); // Error Catching
+	}
+}
+
 //------------------------------------------------------------------------------
 // Main
 //------------------------------------------------------------------------------
@@ -82,18 +126,18 @@ int freqCounts = 0;
 extern double timeElapsed;
 
 // FLAGS
-int calcVoltFlag = 0;
+int calcVoltFlag = 1;
 int calcFreqFlag = 0;
 extern int systickFlag;
 
 
 int main(void){
 	_init_();	// Sets up classes and other variables
-	uint32_t voltDeadline = 600;
+	uint32_t voltDeadline = 400;
 	uint32_t freqDeadline = 500;
 	uint32_t displayDeadline = 300;
 	uint32_t systick_counter = 0;
-	enum {START, UPPER, LOWER, SUCCESS} dispState = SUCCESS;
+	dispState displayState = START;
 	while(True){
 		while(!systickFlag){} // Wait for SysTick
 
@@ -104,7 +148,7 @@ int main(void){
 		if(calcVoltFlag && (((calcFreqFlag && ((voltDeadline - systick_counter) <= (freqDeadline - systick_counter))) || ((voltDeadline - systick_counter) <= (displayDeadline - systick_counter))))){
 			calcVoltage(Display, &voltageMeasurements, &voltage); // Calculate Voltage & Update Message
 			voltDeadline = (voltDeadline + vDeadline) > systick_counterMax ? (voltDeadline + vDeadline) - systick_counterMax : voltDeadline + vDeadline; // Handles Clock Overflow
-			calcVoltFlag = 0;
+			calcVoltFlag = 1;
 		}
 		else if(calcFreqFlag && ((freqDeadline - systick_counter) <= (displayDeadline - systick_counter))){
 			calcFrequency(Display, &freqCounts, &timeElapsed);
@@ -113,32 +157,8 @@ int main(void){
 		}
 		else // display
 		{
-			if(Display->lcd_Nack() || dispState == SUCCESS){
-				dispState = START;
-			}
-			else{dispState++;}
-			switch (dispState)
-			{
-			case 0:
-				Display->startTalking();
-				break;
-			case 1:
-				Display->sendMSGBits(Display, 0); // First Portion of Message
-				break;
-			case 2:
-				Display->sendMSGBits(Display, 1); // Second Portion of Message})
-				break;
-			case 3:
-				Display->cursorPos[1]++;
-				if (Display->cursorPos[1] >= lineSize) {
-						Display->cursorPos[1] = 0;
-						Display->cursorPos[0] = (Display->cursorPos[0] + 1) % GenevaLCDRowSize;
-				}
-				//calcVoltFlag = (Display->cursorPos[0] == 1) && (Display->cursorPos[1] == lineSize) ? 1 : calcVoltFlag;	
-				break;
-			default:
-				while(1); // Error Catching
-			}
+			displayUpdate(Display, &displayState);
+			displayDeadline = (displayDeadline + dDeadline) > systick_counterMax ? (displayDeadline + dDeadline) - systick_counterMax : displayDeadline + dDeadline; // Handles Clock Overflow
 		}
 		systickFlag = 0;
 	}
