@@ -44,7 +44,7 @@ void createFreqString(unsigned char msg[GenevaLCDColSize], double freq){
 }
 
 void createVoltString(unsigned char msg[GenevaLCDColSize], double volt){
-	snprintf((char*)msg, 40, "VOLTAGE: %2.2f V", volt);  // 2 decimal places
+	snprintf((char*)msg, 40, "VOLTAGE: %02.2f V", volt);  // 2 decimal places
 	msg[39] = 0x00; // Null Terminator
 }
 
