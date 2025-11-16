@@ -62,7 +62,7 @@ void createVoltString(unsigned char msg[GenevaLCDColSize], double volt){
 }
 
 void readVoltage(int* voltageMeasurements, float* voltageAccum){
-	if((ADC1->ISR & ADC_ISR_EOC)){ // Wait for Conversion to finish
+	if(!(ADC1->ISR & ADC_ISR_EOC)){ // Wait for Conversion to finish
 		// Read Voltage
 		*voltageAccum += ((ADC1->DR) * (10/3))/ 255.0;
 		*voltageMeasurements += 1;
@@ -176,7 +176,7 @@ int main(void){
 
 		readVoltage(&voltageMeasurements, &voltageAccum); // always read voltage every systick (should a few us)
 
-		if((ADC1->ISR & ADC_ISR_EOC) && (diffVDead == 0)){ // calculate voltage if its deadline is met and the flag is set
+		if(!(ADC1->ISR & ADC_ISR_EOC) && (diffVDead == 0)){ // calculate voltage if its deadline is met and the flag is set
 			calcVoltage(Display, &voltageMeasurements, &voltageAccum); // Calculate Voltage & Update Message
 			voltDeadline = (voltDeadline + vDeadline) > systick_counterMax ? diffVDead + vDeadline : voltDeadline + vDeadline; // Handles Clock Overflow
 			calcVoltFlag = 1;
