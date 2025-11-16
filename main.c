@@ -29,7 +29,7 @@
 #define vDeadline 400
 #define fDeadline 500
 #define dDeadline 600
-#define systick_counterMax 12000
+#define systick_counterMax 1200
 #define lineSize 15 // 16 Max however index 15 is the control character
 
 /*
@@ -150,14 +150,14 @@ extern int systickFlag;
 
 int main(void){
 	_init_();	// Sets up classes and other variables
-	uint32_t voltDeadline = vDeadline;
-	uint32_t freqDeadline = fDeadline;
-	uint32_t displayDeadline = dDeadline;
+	int voltDeadline = vDeadline;
+	int freqDeadline = fDeadline;
+	int displayDeadline = dDeadline;
 	uint32_t systick_counter = 0;
 
-	uint32_t diffVDead = 0;
-	uint32_t diffFDead = 0;
-	uint32_t diffDDead = 0;
+	int diffVDead = 0;
+	int diffFDead = 0;
+	int diffDDead = 0;
 	dispState displayState = SUCCESS;
 	/*
 	if clock speed is 4MHz, and an instruction takes 1 cycle,
