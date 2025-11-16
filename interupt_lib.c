@@ -160,7 +160,13 @@ void _init_GPIOInterupt(int pin, char GPIOChar, IRQn_Type IRQn, int ccInterupt, 
 	if(ccInterupt){
 		switch(GPIOChar){ // Enables the GPIO Interupt 
 		case('A'):
-			GPIOA->AFR[pin] = 1UL; // Enables Pin A to Capture Interupt
+			if (pin <= 7) {
+				GPIOA->AFR[0] &= ~(1UL << (pin * 4));     // Clear old AF
+				GPIOA->AFR[0] |=  (1UL << (pin * 4));     // Set AF1
+			} else {
+				GPIOA->AFR[1] &= ~(1UL << ((pin - 8) * 4));
+				GPIOA->AFR[1] |=  (1UL << ((pin - 8) * 4));
+			}
 			break;
 		case('B'):
 		case('C'):
