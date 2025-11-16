@@ -164,7 +164,7 @@ int main(void){
 		while(!systickFlag){} // Wait for SysTick
 
 		systick_counter = (systick_counter + 1) > systick_counterMax ? 0 : systick_counter + 1;
-		diffVDead = voltDeadline - systick_counter;
+		diffVDead = voltDeadline - systick_counter; // Maybe add some logic to handle missing of a deadline so that it does not get stuck
 		diffFDead = freqDeadline - systick_counter;
 		diffDDead = displayDeadline - systick_counter;
 
