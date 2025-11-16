@@ -43,12 +43,12 @@ typedef enum dispState {START, UPPER, LOWER, SUCCESS} dispState;
 //------------------------------------------------------------------------------
 
 void createFreqString(unsigned char msg[GenevaLCDColSize], double freq){
-	snprintf((char*)msg, 40, "FREQ: %7.2fHz", freq);  // 2 decimal places
+	snprintf((char*)msg, 40, "FREQ: %8.2fHz", freq);  // 2 decimal places
 	msg[39] = 0x00; // Null Terminator
 }
 
 void createVoltString(unsigned char msg[GenevaLCDColSize], double volt){
-	snprintf((char*)msg, 40, "VOLTAGE: %5.2f V", volt);  // 2 decimal places
+	snprintf((char*)msg, 40, "VOLTAGE: %5.2fV", volt);  // 2 decimal places
 	msg[39] = 0x00; // Null Terminator
 }
 
