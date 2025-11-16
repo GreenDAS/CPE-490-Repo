@@ -62,15 +62,15 @@ void createVoltString(unsigned char msg[GenevaLCDColSize], double volt){
 }
 
 void readVoltage(int* voltageMeasurements, float* voltageAccum){
-	if(!(ADC1->ISR & ADC_ISR_EOC)){ // Wait for Conversion to finish
-		// Read Voltage
-		*voltageAccum += ((ADC1->DR) * (10/3))/ 255.0;
-		*voltageMeasurements += 1;
 
-		// Start New Conversion
-		ADC1->ISR |= ADC_ISR_EOC; // Clear End of Conversion Flag
-		ADC1->CR |= ADC_CR_ADSTART; // Start ADC Conversion
-	}
+	// Read Voltage
+	*voltageAccum += ((ADC1->DR) * (10/3))/ 255.0;
+	*voltageMeasurements += 1;
+
+	// Start New Conversion
+	ADC1->ISR |= ADC_ISR_EOC; // Clear End of Conversion Flag
+	ADC1->CR |= ADC_CR_ADSTART; // Start ADC Conversion
+
 }
 
 void calcVoltage(GenevaLCDDevice* Disp,int* voltageMeasurements, float* voltageAccum){
