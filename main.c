@@ -29,7 +29,7 @@
 #define vDeadline 400
 #define fDeadline 500
 #define dDeadline 600
-#define systick_counterMax 600
+#define systick_counterMax 12000
 #define lineSize 15 // 16 Max however index 15 is the control character
 
 //------------------------------------------------------------------------------
@@ -155,14 +155,15 @@ int main(void){
 	*/
 	while(True){ 
 		while(!systickFlag){} // Wait for SysTick
-		diffVDead = voltDeadline - systick_counterMax;
-		diffFDead = freqDeadline - systick_counterMax;
-		diffDDead = displayDeadline - systick_counterMax;
+
 		systick_counter = (systick_counter + 1) > systick_counterMax ? 0 : systick_counter + 1;
+		diffVDead = voltDeadline - systick_counter;
+		diffFDead = freqDeadline - systick_counter;
+		diffDDead = displayDeadline - systick_counter;
 
 		readVoltage(&voltageMeasurements, &voltageAccum); // always read voltage every systick (should a few us)
 
-		if(calcVoltFlag && ((diffVDead-1) == 0)){ // calculate voltage if its deadline is met and the flag is set
+		if(calcVoltFlag && ((diffVDead <= diffFDead) || (diffVDead <= diffDDead)){ // calculate voltage if its deadline is met and the flag is set
 			calcVoltage(Display, &voltageMeasurements, &voltageAccum); // Calculate Voltage & Update Message
 			voltDeadline = (voltDeadline + vDeadline) > systick_counterMax ? diffVDead + vDeadline : voltDeadline + vDeadline; // Handles Clock Overflow
 			calcVoltFlag = 1;
