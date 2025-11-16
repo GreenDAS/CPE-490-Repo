@@ -28,7 +28,7 @@
 
 #define MilSecondsScalar 0.001
 
-#define clockSpeedHz 4000000
+#define clockSpeedHz 4000000.0
 
 //------------------------------------------------------------------------------
 // # Classes
