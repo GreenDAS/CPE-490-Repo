@@ -39,31 +39,31 @@ typedef enum dispState {START, UPPER, LOWER, SUCCESS} dispState;
 //------------------------------------------------------------------------------
 
 void createFreqString(unsigned char msg[GenevaLCDColSize], double freq){
-	snprintf((char*)msg, 16, "FREQ: %04.2fHz", freq);  // 2 decimal places
-	msg[15] = 172; // Move to Line 2
+	snprintf((char*)msg, 40, "FREQ: %04.2fHz", freq);  // 2 decimal places
+	msg[39] = 0x00; // Null Terminator
 }
 
 void createVoltString(unsigned char msg[GenevaLCDColSize], double volt){
-	snprintf((char*)msg, 16, "VOLTAGE: %2.2f V", volt);  // 2 decimal places
-	msg[15] = 128; // Move to Line 1
+	snprintf((char*)msg, 40, "VOLTAGE: %2.2f V", volt);  // 2 decimal places
+	msg[39] = 0x00; // Null Terminator
 }
 
-void readVoltage(int* voltageMeasurements, float* voltage){
+void readVoltage(int* voltageMeasurements, float* voltageAccum){
 	ADC1->ISR |= ADC_ISR_EOC; // Clear End of Conversion Flag
 	ADC1->CR |= ADC_CR_ADSTART; // Start ADC Conversion
 	while((ADC1->ISR & ADC_ISR_EOC) == 0){} // Wait for Conversion to finish
-	*voltage += ((ADC1->DR) * (10/3))/ 255.0;
+	*voltageAccum += ((ADC1->DR) * (10/3))/ 255.0;
 	*voltageMeasurements++;
 }
 
-void calcVoltage(GenevaLCDDevice* Disp,int* voltageMeasurements, float* voltage){
-	createVoltString(&(Disp->wholeMSG[1][0][0]), *voltage/(*voltageMeasurements)); // Update Voltage String
-	*voltage = 0;
+void calcVoltage(GenevaLCDDevice* Disp,int* voltageMeasurements, float* voltageAccum){
+	createVoltString(&(Disp->wholeMSG[0][0]), *voltageAccum/(*voltageMeasurements)); // Update Voltage String
+	*voltageAccum = 0;
 	*voltageMeasurements = 0;
 }
 
 void calcFrequency(GenevaLCDDevice* Disp, int* freqCounts, double* timeElapsed){
-	createFreqString(&(Disp->wholeMSG[1][1][0]), *freqCounts / *timeElapsed); // Update Frequency String
+	createFreqString(&(Disp->wholeMSG[1][0]), *freqCounts / *timeElapsed); // Update Frequency String
 	*freqCounts = 0;
 	*timeElapsed = 0;
 }
@@ -120,13 +120,13 @@ IODevice FreqReader;
 GeneralPurposeTimer Timer2;
 GenevaLCDDevice *Display;
 int voltageMeasurements;
-float voltage = 0;
+float voltageAccum = 0;
 float frequency = 0;
 int freqCounts = 0;
 extern double timeElapsed;
 
 // FLAGS
-int calcVoltFlag = 1;
+int calcVoltFlag = 1; // Set to always be 1 to calculate voltage so long as the deadline is met
 int calcFreqFlag = 0;
 extern int systickFlag;
 
@@ -135,7 +135,7 @@ int main(void){
 	_init_();	// Sets up classes and other variables
 	uint32_t voltDeadline = 400;
 	uint32_t freqDeadline = 500;
-	uint32_t displayDeadline = 300;
+	uint32_t displayDeadline = 600;
 	uint32_t systick_counter = 0;
 	dispState displayState = START;
 	while(True){
@@ -143,10 +143,10 @@ int main(void){
 
 		systick_counter = systick_counter > systick_counterMax ? 0 : systick_counter + 1;
 
-		readVoltage(&voltageMeasurements, &voltage);
+		readVoltage(&voltageMeasurements, &voltageAccum);
 
 		if(calcVoltFlag && (((calcFreqFlag && ((voltDeadline - systick_counter) <= (freqDeadline - systick_counter))) || ((voltDeadline - systick_counter) <= (displayDeadline - systick_counter))))){
-			calcVoltage(Display, &voltageMeasurements, &voltage); // Calculate Voltage & Update Message
+			calcVoltage(Display, &voltageMeasurements, &voltageAccum); // Calculate Voltage & Update Message
 			voltDeadline = (voltDeadline + vDeadline) > systick_counterMax ? (voltDeadline + vDeadline) - systick_counterMax : voltDeadline + vDeadline; // Handles Clock Overflow
 			calcVoltFlag = 1;
 		}
