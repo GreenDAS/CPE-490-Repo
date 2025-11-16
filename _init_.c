@@ -93,6 +93,9 @@ extern GenevaLCDDevice *Display;
 //extern StringClass* str;
 extern const int size;
 
+//Testing Vars
+extern IODevice FreqGenerator;
+
 void _init_(){
 	Timer3 = GeneralPurposeTimer_Create(3,1,CountAtMilSecondRate,TimerPeriod1SecondInMilSeconds*10,'D',0); // Sets up Timer3 for GP Timer Use & for the Display
 
@@ -147,4 +150,6 @@ void _init_(){
 	Timer2.setBits(&(Timer2.TIMX->CR1),0,1);
 
 	InitSysTick(3999, 1); // Sets up SysTick for 1ms interrupts with interrupt enabled
+
+	FreqGenerator = IODevice_Create('C',0,0,1,'O'); // Sets up Frequency Generator on PC0 for Testing
 }

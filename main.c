@@ -141,6 +141,8 @@ int calcVoltFlag = 1; // Set to always be 1 to calculate voltage so long as the 
 int calcFreqFlag = 0;
 extern int systickFlag;
 
+//Testing Vars
+IODevice FreqGenerator;
 
 int main(void){
 	_init_();	// Sets up classes and other variables
@@ -162,6 +164,8 @@ int main(void){
 	*/
 	while(True){ 
 		while(!systickFlag){} // Wait for SysTick
+
+		FreqGenerator.toggle(&FreqGenerator); // Toggles Frequency Generator for Testing
 
 		systick_counter = (systick_counter + 1) > systick_counterMax ? 0 : systick_counter + 1;
 		diffVDead = voltDeadline - systick_counter;
