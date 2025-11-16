@@ -82,10 +82,10 @@ void TIM2_IRQHandler(void){
 			freqCounts++;
 			timeF = TIM2->CCR1;
 			if(timeF >= timeI){
-				timeElapsed += ((double)(timeF - timeI) + Timer2->TIMX->ARR)*((Timer2->PSC+1)/clockSpeedHz); // in seconds
+				timeElapsed += ((double)(timeF - timeI) + Timer2->TIMX->ARR)/((clockSpeedHz)/(Timer2->PSC+1)); // in seconds
 			}
 			else{
-				timeElapsed += ((double)(timeI - timeF))*((Timer2->PSC+1)/clockSpeedHz); // in seconds
+				timeElapsed += ((double)(timeI - timeF))/(clockSpeedHz)/(Timer2->PSC+1); // in seconds
 			}
 			timeI = timeF;
 			if(timeElapsed >= 0.5){ // Every 0.5 seconds
