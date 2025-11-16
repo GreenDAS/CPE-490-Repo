@@ -46,6 +46,7 @@ void _initLCD_(){
 #ifndef GenevaLCDDeviceClassCode
 #define GenevaLCDDeviceClassCode
 #include "stdlib.h"
+#include "string.h"
 
 
 // Class Declaration

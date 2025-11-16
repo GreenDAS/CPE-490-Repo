@@ -27,16 +27,36 @@ Project File Date:  10/24/2025
 <h2>Output:</h2>
 *** Using Compiler 'V6.22', folder: 'C:\ARM\ARMCLANG\Bin'
 Build target 'Target_1'
+lcd_lib.c(203): error: call to undeclared library function 'memcpy' with type 'void *(void *, const void *, unsigned int)'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+  203 |         memcpy(self->wholeMSG, MSG, sizeof(self->wholeMSG));
+      |         ^
+lcd_lib.c(203): note: include the header <string.h> or explicitly provide a declaration for 'memcpy'
+1 error generated.
 compiling lcd_lib.c...
-main.c(54): warning: expression result unused [-Wunused-value]
-   54 |         *voltageMeasurements++;
+_init_.c(102): warning: excess elements in scalar initializer [-Wexcess-initializers]
+  102 |                         {'V', 'O', 'L', 'T', 'A', 'G', 'E', ':',
+      |                               ^~~
+_init_.c(108): warning: excess elements in scalar initializer [-Wexcess-initializers]
+  108 |                         {'F', 'R', 'E', 'Q', ':', ' ', '0', '0',
+      |                               ^~~
+_init_.c(140): error: too few arguments to function call, expected 6, have 5
+  140 |         Timer2 = GeneralPurposeTimer_Create(2,1,0xFFFFFFFF - 1,'D',0); // Sets up Timer2 to run as fast as possible for CC Interrupt
+      |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~                         ^
+.\timer_lib.h(61): note: 'GeneralPurposeTimer_Create' declared here
+   61 | GeneralPurposeTimer GeneralPurposeTimer_Create(int timer, int CEN, int PSC, int ARR, char DIR, int OPM);
+      |                     ^                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+_init_.c(145): warning: passing 'volatile uint32_t *' (aka 'volatile unsigned int *') to parameter of type 'uint32_t *' (aka 'unsigned int *') discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
+  145 |         Timer2.setBits(&(Timer2.TIMX->CR1),0,1);
+      |                        ^~~~~~~~~~~~~~~~~~~
+3 warnings and 1 error generated.
+compiling _init_.c...
+compiling interupt_handlers.c...
+main.c(60): warning: expression result unused [-Wunused-value]
+   60 |         *voltageMeasurements++;
       |         ^~~~~~~~~~~~~~~~~~~~~~
 1 warning generated.
 compiling main.c...
-linking...
-Program Size: Code=17620 RO-data=1196 RW-data=0 ZI-data=2336  
-FromELF: creating hex file...
-".\Objects\Template.axf" - 0 Error(s), 1 Warning(s).
+".\Objects\Template.axf" - 2 Error(s), 4 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -58,6 +78,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE@6.1.0
+Target not created.
 Build Time Elapsed:  00:00:00
 </pre>
 </body>

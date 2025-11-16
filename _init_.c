@@ -96,21 +96,20 @@ extern const int size;
 void _init_(){
 	Timer3 = GeneralPurposeTimer_Create(3,1,CountAtMilSecondRate,TimerPeriod1SecondInMilSeconds*10,'D',0); // Sets up Timer3 for GP Timer Use & for the Display
 
-	unsigned char msg[GenevaLCDRowSize + 1][GenevaLCDColSize + 1] = {
-		{ // The Message to Display
+	unsigned char msg[GenevaLCDRowSize][(GenevaLCDColSize+1)] = {// The Message to Display
 			//1st Row
-			{'V', 'O', 'L', 'T', 'A', 'G', 'E', ':',
-			 ' ', '0', '0', '.', '0', '0', 'V', 0x00,
-			 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-			 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-			 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
-			//2nd Row
-			{'F', 'R', 'E', 'Q', ':', ' ', '0', '0',
-			 '0', '0', '.', '0', '0', 'H', 'z', 0x00,
-			 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-			 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-			 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
-		}
+		{'V', 'O', 'L', 'T', 'A', 'G', 'E', ':',
+			' ', '0', '0', '.', '0', '0', 'V', 0x00,
+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
+		//2nd Row
+		{'F', 'R', 'E', 'Q', ':', ' ', '0', '0',
+			'0', '0', '.', '0', '0', 'H', 'z', 0x00,
+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
+
 	};
 
 	Display = GenevaLCDDevice_Create(&Timer3, 5, 10, msg); // Sets up LCD Display
@@ -137,7 +136,7 @@ void _init_(){
 	FreqReader = IODevice_Create('A',5,0,1,'F');
 	FreqReader.initInterupt(FreqReader.pin,FreqReader.GPIOchar,EXTI9_5_IRQn,1,4);
 
-	Timer2 = GeneralPurposeTimer_Create(2,1,0xFFFFFFFF - 1,'D',0); // Sets up Timer2 to run as fast as possible for CC Interrupt
+	Timer2 = GeneralPurposeTimer_Create(2,1,1,0xFFFFFFFF - 1,'D',0); // Sets up Timer2 to run as fast as possible for CC Interrupt
 	Timer2.InteruptHandler = PeripheralInteruptHandling_Create(TIM2_IRQn);
 	Timer2.InteruptHandler->setPriorityBit(Timer2.InteruptHandler,0b0100); // Sets the Priority Bit's preemption priority to 1, sub priority to 0
 	Timer2.InteruptHandler->setIXER(Timer2.InteruptHandler,'S'); // Enables the interupt in the NVIC
