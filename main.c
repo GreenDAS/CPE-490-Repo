@@ -32,6 +32,10 @@
 #define systick_counterMax 600
 #define lineSize 15 // 16 Max however index 15 is the control character
 
+//------------------------------------------------------------------------------
+// # Type Definitions
+//------------------------------------------------------------------------------
+
 typedef enum dispState {START, UPPER, LOWER, SUCCESS} dispState;
 
 //------------------------------------------------------------------------------
