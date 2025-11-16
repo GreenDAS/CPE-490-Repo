@@ -72,8 +72,6 @@ void calcVoltage(GenevaLCDDevice* Disp,int* voltageMeasurements, float* voltageA
 
 void calcFrequency(GenevaLCDDevice* Disp, int* freqCounts, double* timeElapsed){
 	createFreqString(&(Disp->wholeMSG[1][0]), *freqCounts / *timeElapsed); // Update Frequency String
-	*freqCounts = 0;
-	*timeElapsed = 0;
 }
 
 void displayUpdate(GenevaLCDDevice* Disp, dispState* state){
@@ -182,6 +180,8 @@ int main(void){
 		else if(calcFreqFlag && (diffFDead <= diffDDead)){ // should only calculate frequency if its deadline is the soonest and the flag is set
 			calcFrequency(Display, &freqCounts, &timeElapsed);
 			freqDeadline = (freqDeadline + fDeadline) > systick_counterMax ? diffFDead + fDeadline : freqDeadline + fDeadline; // Handles Clock Overflow
+			freqCounts = 0;
+			timeElapsed = 0.0;
 			calcFreqFlag = 0;
 		}
 		else // displays if its deadline is the soonest
