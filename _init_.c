@@ -131,6 +131,9 @@ void _init_(){
 	ADC1->ISR |= ADC_ISR_ADRDY; // Clear ADC Ready flag
 	ADC1->CR |= ADC_CR_ADEN; // Enable ADC
 	while((ADC1->ISR & ADC_ISR_ADRDY) == 0){} // Wait for ADC to be ready
+	// Start New Conversion ( Primes it for RTOS )
+	ADC1->ISR |= ADC_ISR_EOC; // Clear End of Conversion Flag
+	ADC1->CR |= ADC_CR_ADSTART; // Start ADC Conversion
 
 	// Sets up Frequency Reader need to use a different pin than Volt Reader (PA0)
 	FreqReader = IODevice_Create('A',5,0,1,'F');
