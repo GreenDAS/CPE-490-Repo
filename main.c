@@ -120,7 +120,10 @@ void displayUpdate(GenevaLCDDevice* Disp, dispState* state){
 				Disp->cursorPos[1] = 0;
 				Disp->cursorPos[0] = (Disp->cursorPos[0] + 1) % GenevaLCDRowSize;
 		}
-		Disp->cursorPos[1]++;
+		else{
+			Disp->cursorPos[1]++;
+		}
+		
 		break;
 	default:
 		while(1); // Error Catching
