@@ -137,20 +137,26 @@ int main(void){
 	uint32_t freqDeadline = fDeadline;
 	uint32_t displayDeadline = dDeadline;
 	uint32_t systick_counter = 0;
+
+	uint32_t diffVDead = 0;
+	uint32_t diffFDead = 0;
+	uint32_t diffDDead = 0;
 	dispState displayState = START;
 	while(True){
 		while(!systickFlag){} // Wait for SysTick
-
+		diffVDead = voltDeadline - systick_counterMax;
+		diffFDead = freqDeadline - systick_counterMax;
+		diffDDead = displayDeadline - systick_counterMax;
 		systick_counter = systick_counter > systick_counterMax ? 0 : systick_counter + 1;
 
 		readVoltage(&voltageMeasurements, &voltageAccum);
 
-		if(calcVoltFlag && (((calcFreqFlag && ((voltDeadline - systick_counter) <= (freqDeadline - systick_counter))) || ((voltDeadline - systick_counter) <= (displayDeadline - systick_counter))))){
+		if(calcVoltFlag && (((calcFreqFlag && (diffVDead <= diffFDead)) || (diffVDead <= diffDDead)))){
 			calcVoltage(Display, &voltageMeasurements, &voltageAccum); // Calculate Voltage & Update Message
 			voltDeadline = (voltDeadline + vDeadline) > systick_counterMax ? (voltDeadline + vDeadline) - systick_counterMax : voltDeadline + vDeadline; // Handles Clock Overflow
 			calcVoltFlag = 1;
 		}
-		else if(calcFreqFlag && ((freqDeadline - systick_counter) <= (displayDeadline - systick_counter))){
+		else if(calcFreqFlag && (diffFDead <= diffDDead)){
 			calcFrequency(Display, &freqCounts, &timeElapsed);
 			freqDeadline = (freqDeadline + fDeadline) > systick_counterMax ? (freqDeadline + fDeadline) - systick_counterMax : freqDeadline + fDeadline; // Handles Clock Overflow
 			calcFreqFlag = 0;
