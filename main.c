@@ -153,19 +153,19 @@ int main(void){
 		diffDDead = displayDeadline - systick_counterMax;
 		systick_counter = (systick_counter + 1) > systick_counterMax ? 0 : systick_counter + 1;
 
-		readVoltage(&voltageMeasurements, &voltageAccum);
+		readVoltage(&voltageMeasurements, &voltageAccum); // always read voltage every systick (should a few us)
 
-		if(calcVoltFlag && (((calcFreqFlag && (diffVDead <= diffFDead)) || (diffVDead <= diffDDead)))){
+		if(calcVoltFlag && (((calcFreqFlag && (diffVDead <= diffFDead)) || (diffVDead <= diffDDead)))){ // should only calculate voltage if its deadline is the soonest
 			calcVoltage(Display, &voltageMeasurements, &voltageAccum); // Calculate Voltage & Update Message
 			voltDeadline = (voltDeadline + vDeadline) > systick_counterMax ? diffVDead + vDeadline : voltDeadline + vDeadline; // Handles Clock Overflow
 			calcVoltFlag = 1;
 		}
-		else if(calcFreqFlag && (diffFDead <= diffDDead)){
+		else if(calcFreqFlag && (diffFDead <= diffDDead)){ // should only calculate frequency if its deadline is the soonest and the flag is set
 			calcFrequency(Display, &freqCounts, &timeElapsed);
 			freqDeadline = (freqDeadline + fDeadline) > systick_counterMax ? diffFDead + fDeadline : freqDeadline + fDeadline; // Handles Clock Overflow
 			calcFreqFlag = 0;
 		}
-		else // display
+		else // displays if its deadline is the soonest
 		{
 			displayUpdate(Display, &displayState);
 			displayDeadline = (displayDeadline + dDeadline) > systick_counterMax ? diffDDead + dDeadline : displayDeadline + dDeadline; // Handles Clock Overflow
