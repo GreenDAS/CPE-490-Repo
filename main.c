@@ -26,7 +26,7 @@
 
 #define FSIZE 12
 #define VSIZE 4
-#define vDeadline 200
+#define vDeadline 400
 #define fDeadline 500
 #define dDeadline 600
 #define systick_counterMax 600
@@ -133,9 +133,9 @@ extern int systickFlag;
 
 int main(void){
 	_init_();	// Sets up classes and other variables
-	uint32_t voltDeadline = 400;
-	uint32_t freqDeadline = 500;
-	uint32_t displayDeadline = 600;
+	uint32_t voltDeadline = vDeadline;
+	uint32_t freqDeadline = fDeadline;
+	uint32_t displayDeadline = dDeadline;
 	uint32_t systick_counter = 0;
 	dispState displayState = START;
 	while(True){
