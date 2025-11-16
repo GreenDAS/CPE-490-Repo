@@ -201,7 +201,11 @@ GenevaLCDDevice* GenevaLCDDevice_Create(GeneralPurposeTimer* Timer, int Connecti
 	self->sendMSGBits = sendMSGBits;
 	self->sendBits = sendBits;
 	self->onOffRatio = OnOffRatio;
-	memcpy(self->wholeMSG, MSG, sizeof(self->wholeMSG));
+	for (int i = 0; i < GenevaLCDRowSize; i++){
+		for (int j = 0; j < GenevaLCDColSize + 1; j++){
+			self->wholeMSG[i][j] = MSG[i][j];
+		}
+	}
 	_initLCD_();
 	self->moveCursor(self,0,0);
 	return self;
