@@ -147,7 +147,7 @@ int main(void){
 		diffVDead = voltDeadline - systick_counterMax;
 		diffFDead = freqDeadline - systick_counterMax;
 		diffDDead = displayDeadline - systick_counterMax;
-		systick_counter = systick_counter > systick_counterMax ? 0 : systick_counter + 1;
+		systick_counter = (systick_counter + 1) > systick_counterMax ? 0 : systick_counter + 1;
 
 		readVoltage(&voltageMeasurements, &voltageAccum);
 
