@@ -57,7 +57,7 @@ void readVoltage(int* voltageMeasurements, float* voltageAccum){
 	ADC1->CR |= ADC_CR_ADSTART; // Start ADC Conversion
 	while((ADC1->ISR & ADC_ISR_EOC) == 0){} // Wait for Conversion to finish
 	*voltageAccum += ((ADC1->DR) * (10/3))/ 255.0;
-	*voltageMeasurements++;
+	*voltageMeasurements += 1;
 }
 
 void calcVoltage(GenevaLCDDevice* Disp,int* voltageMeasurements, float* voltageAccum){
@@ -123,7 +123,7 @@ IODevice VoltReader;
 IODevice FreqReader;
 GeneralPurposeTimer Timer2;
 GenevaLCDDevice *Display;
-int voltageMeasurements;
+int voltageMeasurements = 0;
 float voltageAccum = 0;
 float frequency = 0;
 int freqCounts = 0;
@@ -145,7 +145,7 @@ int main(void){
 	uint32_t diffVDead = 0;
 	uint32_t diffFDead = 0;
 	uint32_t diffDDead = 0;
-	dispState displayState = START;
+	dispState displayState = SUCCESS;
 	/*
 	if clock speed is 4MHz, and an instruction takes 1 cycle,
 	then 4,000,000 instructions are executed per second.

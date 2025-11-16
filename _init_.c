@@ -117,7 +117,7 @@ void _init_(){
 	RCC->AHB2ENR |= RCC_AHB2ENR_ADCEN; // Enable ADC Clock
 	if ((ADC1->CR & ADC_CR_DEEPPWD) == ADC_CR_DEEPPWD){ADC1->CR &= ~ADC_CR_DEEPPWD;} // Wake up ADC from Deep Power Down
 	ADC1->CR |= ADC_CR_ADVREGEN; // Enable ADC Voltage Regulator
-	Timer3.greedyWait(&Timer2, 1, MilSecondsScalar); // Wait for ADC Voltage Regulator to start up (min 10us)
+	Timer3.greedyWait(&Timer3, 1, MilSecondsScalar); // Wait for ADC Voltage Regulator to start up (min 10us)
 
 	VoltReader = IODevice_Create('A', 0, 1, 0, 'A'); // Sets up VoltReader ADC Pin (PA0)
 	VoltReader.GPIOX->ASCR |= (1UL); // Enable Analog Switch for PA0

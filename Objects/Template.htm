@@ -3,9 +3,9 @@
 <title>Static Call Graph - [.\Objects\Template.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\Template.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Sun Nov 16 12:40:45 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Sun Nov 16 12:56:23 2025
 <BR><P>
-<H3>Maximum Stack Usage =        492 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =        500 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
 __rt_entry_main &rArr; main &rArr; _init_ &rArr; GenevaLCDDevice_Create &rArr; _initLCD_ &rArr; lcd_Init &rArr; tim6_Del
 <P>
@@ -441,7 +441,7 @@ Global Symbols
 <P><STRONG><a name="[140]"></a>__rt_entry_postsh_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$00000009))
 
 <P><STRONG><a name="[a6]"></a>__rt_entry_main</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$0000000D))
-<BR><BR>[Stack]<UL><LI>Max Depth = 492 + Unknown Stack Size
+<BR><BR>[Stack]<UL><LI>Max Depth = 500 + Unknown Stack Size
 <LI>Call Chain = __rt_entry_main &rArr; main &rArr; _init_ &rArr; GenevaLCDDevice_Create &rArr; _initLCD_ &rArr; lcd_Init &rArr; tim6_Del
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -772,7 +772,7 @@ Global Symbols
 <LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_heap_descriptor
 </UL>
 <BR>[Called By]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_init_GPIOInterupt
-<LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PeripheralInteruptHandling_Create
+<LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PeripheralInteruptHandling_Create
 <LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GenevaLCDDevice_Create
 </UL>
 
@@ -795,9 +795,8 @@ Global Symbols
 <LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;createFreqString
 </UL>
 
-<P><STRONG><a name="[dd]"></a>__aeabi_memcpy</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, rt_memcpy_v6.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GenevaLCDDevice_Create
-<LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_init_
+<P><STRONG><a name="[ea]"></a>__aeabi_memcpy</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, rt_memcpy_v6.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_init_
 </UL>
 
 <P><STRONG><a name="[b3]"></a>__rt_memcpy</STRONG> (Thumb, 138 bytes, Stack size 0 bytes, rt_memcpy_v6.o(.text), UNUSED)
@@ -1268,20 +1267,19 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32l476xx.o(RESET)
 </UL>
-<P><STRONG><a name="[ea]"></a>GeneralPurposeTimer_Create</STRONG> (Thumb, 308 bytes, Stack size 40 bytes, timer_lib.o(.text.GeneralPurposeTimer_Create))
+<P><STRONG><a name="[e9]"></a>GeneralPurposeTimer_Create</STRONG> (Thumb, 308 bytes, Stack size 40 bytes, timer_lib.o(.text.GeneralPurposeTimer_Create))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = GeneralPurposeTimer_Create
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_init_
+<BR>[Called By]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_init_
 </UL>
 
-<P><STRONG><a name="[dc]"></a>GenevaLCDDevice_Create</STRONG> (Thumb, 184 bytes, Stack size 32 bytes, lcd_lib.o(.text.GenevaLCDDevice_Create))
-<BR><BR>[Stack]<UL><LI>Max Depth = 140<LI>Call Chain = GenevaLCDDevice_Create &rArr; _initLCD_ &rArr; lcd_Init &rArr; tim6_Del
+<P><STRONG><a name="[dc]"></a>GenevaLCDDevice_Create</STRONG> (Thumb, 246 bytes, Stack size 40 bytes, lcd_lib.o(.text.GenevaLCDDevice_Create))
+<BR><BR>[Stack]<UL><LI>Max Depth = 148<LI>Call Chain = GenevaLCDDevice_Create &rArr; _initLCD_ &rArr; lcd_Init &rArr; tim6_Del
 </UL>
-<BR>[Calls]<UL><LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
-<LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc
-<LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_initLCD_
+<BR>[Calls]<UL><LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc
+<LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_initLCD_
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_init_
+<BR>[Called By]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_init_
 </UL>
 
 <P><STRONG><a name="[f2]"></a>GetGPIO</STRONG> (Thumb, 38 bytes, Stack size 12 bytes, gpio_lib.o(.text.GetGPIO))
@@ -1293,15 +1291,15 @@ Global Symbols
 <P><STRONG><a name="[eb]"></a>IODevice_Create</STRONG> (Thumb, 366 bytes, Stack size 32 bytes, gpio_lib.o(.text.IODevice_Create))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = IODevice_Create
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_init_
+<BR>[Called By]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_init_
 </UL>
 
-<P><STRONG><a name="[df]"></a>InitSysTick</STRONG> (Thumb, 74 bytes, Stack size 16 bytes, _init_.o(.text.InitSysTick))
+<P><STRONG><a name="[de]"></a>InitSysTick</STRONG> (Thumb, 74 bytes, Stack size 16 bytes, _init_.o(.text.InitSysTick))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = InitSysTick &rArr; __NVIC_SetPriority
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__NVIC_SetPriority
+<BR>[Calls]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__NVIC_SetPriority
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_init_
+<BR>[Called By]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_init_
 </UL>
 
 <P><STRONG><a name="[6d]"></a>MODERSet</STRONG> (Thumb, 172 bytes, Stack size 8 bytes, gpio_lib.o(.text.MODERSet))
@@ -1309,12 +1307,12 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> gpio_lib.o(.text.IODevice_Create)
 </UL>
-<P><STRONG><a name="[e1]"></a>PeripheralInteruptHandling_Create</STRONG> (Thumb, 66 bytes, Stack size 16 bytes, interupt_lib.o(.text.PeripheralInteruptHandling_Create))
+<P><STRONG><a name="[e0]"></a>PeripheralInteruptHandling_Create</STRONG> (Thumb, 66 bytes, Stack size 16 bytes, interupt_lib.o(.text.PeripheralInteruptHandling_Create))
 <BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = PeripheralInteruptHandling_Create &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_init_
+<BR>[Called By]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_init_
 </UL>
 
 <P><STRONG><a name="[ff]"></a>SetGPIO</STRONG> (Thumb, 44 bytes, Stack size 12 bytes, gpio_lib.o(.text.SetGPIO))
@@ -1330,32 +1328,32 @@ Global Symbols
 <P><STRONG><a name="[26]"></a>TIM2_IRQHandler</STRONG> (Thumb, 616 bytes, Stack size 72 bytes, interupt_handlers.o(.text.TIM2_IRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = TIM2_IRQHandler &rArr; __aeabi_dmul
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
-<LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2d
-<LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2d
-<LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dcmplt
-<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
+<BR>[Calls]<UL><LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
+<LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2d
+<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2d
+<LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dcmplt
+<LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
 <LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__NVIC_ClearPendingIRQ
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32l476xx.o(RESET)
 </UL>
-<P><STRONG><a name="[de]"></a>_initLCD_</STRONG> (Thumb, 24 bytes, Stack size 16 bytes, lcd_lib.o(.text._initLCD_))
+<P><STRONG><a name="[dd]"></a>_initLCD_</STRONG> (Thumb, 24 bytes, Stack size 16 bytes, lcd_lib.o(.text._initLCD_))
 <BR><BR>[Stack]<UL><LI>Max Depth = 108<LI>Call Chain = _initLCD_ &rArr; lcd_Init &rArr; tim6_Del
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_Init
-<LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_Command
+<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_Init
+<LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_Command
 </UL>
 <BR>[Called By]<UL><LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GenevaLCDDevice_Create
 </UL>
 
-<P><STRONG><a name="[e9]"></a>_init_</STRONG> (Thumb, 684 bytes, Stack size 288 bytes, _init_.o(.text._init_))
-<BR><BR>[Stack]<UL><LI>Max Depth = 428<LI>Call Chain = _init_ &rArr; GenevaLCDDevice_Create &rArr; _initLCD_ &rArr; lcd_Init &rArr; tim6_Del
+<P><STRONG><a name="[e8]"></a>_init_</STRONG> (Thumb, 676 bytes, Stack size 288 bytes, _init_.o(.text._init_))
+<BR><BR>[Stack]<UL><LI>Max Depth = 436<LI>Call Chain = _init_ &rArr; GenevaLCDDevice_Create &rArr; _initLCD_ &rArr; lcd_Init &rArr; tim6_Del
 </UL>
-<BR>[Calls]<UL><LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
-<LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PeripheralInteruptHandling_Create
+<BR>[Calls]<UL><LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
+<LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PeripheralInteruptHandling_Create
 <LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GenevaLCDDevice_Create
-<LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitSysTick
-<LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GeneralPurposeTimer_Create
+<LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitSysTick
+<LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GeneralPurposeTimer_Create
 <LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IODevice_Create
 </UL>
 <BR>[Called By]<UL><LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -1373,7 +1371,7 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 200 + Unknown Stack Size
 <LI>Call Chain = calcFrequency &rArr; createFreqString &rArr; snprintf &rArr; _printf_char_common &rArr; __printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2d
+<BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2d
 <LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
 <LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;createFreqString
 </UL>
@@ -1429,21 +1427,21 @@ Global Symbols
 <P><STRONG><a name="[64]"></a>greedyClearDisplay</STRONG> (Thumb, 56 bytes, Stack size 16 bytes, lcd_lib.o(.text.greedyClearDisplay))
 <BR><BR>[Stack]<UL><LI>Max Depth = 68<LI>Call Chain = greedyClearDisplay &rArr; lcd_Command &rArr; tim6_Del
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_Command
+<BR>[Calls]<UL><LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_Command
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> lcd_lib.o(.text.GenevaLCDDevice_Create)
 </UL>
 <P><STRONG><a name="[62]"></a>greedyMoveCursor</STRONG> (Thumb, 48 bytes, Stack size 24 bytes, lcd_lib.o(.text.greedyMoveCursor))
 <BR><BR>[Stack]<UL><LI>Max Depth = 76<LI>Call Chain = greedyMoveCursor &rArr; lcd_Command &rArr; tim6_Del
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_Command
+<BR>[Calls]<UL><LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_Command
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> lcd_lib.o(.text.GenevaLCDDevice_Create)
 </UL>
 <P><STRONG><a name="[65]"></a>greedyRunCommand</STRONG> (Thumb, 22 bytes, Stack size 16 bytes, lcd_lib.o(.text.greedyRunCommand))
 <BR><BR>[Stack]<UL><LI>Max Depth = 68<LI>Call Chain = greedyRunCommand &rArr; lcd_Command &rArr; tim6_Del
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_Command
+<BR>[Calls]<UL><LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_Command
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> lcd_lib.o(.text.GenevaLCDDevice_Create)
 </UL>
@@ -1460,11 +1458,11 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> lcd_lib.o(.text.GenevaLCDDevice_Create)
 </UL>
 <P><STRONG><a name="[f7]"></a>i2c1_Init</STRONG> (Thumb, 68 bytes, Stack size 0 bytes, lcd_routines.o(.text.i2c1_Init))
-<BR><BR>[Called By]<UL><LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_Init
+<BR><BR>[Called By]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_Init
 </UL>
 
 <P><STRONG><a name="[f6]"></a>i2c1_Pinmode_PB67</STRONG> (Thumb, 82 bytes, Stack size 0 bytes, lcd_routines.o(.text.i2c1_Pinmode_PB67))
-<BR><BR>[Called By]<UL><LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_Init
+<BR><BR>[Called By]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_Init
 </UL>
 
 <P><STRONG><a name="[71]"></a>initCCInterupt</STRONG> (Thumb, 88 bytes, Stack size 4 bytes, interupt_lib.o(.text.initCCInterupt))
@@ -1472,7 +1470,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> interupt_lib.o(.text.PeripheralInteruptHandling_Create)
 </UL>
-<P><STRONG><a name="[e8]"></a>lcd_Command</STRONG> (Thumb, 272 bytes, Stack size 48 bytes, lcd_routines.o(.text.lcd_Command))
+<P><STRONG><a name="[e7]"></a>lcd_Command</STRONG> (Thumb, 272 bytes, Stack size 48 bytes, lcd_routines.o(.text.lcd_Command))
 <BR><BR>[Stack]<UL><LI>Max Depth = 52<LI>Call Chain = lcd_Command &rArr; tim6_Del
 </UL>
 <BR>[Calls]<UL><LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tim6_Del
@@ -1480,10 +1478,10 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;greedyRunCommand
 <LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;greedyClearDisplay
 <LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;greedyMoveCursor
-<LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_initLCD_
+<LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_initLCD_
 </UL>
 
-<P><STRONG><a name="[e7]"></a>lcd_Init</STRONG> (Thumb, 382 bytes, Stack size 88 bytes, lcd_routines.o(.text.lcd_Init))
+<P><STRONG><a name="[e6]"></a>lcd_Init</STRONG> (Thumb, 382 bytes, Stack size 88 bytes, lcd_routines.o(.text.lcd_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 92<LI>Call Chain = lcd_Init &rArr; tim6_Del
 </UL>
 <BR>[Calls]<UL><LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2c1_Pinmode_PB67
@@ -1491,7 +1489,7 @@ Global Symbols
 <LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tim6_Init
 <LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tim6_Del
 </UL>
-<BR>[Called By]<UL><LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_initLCD_
+<BR>[Called By]<UL><LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_initLCD_
 </UL>
 
 <P><STRONG><a name="[67]"></a>lcd_Nack</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, lcd_lib.o(.text.lcd_Nack))
@@ -1505,11 +1503,11 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;greedyWriteString
 </UL>
 
-<P><STRONG><a name="[a7]"></a>main</STRONG> (Thumb, 450 bytes, Stack size 64 bytes, main.o(.text.main))
-<BR><BR>[Stack]<UL><LI>Max Depth = 492 + Unknown Stack Size
+<P><STRONG><a name="[a7]"></a>main</STRONG> (Thumb, 452 bytes, Stack size 64 bytes, main.o(.text.main))
+<BR><BR>[Stack]<UL><LI>Max Depth = 500 + Unknown Stack Size
 <LI>Call Chain = main &rArr; _init_ &rArr; GenevaLCDDevice_Create &rArr; _initLCD_ &rArr; lcd_Init &rArr; tim6_Del
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_init_
+<BR>[Calls]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_init_
 <LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;displayUpdate
 <LI><a href="#[ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calcFrequency
 <LI><a href="#[ef]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calcVoltage
@@ -1522,9 +1520,9 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = readVoltage &rArr; __aeabi_ddiv
 </UL>
 <BR>[Calls]<UL><LI><a href="#[f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
-<LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2d
+<LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2d
 <LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
-<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
+<LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
 <LI><a href="#[fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
 </UL>
 <BR>[Called By]<UL><LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -1592,12 +1590,12 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = tim6_Del
 </UL>
 <BR>[Called By]<UL><LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_Write
-<LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_Init
-<LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_Command
+<LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_Init
+<LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_Command
 </UL>
 
 <P><STRONG><a name="[f5]"></a>tim6_Init</STRONG> (Thumb, 70 bytes, Stack size 0 bytes, lcd_routines.o(.text.tim6_Init))
-<BR><BR>[Called By]<UL><LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_Init
+<BR><BR>[Called By]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_Init
 </UL>
 
 <P><STRONG><a name="[6c]"></a>toggle</STRONG> (Thumb, 52 bytes, Stack size 16 bytes, gpio_lib.o(.text.toggle))
@@ -1701,7 +1699,7 @@ Global Symbols
 <LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_dnaninf
 </UL>
 
-<P><STRONG><a name="[e3]"></a>__aeabi_dadd</STRONG> (Thumb, 0 bytes, Stack size 16 bytes, daddsub_clz.o(x$fpl$dadd))
+<P><STRONG><a name="[e2]"></a>__aeabi_dadd</STRONG> (Thumb, 0 bytes, Stack size 16 bytes, daddsub_clz.o(x$fpl$dadd))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = __aeabi_dadd
 </UL>
 <BR>[Called By]<UL><LI><a href="#[26]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM2_IRQHandler
@@ -1742,14 +1740,14 @@ Global Symbols
 <LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_deq
 </UL>
 
-<P><STRONG><a name="[e4]"></a>__aeabi_i2d</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, dflt_clz.o(x$fpl$dflt))
+<P><STRONG><a name="[e3]"></a>__aeabi_i2d</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, dflt_clz.o(x$fpl$dflt))
 <BR><BR>[Called By]<UL><LI><a href="#[26]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM2_IRQHandler
 <LI><a href="#[ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calcFrequency
 </UL>
 
 <P><STRONG><a name="[156]"></a>_dflt</STRONG> (Thumb, 46 bytes, Stack size 0 bytes, dflt_clz.o(x$fpl$dflt), UNUSED)
 
-<P><STRONG><a name="[e2]"></a>__aeabi_ui2d</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, dflt_clz.o(x$fpl$dfltu))
+<P><STRONG><a name="[e1]"></a>__aeabi_ui2d</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, dflt_clz.o(x$fpl$dfltu))
 <BR><BR>[Called By]<UL><LI><a href="#[26]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM2_IRQHandler
 <LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;readVoltage
 </UL>
@@ -1778,7 +1776,7 @@ Global Symbols
 
 <P><STRONG><a name="[15a]"></a>__fpl_dcmple_InfNaN</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, dleqf.o(x$fpl$dleqf), UNUSED)
 
-<P><STRONG><a name="[e5]"></a>__aeabi_dmul</STRONG> (Thumb, 0 bytes, Stack size 32 bytes, dmul.o(x$fpl$dmul))
+<P><STRONG><a name="[e4]"></a>__aeabi_dmul</STRONG> (Thumb, 0 bytes, Stack size 32 bytes, dmul.o(x$fpl$dmul))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = __aeabi_dmul
 </UL>
 <BR>[Called By]<UL><LI><a href="#[26]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM2_IRQHandler
@@ -1854,7 +1852,7 @@ Global Symbols
 <BR><BR>[Calls]<UL><LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dcmple
 </UL>
 
-<P><STRONG><a name="[e6]"></a>__aeabi_dcmplt</STRONG> (Thumb, 0 bytes, Stack size 8 bytes, dcmp.o(x$fpl$fcmp))
+<P><STRONG><a name="[e5]"></a>__aeabi_dcmplt</STRONG> (Thumb, 0 bytes, Stack size 8 bytes, dcmp.o(x$fpl$fcmp))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = __aeabi_dcmplt
 </UL>
 <BR>[Called By]<UL><LI><a href="#[26]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM2_IRQHandler
@@ -1901,10 +1899,10 @@ Global Symbols
 <H3>
 Local Symbols
 </H3>
-<P><STRONG><a name="[e0]"></a>__NVIC_SetPriority</STRONG> (Thumb, 66 bytes, Stack size 8 bytes, _init_.o(.text.__NVIC_SetPriority))
+<P><STRONG><a name="[df]"></a>__NVIC_SetPriority</STRONG> (Thumb, 66 bytes, Stack size 8 bytes, _init_.o(.text.__NVIC_SetPriority))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = __NVIC_SetPriority
 </UL>
-<BR>[Called By]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitSysTick
+<BR>[Called By]<UL><LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitSysTick
 </UL>
 
 <P><STRONG><a name="[fc]"></a>__NVIC_EnableIRQ</STRONG> (Thumb, 48 bytes, Stack size 4 bytes, interupt_lib.o(.text.__NVIC_EnableIRQ))
