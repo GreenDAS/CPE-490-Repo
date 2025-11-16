@@ -94,7 +94,6 @@ extern GenevaLCDDevice *Display;
 extern const int size;
 
 void _init_(){
-	Timer2 = GeneralPurposeTimer_Create(2,1,0xFFFFFFFF - 1,1,'D',0); // Sets up Timer2 to run as fast as possible for CC Interupt
 	Timer3 = GeneralPurposeTimer_Create(3,1,CountAtMilSecondRate,TimerPeriod1SecondInMilSeconds*10,'D',0); // Sets up Timer3 for GP Timer Use & for the Display
 
 	unsigned char msg[GenevaLCDRowSize + 1][GenevaLCDColSize + 1] = {
@@ -138,7 +137,7 @@ void _init_(){
 	FreqReader = IODevice_Create('A',5,0,1,'F');
 	FreqReader.initInterupt(FreqReader.pin,FreqReader.GPIOchar,EXTI9_5_IRQn,1,4);
 	
-	Timer2 = GeneralPurposeTimer_Create(2,0,0,(4000000000UL),'D',0); // Clock with 1/2 seconds counter
+	Timer2 = GeneralPurposeTimer_Create(2,1,0xFFFFFFFF - 1,'D',0); // Sets up Timer2 to run as fast as possible for CC Interupt
 	Timer2.InteruptHandler = PeripheralInteruptHandling_Create(TIM2_IRQn);
 	Timer2.InteruptHandler->setPriorityBit(Timer2.InteruptHandler,1); // Sets the Priority Bit
 	Timer2.InteruptHandler->setIXER(Timer2.InteruptHandler,'S'); // Enables the interupt in the NVIC
