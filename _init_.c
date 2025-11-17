@@ -153,7 +153,4 @@ void _init_(){
 
 	FreqGenerator = IODevice_Create('C',0,0,1,'O'); // Sets up Frequency Generator on PC0 for Testing
 
-	double t1 = (double)clockSpeedHz/ (double)(Timer2.PSC + 1); // in Hz
-	int t2 = (int)clockSpeedHz/ (int)(Timer2.PSC + 1); // in
-	float t3 = (float)clockSpeedHz/ (float)(Timer2.PSC + 1); // in Hz
 }
