@@ -132,7 +132,7 @@ int main(void){
 		.deadlines  = { VOLTAGE_DEADLINE, FREQ_DEADLINE, DISPLAY_DEADLINE/(80*4) },
 		.cooldowns  = { 0, 0, 0 },
 		.clksWaited = { 0, 0, 0 },
-		.taskCond = { voltageReady(), freqCalcReady(), displayReady() }
+		.taskCond = { voltageReady, freqCalcReady, displayReady }
 	};
 	// End Set up Scheduler Tasks
 

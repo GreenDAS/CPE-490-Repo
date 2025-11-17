@@ -48,12 +48,18 @@ main.c(22): warning: In file included from...
 .\lcd_lib.h(66): note: previous definition is here
    66 | }GenevaLCDDevice;
       |  ^
-main.c(135): error: field designator 'taskFlag' does not refer to any field in type 'EDFToDo'
-  135 |                 .taskFlag = { voltageReady(), freqCalcReady(), displayReady() }
-      |                 ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-3 warnings and 1 error generated.
+main.c(135): error: incompatible integer to pointer conversion initializing 'int (*)(void)' with an expression of type 'int' [-Wint-conversion]
+  135 |                 .taskCond = { voltageReady(), freqCalcReady(), displayReady() }
+      |                               ^~~~~~~~~~~~~~
+main.c(135): error: incompatible integer to pointer conversion initializing 'int (*)(void)' with an expression of type 'int' [-Wint-conversion]
+  135 |                 .taskCond = { voltageReady(), freqCalcReady(), displayReady() }
+      |                                               ^~~~~~~~~~~~~~~
+main.c(135): error: incompatible integer to pointer conversion initializing 'int (*)(void)' with an expression of type 'int' [-Wint-conversion]
+  135 |                 .taskCond = { voltageReady(), freqCalcReady(), displayReady() }
+      |                                                                ^~~~~~~~~~~~~~
+3 warnings and 3 errors generated.
 compiling main.c...
-".\Objects\Template.axf" - 1 Error(s), 3 Warning(s).
+".\Objects\Template.axf" - 3 Error(s), 3 Warning(s).
 
 <h2>Software Packages used:</h2>
 
