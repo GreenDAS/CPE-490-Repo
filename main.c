@@ -19,25 +19,13 @@
 #include "lcd_lib.h"
 #include "string.h"
 #include "string_lib.h"
-#include "math.h"
+#include "globals.h"
+
 
 //------------------------------------------------------------------------------
 // # defines
 //------------------------------------------------------------------------------
 
-#define FSIZE 12
-#define VSIZE 4
-#define vDeadline 400
-#define fDeadline 500
-#define dDeadline 600
-#define systick_counterMax 1200
-#define lineSize 15 // 16 Max however index 15 is the control character
-
-//------------------------------------------------------------------------------
-// # Type Definitions
-//------------------------------------------------------------------------------
-
-typedef enum dispState {START, UPPER, LOWER, SUCCESS} dispState;
 
 //------------------------------------------------------------------------------
 // Functions
@@ -53,11 +41,11 @@ void createVoltString(unsigned char msg[GenevaLCDColSize], double volt){
 	msg[39] = 0x00; // Null Terminator
 }
 
-void readVoltage(int* voltageMeasurements, float* voltageAccum){
+void readVoltage(){
 
 	// Read Voltage
-	*voltageAccum += ((ADC1->DR) * (10.0/3.0))/ 255.0;
-	*voltageMeasurements += 1;
+	voltageAccum += ((ADC1->DR) * (10.0/3.0))/ 255.0;
+	voltageMeasurements += 1;
 
 	// Start New Conversion
 	ADC1->ISR |= ADC_ISR_EOC; // Clear End of Conversion Flag
@@ -65,53 +53,57 @@ void readVoltage(int* voltageMeasurements, float* voltageAccum){
 
 }
 
-void calcVoltage(GenevaLCDDevice* Disp,int* voltageMeasurements, float* voltageAccum){
-	createVoltString(&(Disp->wholeMSG[0][0]), *voltageAccum/(*voltageMeasurements)); // Update Voltage String
-	*voltageAccum = 0;
-	*voltageMeasurements = 0;
+void calcVoltage(){
+	createVoltString(&(Display->wholeMSG[0][0]), voltageAccum/(voltageMeasurements)); // Update Voltage String
+	voltageAccum = 0;
+	voltageMeasurements = 0;
+	calcVoltFlag = 1;
 }
 
-void calcFrequency(GenevaLCDDevice* Disp, int* freqCounts, double* timeElapsed){
-	createFreqString(&(Disp->wholeMSG[1][0]), *freqCounts / *timeElapsed); // Update Frequency String
+void calcFrequency(){
+	createFreqString(&(Display->wholeMSG[1][0]), freqCounts / timeElapsed); // Update Frequency String
+	freqCounts = 0;
+	timeElapsed = 0.0;
+	calcFreqFlag = 0;
 }
 
-void displayUpdate(GenevaLCDDevice* Disp, dispState* state){
+void displayUpdate(){
 
-	if(Disp->lcd_Nack() || *state == SUCCESS){
-		*state = START;
+	if(Display->lcd_Nack() || displayState == SUCCESS){
+		displayState = START;
 	}
-	else{(*state)++;}
-	switch (*state)
+	else{(displayState)++;}
+	switch (displayState)
 	{
 	case 0:
-		Disp->startTalking();
+		Display->startTalking();
 		break;
 	case 1:
-		Disp->sendMSGBits(Disp, (Disp->wholeMSG[Disp->cursorPos[0]][Disp->cursorPos[1]] == 0x00) ? 0: 1); // First Portion of Message
+		Display->sendMSGBits(Display, (Display->wholeMSG[Display->cursorPos[0]][Display->cursorPos[1]] == 0x00) ? 0: 1); // First Portion of Message
 		break;
 	case 2:
-		if (Disp->wholeMSG[Disp->cursorPos[0]][Disp->cursorPos[1]] == 0x00){
-			switch (Disp->cursorPos[0])
+		if (Display->wholeMSG[Display->cursorPos[0]][Display->cursorPos[1]] == 0x00){
+			switch (Display->cursorPos[0])
 			{
 			case 0:
-				Disp->sendBits(192); // Go to 2nd Line
+				Display->sendBits(192); // Go to 2nd Line
 				break;
 			case 1:
-				Disp->sendBits(128); // Go to 1st Line
+				Display->sendBits(128); // Go to 1st Line
 				break;
 			}
 		}
 		else{
-			Disp->sendMSGBits(Disp, 2); // Data Portion of Message
+			Display->sendMSGBits(Display, 2); // Data Portion of Message
 		}
 		break;
 	case 3:
-		if (Disp->wholeMSG[Disp->cursorPos[0]][Disp->cursorPos[1]] == 0x00) {
-				Disp->cursorPos[1] = 0;
-				Disp->cursorPos[0] = (Disp->cursorPos[0] + 1) % GenevaLCDRowSize;
+		if (Display->wholeMSG[Display->cursorPos[0]][Display->cursorPos[1]] == 0x00) {
+				Display->cursorPos[1] = 0;
+				Display->cursorPos[0] = (Display->cursorPos[0] + 1) % GenevaLCDRowSize;
 		}
 		else{
-			Disp->cursorPos[1]++;
+			Display->cursorPos[1]++;
 		}
 		
 		break;
@@ -124,61 +116,70 @@ void displayUpdate(GenevaLCDDevice* Disp, dispState* state){
 // Main
 //------------------------------------------------------------------------------
 
-// Global Vars
-IODevice VoltReader;
-IODevice FreqReader;
-GeneralPurposeTimer Timer2;
-GenevaLCDDevice *Display;
-int voltageMeasurements = 0;
-float voltageAccum = 0;
-float frequency = 0;
-int freqCounts = 0;
-extern double timeElapsed;
 
-// FLAGS
-int calcVoltFlag = 1; // Set to always be 1 to calculate voltage so long as the deadline is met
-int calcFreqFlag = 0;
 extern int systickFlag;
 
 int main(void){
 	_init_();	// Sets up classes and other variables
-	int voltDeadline = vDeadline;
-	int freqDeadline = fDeadline;
-	int displayDeadline = dDeadline;
-	uint32_t systick_counter = 0;
 
-	int diffVDead = 0;
-	int diffFDead = 0;
-	int diffDDead = 0;
-	dispState displayState = SUCCESS;
+	// Set up Scheduler Tasks
+	schedulerTasks = (EDFToDo){
+		.tasks = { calcVoltage, calcFrequency, displayUpdate },
+		.deadlines  = { VOLTAGE_DEADLINE, FREQ_DEADLINE, DISPLAY_DEADLINE/(80*4) },
+		.cooldowns  = { 0, 0, 0 },
+		.clksWaited = { 0, 0, 0 },
+		.taskFlag = {&calcVoltFlag, &calcFreqFlag, NULL}
+	};
+	// End Set up Scheduler Tasks
 
-	while(True){ //This RTOS works as of now
+	while(TRUE){ 
 		while(!systickFlag){} // Wait for SysTick
 
-		systick_counter = (systick_counter + 1) > systick_counterMax ? 0 : systick_counter + 1;
-		diffVDead = voltDeadline - systick_counter; // Maybe add some logic to handle missing of a deadline so that it does not get stuck
-		diffFDead = freqDeadline - systick_counter;
-		diffDDead = displayDeadline - systick_counter;
+		readVoltage(); // always read voltage every systick (should a few us)
 
-		readVoltage(&voltageMeasurements, &voltageAccum); // always read voltage every systick (should a few us)
-
-		if(calcVoltFlag && ((calcFreqFlag && (diffVDead <= diffFDead)) || (diffVDead <= diffDDead))){ // calculate voltage if its deadline is met and the flag is set
-			calcVoltage(Display, &voltageMeasurements, &voltageAccum); // Calculate Voltage & Update Message
-			voltDeadline = (voltDeadline + vDeadline) > systick_counterMax ? diffVDead + vDeadline : voltDeadline + vDeadline; // Handles Clock Overflow
-			calcVoltFlag = 1;
+		uint32_t taskToRun = 0;
+		// Picks the Best Task To Run (BTTR)
+		for (uint32_t task = 1; task < MAX_TASKS; task++){
+			// Checks to see if the task to run has a cooldown
+			if(schedulerTasks.cooldowns[taskToRun] != 0) {
+				schedulerTasks.cooldowns[taskToRun]--;
+				taskToRun = task;
+				continue;
+			}
+			// Checks to see if task has a cooldown
+			else if (schedulerTasks.cooldowns[task] != 0){
+				schedulerTasks.cooldowns[task]--;
+				continue;
+			}
+			// Checks to see if the task to run's Flag is not set
+			else if ((*schedulerTasks.taskFlag[taskToRun] != TRUE) && (schedulerTasks.taskFlag[taskToRun] != NULL)){
+				schedulerTasks.clksWaited[taskToRun]++;
+				taskToRun = task;
+				continue;
+			}
+			// Checks to see if the task's Flag is not set
+			else if ((*schedulerTasks.taskFlag[task] != TRUE) && (schedulerTasks.taskFlag[taskToRun] != NULL)){
+				schedulerTasks.clksWaited[task]++;
+				continue;
+			}
+			// Will check to see if the task to run has a deadline further ahead than the current task
+			else if(schedulerTasks.deadlines[taskToRun] > schedulerTasks.deadlines[task]){
+				schedulerTasks.clksWaited[taskToRun]++;
+				taskToRun = task;
+				continue;
+			}
+			// Task to run has a sorter deadline than task
+			else{
+				schedulerTasks.clksWaited[task]++;
+				continue;
+			}
 		}
-		else if(calcFreqFlag && (diffFDead <= diffDDead)){ // should only calculate frequency if its deadline is the soonest and the flag is set
-			calcFrequency(Display, &freqCounts, &timeElapsed);
-			freqDeadline = (freqDeadline + fDeadline) > systick_counterMax ? diffFDead + fDeadline : freqDeadline + fDeadline; // Handles Clock Overflow
-			freqCounts = 0;
-			timeElapsed = 0.0;
-			calcFreqFlag = 0;
+		// Checks the BTTR to see if it should be ran
+		if(((*schedulerTasks.taskFlag[taskToRun] == TRUE) || (schedulerTasks.taskFlag[taskToRun] == NULL)) && (schedulerTasks.cooldowns[taskToRun] == 0)){
+			schedulerTasks.tasks[taskToRun](); // Run the selected Task
+			schedulerTasks.cooldowns[taskToRun] = schedulerTasks.deadlines[taskToRun]; // Set the cooldown
+			schedulerTasks.clksWaited[taskToRun] = 0; // Reset clks waited (Could be used for priority in the EDF if need be)
 		}
-		else // displays if its deadline is the soonest
-		{
-			displayUpdate(Display, &displayState);
-			displayDeadline = (displayDeadline + dDeadline) > systick_counterMax ? diffDDead + dDeadline : displayDeadline + dDeadline; // Handles Clock Overflow
-		}
-		systickFlag = 0;
+		systickFlag = 0; // Clear the systick Flag
 	}
 }

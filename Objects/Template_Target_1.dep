@@ -1,61 +1,73 @@
 Dependencies for Project 'Template', Target 'Target_1': (DO NOT MODIFY !)
 CompilerVersion: 6220000::V6.22::ARMCLANG
-F (.\main.c)(0x691A8570)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Wall -Wextra -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-I./RTE/_Target_1-IC:/ARM/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-D__UVISION_VERSION="541" -DSTM32L476xx -D_RTE_-o ./objects/main.o -MMD)
-I (_init_.h)(0x68F14684)
+F (.\main.c)(0x691AC02E)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Wall -Wextra -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-I./RTE/_Target_1-IC:/ARM/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-D__UVISION_VERSION="541" -DSTM32L476xx -D_RTE_-o ./objects/main.o -MMD)
+I (_init_.h)(0x691AB3C8)
+I (gpio_lib.h)(0x691A9B81)
 I (stm32l476xx.h)(0x68D6DDF6)
 I (C:\ARM\Packs\ARM\CMSIS\6.1.0\CMSIS\Core\Include\core_cm4.h)(0x664C8F58)
-I (gpio_lib.h)(0x69178DA2)
-I (interupt_lib.h)(0x69178DA2)
-I (timer_lib.h)(0x691A7320)
-I (lcd_lib.h)(0x691A08ED)
+I (interupt_lib.h)(0x691A9B81)
+I (timer_lib.h)(0x691A9B81)
+I (lcd_lib.h)(0x691A9B81)
 I (string_lib.h)(0x69037158)
-F (.\startup_stm32l476xx.s)(0x69178DA2)(--target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -masm=auto  -Wa,armasm,--diag_suppress=A1950W -c-gdwarf-4 -Wa,armasm,--pd,"__EVAL SETA 1"-I./RTE/_Target_1-IC:/ARM/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-Wa,armasm,--pd,"__UVISION_VERSION SETA 541" -Wa,armasm,--pd,"STM32L476xx SETA 1" -Wa,armasm,--pd,"_RTE_ SETA 1"-o ./objects/startup_stm32l476xx.o)
-F (.\_init_.h)(0x68F14684)()
-F (.\_init_.c)(0x691A7941)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Wall -Wextra -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-I./RTE/_Target_1-IC:/ARM/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-D__UVISION_VERSION="541" -DSTM32L476xx -D_RTE_-o ./objects/_init_.o -MMD)
-I (_init_.h)(0x68F14684)
+I (globals.h)(0x691AB70C)
+F (.\startup_stm32l476xx.s)(0x691A9B81)(--target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -masm=auto  -Wa,armasm,--diag_suppress=A1950W -c-gdwarf-4 -Wa,armasm,--pd,"__EVAL SETA 1"-I./RTE/_Target_1-IC:/ARM/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-Wa,armasm,--pd,"__UVISION_VERSION SETA 541" -Wa,armasm,--pd,"STM32L476xx SETA 1" -Wa,armasm,--pd,"_RTE_ SETA 1"-o ./objects/startup_stm32l476xx.o)
+F (.\_init_.h)(0x691AB3C8)()
+F (.\_init_.c)(0x691AB316)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Wall -Wextra -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-I./RTE/_Target_1-IC:/ARM/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-D__UVISION_VERSION="541" -DSTM32L476xx -D_RTE_-o ./objects/_init_.o -MMD)
 I (stm32l476xx.h)(0x68D6DDF6)
 I (C:\ARM\Packs\ARM\CMSIS\6.1.0\CMSIS\Core\Include\core_cm4.h)(0x664C8F58)
-I (gpio_lib.h)(0x69178DA2)
-I (interupt_lib.h)(0x69178DA2)
-I (timer_lib.h)(0x691A7320)
-I (lcd_lib.h)(0x691A08ED)
+I (globals.h)(0x691AB70C)
+I (_init_.h)(0x691AB3C8)
+I (gpio_lib.h)(0x691A9B81)
+I (interupt_lib.h)(0x691A9B81)
+I (timer_lib.h)(0x691A9B81)
+I (lcd_lib.h)(0x691A9B81)
 I (string_lib.h)(0x69037158)
 I (lcd_routines.h)(0x68E01C9F)
-F (.\gpio_lib.c)(0x69178DA2)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Wall -Wextra -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-I./RTE/_Target_1-IC:/ARM/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-D__UVISION_VERSION="541" -DSTM32L476xx -D_RTE_-o ./objects/gpio_lib.o -MMD)
+F (.\gpio_lib.c)(0x691A9B81)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Wall -Wextra -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-I./RTE/_Target_1-IC:/ARM/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-D__UVISION_VERSION="541" -DSTM32L476xx -D_RTE_-o ./objects/gpio_lib.o -MMD)
 I (stm32l476xx.h)(0x68D6DDF6)
 I (C:\ARM\Packs\ARM\CMSIS\6.1.0\CMSIS\Core\Include\core_cm4.h)(0x664C8F58)
-I (timer_lib.h)(0x691A7320)
-I (interupt_lib.h)(0x69178DA2)
-F (.\gpio_lib.h)(0x69178DA2)()
+I (timer_lib.h)(0x691A9B81)
+I (interupt_lib.h)(0x691A9B81)
+F (.\gpio_lib.h)(0x691A9B81)()
 F (.\timer_lib.c)(0x69050BC0)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Wall -Wextra -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-I./RTE/_Target_1-IC:/ARM/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-D__UVISION_VERSION="541" -DSTM32L476xx -D_RTE_-o ./objects/timer_lib.o -MMD)
 I (stm32l476xx.h)(0x68D6DDF6)
 I (C:\ARM\Packs\ARM\CMSIS\6.1.0\CMSIS\Core\Include\core_cm4.h)(0x664C8F58)
-I (interupt_lib.h)(0x69178DA2)
-F (.\timer_lib.h)(0x691A7320)()
-F (.\interupt_lib.c)(0x691A7360)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Wall -Wextra -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-I./RTE/_Target_1-IC:/ARM/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-D__UVISION_VERSION="541" -DSTM32L476xx -D_RTE_-o ./objects/interupt_lib.o -MMD)
+I (interupt_lib.h)(0x691A9B81)
+F (.\timer_lib.h)(0x691A9B81)()
+F (.\interupt_lib.c)(0x691A9B81)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Wall -Wextra -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-I./RTE/_Target_1-IC:/ARM/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-D__UVISION_VERSION="541" -DSTM32L476xx -D_RTE_-o ./objects/interupt_lib.o -MMD)
 I (stm32l476xx.h)(0x68D6DDF6)
 I (C:\ARM\Packs\ARM\CMSIS\6.1.0\CMSIS\Core\Include\core_cm4.h)(0x664C8F58)
-F (.\interupt_lib.h)(0x69178DA2)()
+F (.\interupt_lib.h)(0x691A9B81)()
 F (.\lcd_routines.c)(0x68F14B8E)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Wall -Wextra -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-I./RTE/_Target_1-IC:/ARM/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-D__UVISION_VERSION="541" -DSTM32L476xx -D_RTE_-o ./objects/lcd_routines.o -MMD)
 I (stm32l476xx.h)(0x68D6DDF6)
 I (C:\ARM\Packs\ARM\CMSIS\6.1.0\CMSIS\Core\Include\core_cm4.h)(0x664C8F58)
 I (lcd_routines.h)(0x68E01C9F)
 F (.\lcd_routines.h)(0x68E01C9F)()
-F (.\lcd_lib.c)(0x691A0D1B)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Wall -Wextra -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-I./RTE/_Target_1-IC:/ARM/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-D__UVISION_VERSION="541" -DSTM32L476xx -D_RTE_-o ./objects/lcd_lib.o -MMD)
+F (.\lcd_lib.c)(0x691A9B81)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Wall -Wextra -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-I./RTE/_Target_1-IC:/ARM/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-D__UVISION_VERSION="541" -DSTM32L476xx -D_RTE_-o ./objects/lcd_lib.o -MMD)
 I (stm32l476xx.h)(0x68D6DDF6)
 I (C:\ARM\Packs\ARM\CMSIS\6.1.0\CMSIS\Core\Include\core_cm4.h)(0x664C8F58)
-I (interupt_lib.h)(0x69178DA2)
-I (timer_lib.h)(0x691A7320)
+I (interupt_lib.h)(0x691A9B81)
+I (timer_lib.h)(0x691A9B81)
 I (lcd_routines.h)(0x68E01C9F)
-F (.\lcd_lib.h)(0x691A08ED)()
-F (.\interupt_handlers.c)(0x691A8478)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Wall -Wextra -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-I./RTE/_Target_1-IC:/ARM/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-D__UVISION_VERSION="541" -DSTM32L476xx -D_RTE_-o ./objects/interupt_handlers.o -MMD)
+F (.\lcd_lib.h)(0x691A9B81)()
+F (.\interupt_handlers.c)(0x691A9B81)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Wall -Wextra -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-I./RTE/_Target_1-IC:/ARM/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-D__UVISION_VERSION="541" -DSTM32L476xx -D_RTE_-o ./objects/interupt_handlers.o -MMD)
 I (stm32l476xx.h)(0x68D6DDF6)
 I (C:\ARM\Packs\ARM\CMSIS\6.1.0\CMSIS\Core\Include\core_cm4.h)(0x664C8F58)
-I (gpio_lib.h)(0x69178DA2)
-I (interupt_lib.h)(0x69178DA2)
-I (timer_lib.h)(0x691A7320)
-I (lcd_lib.h)(0x691A08ED)
+I (gpio_lib.h)(0x691A9B81)
+I (interupt_lib.h)(0x691A9B81)
+I (timer_lib.h)(0x691A9B81)
+I (lcd_lib.h)(0x691A9B81)
 F (.\string_lib.c)(0x69037158)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Wall -Wextra -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-I./RTE/_Target_1-IC:/ARM/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-D__UVISION_VERSION="541" -DSTM32L476xx -D_RTE_-o ./objects/string_lib.o -MMD)
 I (stm32l476xx.h)(0x68D6DDF6)
 I (C:\ARM\Packs\ARM\CMSIS\6.1.0\CMSIS\Core\Include\core_cm4.h)(0x664C8F58)
 F (.\string_lib.h)(0x69037158)()
+F (.\globals.c)(0x691AB40D)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Wall -Wextra -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-I./RTE/_Target_1-IC:/ARM/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-D__UVISION_VERSION="541" -DSTM32L476xx -D_RTE_-o ./objects/globals.o -MMD)
+I (globals.h)(0x691AB70C)
+I (gpio_lib.h)(0x691A9B81)
+I (stm32l476xx.h)(0x68D6DDF6)
+I (C:\ARM\Packs\ARM\CMSIS\6.1.0\CMSIS\Core\Include\core_cm4.h)(0x664C8F58)
+I (interupt_lib.h)(0x691A9B81)
+I (timer_lib.h)(0x691A9B81)
+I (lcd_lib.h)(0x691A9B81)
+I (string_lib.h)(0x69037158)
+F (.\globals.h)(0x691AB70C)()

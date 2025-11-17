@@ -9,6 +9,7 @@
 ".\objects\lcd_lib.o"
 ".\objects\interupt_handlers.o"
 ".\objects\string_lib.o"
+".\objects\globals.o"
 --strict --scatter ".\Objects\Template.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
