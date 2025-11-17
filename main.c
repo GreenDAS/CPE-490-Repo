@@ -128,7 +128,7 @@ int main(void){
 		.deadlines  = { VOLTAGE_DEADLINE, FREQ_DEADLINE, DISPLAY_DEADLINE },
 		.cooldowns  = { 0, 0, 0 },
 		.clksWaited = { 0, 0, 0 },
-		.taskFlag = {calcVoltFlag, calcFreqFlag, 1}
+		.taskFlag = {&calcVoltFlag, &calcFreqFlag, NULL}
 	};
 	// End Set up Scheduler Tasks
 
@@ -151,13 +151,13 @@ int main(void){
 				continue;
 			}
 			// Checks to see if the task to run's Flag is not set
-			else if (schedulerTasks.taskFlag[taskToRun] != TRUE){
+			else if ((*schedulerTasks.taskFlag[taskToRun] != TRUE) && (schedulerTasks.taskFlag[taskToRun] != NULL)){
 				schedulerTasks.clksWaited[taskToRun]++;
 				taskToRun = task;
 				continue;
 			}
 			// Checks to see if the task's Flag is not set
-			else if (schedulerTasks.taskFlag[task] != TRUE){
+			else if ((*schedulerTasks.taskFlag[task] != TRUE) && (schedulerTasks.taskFlag[taskToRun] != NULL)){
 				schedulerTasks.clksWaited[task]++;
 				continue;
 			}

@@ -53,7 +53,7 @@ typedef struct {
     int  deadlines[MAX_TASKS];
     int  cooldowns[MAX_TASKS];
     int  clksWaited[MAX_TASKS];
-	int  taskFlag[MAX_TASKS];
+	int  *taskFlag[MAX_TASKS];
 } EDFToDo;
 
 /* Forward declarations – NEVER include full structs here */
