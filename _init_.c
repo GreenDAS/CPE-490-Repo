@@ -159,5 +159,6 @@ void _init_(){
 	Timer4.InteruptHandler = PeripheralInteruptHandling_Create(TIM4_IRQn);
 	Timer4.InteruptHandler->setPriorityBit(Timer4.InteruptHandler,0b0100); // Sets the Priority Bit's preemption priority to 1, sub priority to 0
 	Timer4.InteruptHandler->setIXER(Timer4.InteruptHandler,'S'); // Enables the interupt in the NVIC
-	
+	Timer2.setBits(&(Timer2.TIMX->CR1),1,1);
+
 }
