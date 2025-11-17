@@ -27,31 +27,29 @@ Project File Date:  11/17/2025
 <h2>Output:</h2>
 *** Using Compiler 'V6.22', folder: 'C:\ARM\ARMCLANG\Bin'
 Build target 'Target_1'
-globals.c(23): error: tentative definition has type 'IODevice' (aka 'struct IODevice') that is never completed
-   23 | IODevice VoltReader;
-      |          ^
-.\globals.h(59): note: forward declaration of 'struct IODevice'
+globals.c(17): warning: In file included from...
+.\gpio_lib.h(64): warning: redefinition of typedef 'IODevice' is a C11 feature [-Wtypedef-redefinition]
+   64 | }IODevice;
+      |  ^
+.\globals.h(59): note: previous definition is here
    59 | typedef struct IODevice                         IODevice;
-      |                ^
-globals.c(24): error: tentative definition has type 'IODevice' (aka 'struct IODevice') that is never completed
-   24 | IODevice FreqReader;
-      |          ^
-.\globals.h(59): note: forward declaration of 'struct IODevice'
-   59 | typedef struct IODevice                         IODevice;
-      |                ^
-globals.c(25): error: tentative definition has type 'GeneralPurposeTimer' (aka 'struct GeneralPurposeTimer') that is never completed
-   25 | GeneralPurposeTimer Timer2;
-      |                     ^
-.\globals.h(60): note: forward declaration of 'struct GeneralPurposeTimer'
+      |                                                 ^
+globals.c(17): warning: In file included from...
+.\gpio_lib.h(82): warning: In file included from...
+.\timer_lib.h(58): warning: redefinition of typedef 'GeneralPurposeTimer' is a C11 feature [-Wtypedef-redefinition]
+   58 | }GeneralPurposeTimer;
+      |  ^
+.\globals.h(60): note: previous definition is here
    60 | typedef struct GeneralPurposeTimer              GeneralPurposeTimer;
-      |                ^
-globals.c(26): error: tentative definition has type 'GeneralPurposeTimer' (aka 'struct GeneralPurposeTimer') that is never completed
-   26 | GeneralPurposeTimer Timer3;
-      |                     ^
-.\globals.h(60): note: forward declaration of 'struct GeneralPurposeTimer'
-   60 | typedef struct GeneralPurposeTimer              GeneralPurposeTimer;
-      |                ^
-4 errors generated.
+      |                                                 ^
+globals.c(21): warning: In file included from...
+.\lcd_lib.h(66): warning: redefinition of typedef 'GenevaLCDDevice' is a C11 feature [-Wtypedef-redefinition]
+   66 | }GenevaLCDDevice;
+      |  ^
+.\globals.h(61): note: previous definition is here
+   61 | typedef struct GenevaLCDDevice                  GenevaLCDDevice;
+      |                                                 ^
+3 warnings generated.
 compiling globals.c...
 main.c(22): warning: In file included from...
 .\globals.h(59): warning: redefinition of typedef 'IODevice' is a C11 feature [-Wtypedef-redefinition]
@@ -98,34 +96,7 @@ main.c(166): warning: expression result unused [-Wunused-value]
       |                 ~~~~~~~~~~~~~~~~~~~~ ~~~~~~~~~^
 4 warnings and 5 errors generated.
 compiling main.c...
-_init_.c(17): warning: In file included from...
-.\gpio_lib.h(64): warning: redefinition of typedef 'IODevice' is a C11 feature [-Wtypedef-redefinition]
-   64 | }IODevice;
-      |  ^
-.\globals.h(59): note: previous definition is here
-   59 | typedef struct IODevice                         IODevice;
-      |                                                 ^
-_init_.c(17): warning: In file included from...
-.\gpio_lib.h(82): warning: In file included from...
-.\timer_lib.h(58): warning: redefinition of typedef 'GeneralPurposeTimer' is a C11 feature [-Wtypedef-redefinition]
-   58 | }GeneralPurposeTimer;
-      |  ^
-.\globals.h(60): note: previous definition is here
-   60 | typedef struct GeneralPurposeTimer              GeneralPurposeTimer;
-      |                                                 ^
-_init_.c(20): warning: In file included from...
-.\lcd_lib.h(66): warning: redefinition of typedef 'GenevaLCDDevice' is a C11 feature [-Wtypedef-redefinition]
-   66 | }GenevaLCDDevice;
-      |  ^
-.\globals.h(61): note: previous definition is here
-   61 | typedef struct GenevaLCDDevice                  GenevaLCDDevice;
-      |                                                 ^
-_init_.c(141): warning: passing 'volatile uint32_t *' (aka 'volatile unsigned int *') to parameter of type 'uint32_t *' (aka 'unsigned int *') discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
-  141 |         Timer2.setBits(&(Timer2.TIMX->CR1),0,1);
-      |                        ^~~~~~~~~~~~~~~~~~~
-4 warnings generated.
-compiling _init_.c...
-".\Objects\Template.axf" - 9 Error(s), 8 Warning(s).
+".\Objects\Template.axf" - 5 Error(s), 7 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -148,7 +119,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE@6.1.0
 Target not created.
-Build Time Elapsed:  00:00:00
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

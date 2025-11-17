@@ -125,19 +125,19 @@ int main(void){
 	// Set up Scheduler Tasks
 	schedulerTasks = (EDFToDo){
 		.tasks = { calcVoltage, calcFrequency, displayUpdate },
-		.deadlines  = { vDeadline, fDeadline, dDeadline },
+		.deadlines  = { VOLTAGE_DEADLINE, FREQ_DEADLINE, DISPLAY_DEADLINE },
 		.cooldowns  = { 0, 0, 0 },
 		.clksWaited = { 0, 0, 0 }
 	};
 	// End Set up Scheduler Tasks
 
-	while(True){ 
+	while(TRUE){ 
 		while(!systickFlag){} // Wait for SysTick
 
 		readVoltage(); // always read voltage every systick (should a few us)
 
 		uint32_t taskToRun = 0;
-		for (uint32_t task = 1; task < MaxTasks; task++){
+		for (uint32_t task = 1; task < MAX_TASKS; task++){
 			// Checks to see if the task to run has a cooldown
 			if(schedulerTasks.cooldowns[taskToRun] != 0) {
 				schedulerTasks.cooldowns[taskToRun]--;
