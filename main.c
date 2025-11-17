@@ -177,7 +177,7 @@ int main(void){
 		else // displays if its deadline is the soonest
 		{
 			displayUpdate(Display, &displayState);
-			displayDeadline = (displayDeadline + 10) > systick_counterMax ? displayDeadline + 10 - systick_counterMax : displayDeadline + 10; // Handles Clock Overflow
+			displayDeadline = (displayDeadline + 2) > systick_counterMax ? displayDeadline + 2 - systick_counterMax : displayDeadline + 2; // Handles Clock Overflow
 		}
 		systickFlag = 0;
 	}
