@@ -152,13 +152,13 @@ int main(void){
 				continue;
 			}
 			// Checks to see if the task to run's Flag is not set
-			else if (((*(schedulerTasks.taskFlag[taskToRun])) != TRUE) && (schedulerTasks.taskFlag[taskToRun] != NULL)){
+			else if ((*schedulerTasks.taskFlag[taskToRun] != TRUE) && (schedulerTasks.taskFlag[taskToRun] != NULL)){
 				schedulerTasks.clksWaited[taskToRun]++;
 				taskToRun = task;
 				continue;
 			}
 			// Checks to see if the task's Flag is not set
-			else if (((*(schedulerTasks.taskFlag[task])) != TRUE) && (schedulerTasks.taskFlag[taskToRun] != NULL)){
+			else if ((*schedulerTasks.taskFlag[task] != TRUE) && (schedulerTasks.taskFlag[taskToRun] != NULL)){
 				schedulerTasks.clksWaited[task]++;
 				continue;
 			}
@@ -175,7 +175,7 @@ int main(void){
 			}
 		}
 		// Checks the BTTR to see if it should be ran
-		if((*schedulerTasks.taskFlag[taskToRun] == TRUE) && (schedulerTasks.cooldowns[taskToRun] == 0)){
+		if(((*schedulerTasks.taskFlag[taskToRun] == TRUE) || (schedulerTasks.taskFlag[taskToRun] == NULL)) && (schedulerTasks.cooldowns[taskToRun] == 0)){
 			schedulerTasks.tasks[taskToRun](); // Run the selected Task
 			schedulerTasks.cooldowns[taskToRun] = schedulerTasks.deadlines[taskToRun]; // Set the cooldown
 			schedulerTasks.clksWaited[taskToRun] = 0; // Reset clks waited (Could be used for priority in the EDF if need be)
