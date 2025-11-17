@@ -27,17 +27,18 @@ Project File Date:  10/24/2025
 <h2>Output:</h2>
 *** Using Compiler 'V6.22', folder: 'C:\ARM\ARMCLANG\Bin'
 Build target 'Target_1'
-compiling interupt_handlers.c...
 _init_.c(151): warning: passing 'volatile uint32_t *' (aka 'volatile unsigned int *') to parameter of type 'uint32_t *' (aka 'unsigned int *') discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
   151 |         Timer2.setBits(&(Timer2.TIMX->CR1),0,1);
       |                        ^~~~~~~~~~~~~~~~~~~
-1 warning generated.
+_init_.c(162): warning: passing 'volatile uint32_t *' (aka 'volatile unsigned int *') to parameter of type 'uint32_t *' (aka 'unsigned int *') discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
+  162 |         Timer2.setBits(&(Timer4.TIMX->CR1),1,1);
+      |                        ^~~~~~~~~~~~~~~~~~~
+2 warnings generated.
 compiling _init_.c...
-compiling main.c...
 linking...
-Program Size: Code=17948 RO-data=1136 RW-data=4 ZI-data=2404  
+Program Size: Code=17956 RO-data=1136 RW-data=4 ZI-data=2404  
 FromELF: creating hex file...
-".\Objects\Template.axf" - 0 Error(s), 1 Warning(s).
+".\Objects\Template.axf" - 0 Error(s), 2 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -59,7 +60,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE@6.1.0
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:00
 </pre>
 </body>
 </html>
