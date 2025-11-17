@@ -118,7 +118,7 @@ int dispUpdaReady(){return 1;}
 
 int voltCoolDown(){return VOLTAGE_DEADLINE;}
 int freqCoolDown(){return FREQ_DEADLINE;}
-int dispCoolDown(){return 1;}
+int dispCoolDown(){return 0;}
 //------------------------------------------------------------------------------
 // Main
 //------------------------------------------------------------------------------
@@ -132,7 +132,7 @@ int main(void){
 	// Set up Scheduler Tasks
 	schedulerTasks = (EDFToDo){
 		.tasks = { calcVoltage, calcFrequency, displayUpdate },
-		.deadlines  = { VOLTAGE_DEADLINE, FREQ_DEADLINE, DISPLAY_DEADLINE/(80*4) },
+		.deadlines  = { VOLTAGE_DEADLINE, FREQ_DEADLINE, DISPLAY_DEADLINE },
 		.cooldowns  = { 0, 0, 0 },
 		.clksWaited = { 0, 0, 0 },
 		.taskCond = { voltCalcReady, freqCalcReady, dispUpdaReady },
