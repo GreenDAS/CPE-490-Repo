@@ -140,9 +140,6 @@ int calcVoltFlag = 1; // Set to always be 1 to calculate voltage so long as the 
 int calcFreqFlag = 0;
 extern int systickFlag;
 
-//Testing Vars
-IODevice FreqGenerator;
-
 int main(void){
 	_init_();	// Sets up classes and other variables
 	int voltDeadline = vDeadline;
