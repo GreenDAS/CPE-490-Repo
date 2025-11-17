@@ -29,7 +29,7 @@
 #define VSIZE 4
 #define vDeadline 400
 #define fDeadline 500
-#define dDeadline 600
+#define dDeadline 550
 #define systick_counterMax 1200
 #define lineSize 15 // 16 Max however index 15 is the control character
 
@@ -168,24 +168,22 @@ int main(void){
 
 		readVoltage(&voltageMeasurements, &voltageAccum); // always read voltage every systick (should a few us)
 
-		if(calcVoltFlag && ((calcFreqFlag && (diffVDead <= diffFDead)) || (diffVDead <= diffDDead))){ // calculate voltage if its deadline is met and the flag is set
+		if(((calcFreqFlag && (diffDDead <= diffFDead)) || (diffDDead <= diffVDead))){
+			if(displayUpdate(Display, &displayState)){ // Move Deadline if whole message is sent to the Display
+			displayDeadline = (displayDeadline + dDeadline) > systick_counterMax ? displayDeadline + dDeadline - systick_counterMax: displayDeadline + dDeadline; // Handles Clock Overflow
+			}
+		}
+		else if(calcVoltFlag && (calcFreqFlag && (diffVDead <= diffFDead))){ // calculate voltage if its deadline is met and the flag is set
 			calcVoltage(Display, &voltageMeasurements, &voltageAccum); // Calculate Voltage & Update Message
 			voltDeadline = (voltDeadline + vDeadline) > systick_counterMax ? voltDeadline + vDeadline - systick_counterMax : voltDeadline + vDeadline; // Handles Clock Overflow
 			calcVoltFlag = 1;
 		}
-		else if(calcFreqFlag && (diffFDead <= diffDDead)){ // should only calculate frequency if its deadline is the soonest and the flag is set
+		else if(calcFreqFlag){ // should only calculate frequency if its deadline is the soonest and the flag is set
 			calcFrequency(Display, &freqCounts, &timeElapsed);
 			freqDeadline = (freqDeadline + fDeadline) > systick_counterMax ? freqDeadline + fDeadline - systick_counterMax : freqDeadline + fDeadline; // Handles Clock Overflow
 			freqCounts = 0;
 			timeElapsed = 0.0;
 			calcFreqFlag = 0;
-		}
-		else // displays if its deadline is the soonest
-		{
-			if(displayUpdate(Display, &displayState)){ // Move Deadline if whole message is sent to the Display
-				displayDeadline = (displayDeadline + dDeadline) > systick_counterMax ? displayDeadline + dDeadline - systick_counterMax: displayDeadline + dDeadline; // Handles Clock Overflow
-			}
-			
 		}
 		systickFlag = 0;
 	}
