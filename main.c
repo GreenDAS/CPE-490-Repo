@@ -151,13 +151,7 @@ int main(void){
 	int diffFDead = 0;
 	int diffDDead = 0;
 	dispState displayState = SUCCESS;
-	/*
-	if clock speed is 4MHz, and an instruction takes 1 cycle,
-	then 4,000,000 instructions are executed per second.
-	So, on average, the overhead of the RTOS is 3*3 + 5 + 50 + 8 + 4 = 76 instructions. This is an estimated value, Not sure if it is accurate.
-	Therefore, the percentage of time spent in the RTOS is (76/4,000,000)*100 = 0.000019 seconds or 19 microseconds.
-	19 microseconds / 1millisecond = 1.9% of the CPU time is spent in the RTOS.
-	*/
+
 	while(True){ 
 		while(!systickFlag){} // Wait for SysTick
 
