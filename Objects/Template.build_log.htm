@@ -27,11 +27,15 @@ Project File Date:  10/24/2025
 <h2>Output:</h2>
 *** Using Compiler 'V6.22', folder: 'C:\ARM\ARMCLANG\Bin'
 Build target 'Target_1'
+main.c(162): warning: variable 'dissableDisplayUpdateUntil' set but not used [-Wunused-but-set-variable]
+  162 |         uint32_t dissableDisplayUpdateUntil = 0;
+      |                  ^
+1 warning generated.
 compiling main.c...
 linking...
-Program Size: Code=17932 RO-data=1136 RW-data=4 ZI-data=2332  
+Program Size: Code=17844 RO-data=1136 RW-data=4 ZI-data=2332  
 FromELF: creating hex file...
-".\Objects\Template.axf" - 0 Error(s), 0 Warning(s).
+".\Objects\Template.axf" - 0 Error(s), 1 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -53,7 +57,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE@6.1.0
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:00
 </pre>
 </body>
 </html>
