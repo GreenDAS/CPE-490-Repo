@@ -112,6 +112,10 @@ void displayUpdate(){
 	}
 }
 
+
+int voltageReady(){return calcVoltFlag;}
+int freqCalcReady(){return calcFreqFlag;}
+int displayReady(){return 1;}
 //------------------------------------------------------------------------------
 // Main
 //------------------------------------------------------------------------------
@@ -128,7 +132,7 @@ int main(void){
 		.deadlines  = { VOLTAGE_DEADLINE, FREQ_DEADLINE, DISPLAY_DEADLINE/(80*4) },
 		.cooldowns  = { 0, 0, 0 },
 		.clksWaited = { 0, 0, 0 },
-		.taskFlag = {&calcVoltFlag, &calcFreqFlag, NULL}
+		.taskFlag = { voltageReady(), freqCalcReady(), displayReady() }
 	};
 	// End Set up Scheduler Tasks
 
@@ -152,13 +156,13 @@ int main(void){
 				continue;
 			}
 			// Checks to see if the task to run's Flag is not set
-			else if ((*schedulerTasks.taskFlag[taskToRun] != TRUE) && (schedulerTasks.taskFlag[taskToRun] != NULL)){
+			else if (schedulerTasks.taskCond[taskToRun]()){
 				schedulerTasks.clksWaited[taskToRun]++;
 				taskToRun = task;
 				continue;
 			}
 			// Checks to see if the task's Flag is not set
-			else if ((*schedulerTasks.taskFlag[task] != TRUE) && (schedulerTasks.taskFlag[taskToRun] != NULL)){
+			else if (schedulerTasks.taskCond[task]()){
 				schedulerTasks.clksWaited[task]++;
 				continue;
 			}
@@ -175,7 +179,7 @@ int main(void){
 			}
 		}
 		// Checks the BTTR to see if it should be ran
-		if(((*schedulerTasks.taskFlag[taskToRun] == TRUE) || (schedulerTasks.taskFlag[taskToRun] == NULL)) && (schedulerTasks.cooldowns[taskToRun] == 0)){
+		if(schedulerTasks.taskCond[taskToRun]() && (schedulerTasks.cooldowns[taskToRun] == 0)){
 			schedulerTasks.tasks[taskToRun](); // Run the selected Task
 			schedulerTasks.cooldowns[taskToRun] = schedulerTasks.deadlines[taskToRun]; // Set the cooldown
 			schedulerTasks.clksWaited[taskToRun] = 0; // Reset clks waited (Could be used for priority in the EDF if need be)
