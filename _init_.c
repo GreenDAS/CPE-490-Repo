@@ -130,7 +130,7 @@ void _init_(){
 	ADC123_COMMON->CCR &= ~(0x30000UL); // Setup the ADC1 timer so that it will take the HCLK w/ a divide by 1
 	ADC123_COMMON->CCR |= (0x10000UL);
 	ADC1->CFGR |= (0x2UL<<3); // Set ADC to 8 bit resolution
-	ADC1->SMPR1 |= (1<<15); // Set ADC Channel 0 Sample time to 6.5 cycles
+	ADC1->SMPR1 |= (7UL<<15); // Set ADC Channel 0 Sample time to 6.5 cycles
 	ADC1->ISR |= ADC_ISR_ADRDY; // Clear ADC Ready flag
 	ADC1->CR |= ADC_CR_ADEN; // Enable ADC
 	while((ADC1->ISR & ADC_ISR_ADRDY) == 0){} // Wait for ADC to be ready
