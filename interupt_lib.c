@@ -145,7 +145,7 @@ void setPinInterupt(GPIOInteruptHandling* self, int pin,int priority){
 	EXTI->RTSR1 &= ~self->edgeMask; // Masks over rising edge Register
 	EXTI->FTSR1 |= self->edgeMask; // Set Falling edge register
 	EXTI->IMR1 |= self->connectInteruptToNVICMask; // "Connects" the interupt to the NVIC
-	NVIC_SetPriority(self->IRQN,1); // 0 is highest priority
+	NVIC_SetPriority(self->IRQN,priority); // 0 is highest priority
 	NVIC_EnableIRQ(self->IRQN);
 
 }
