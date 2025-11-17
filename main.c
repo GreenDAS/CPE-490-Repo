@@ -127,7 +127,8 @@ int main(void){
 		.tasks = { calcVoltage, calcFrequency, displayUpdate },
 		.deadlines  = { VOLTAGE_DEADLINE, FREQ_DEADLINE, DISPLAY_DEADLINE },
 		.cooldowns  = { 0, 0, 0 },
-		.clksWaited = { 0, 0, 0 }
+		.clksWaited = { 0, 0, 0 },
+		.taskFlag = {calcVoltFlag, calcFreqFlag, 1}
 	};
 	// End Set up Scheduler Tasks
 
@@ -149,6 +150,17 @@ int main(void){
 				schedulerTasks.cooldowns[task]--;
 				continue;
 			}
+			// Checks to see if the task to run's Flag is not set
+			else if (schedulerTasks.taskFlag[taskToRun] != TRUE){
+				schedulerTasks.clksWaited[taskToRun]++;
+				taskToRun = task;
+				continue;
+			}
+			// Checks to see if the task's Flag is not set
+			else if (schedulerTasks.taskFlag[task] != TRUE){
+				schedulerTasks.clksWaited[task]++;
+				continue;
+			}
 			// Will check to see if the task to run has a deadline further ahead than the current task
 			else if(schedulerTasks.deadlines[taskToRun] > schedulerTasks.deadlines[task]){
 				schedulerTasks.clksWaited[taskToRun]++;
@@ -163,7 +175,7 @@ int main(void){
 
 		}
 		
-		schedulerTasks.tasks[taskToRun]; // Run the selected Task
+		schedulerTasks.tasks[taskToRun](); // Run the selected Task
 		schedulerTasks.cooldowns[taskToRun] = schedulerTasks.deadlines[taskToRun]; // Set the cooldown
 		schedulerTasks.clksWaited[taskToRun] = 0; // Reset clks waited (Could be used for priority in the EDF if need be)
 		systickFlag = 0; // Clear the systick Flag
