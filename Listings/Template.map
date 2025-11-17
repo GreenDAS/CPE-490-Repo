@@ -1974,12 +1974,12 @@ Image component sizes
       1004          8          0          0          0       8054   interupt_lib.o
        748          4          0          0          0       6167   lcd_lib.o
       1212          0         48          0          0       4284   lcd_routines.o
-      1146         20         30          4        140       7613   main.o
+      1146         20         30          4        140       7614   main.o
        140         48        392          0       2048        876   startup_stm32l476xx.o
        636          4          0          0          0       5636   timer_lib.o
 
     ----------------------------------------------------------------------
-      7120        124        584          4       2236      54208   Object Totals
+      7120        124        584          4       2236      54209   Object Totals
          0          0         32          0          0          0   (incl. Generated)
         54          0          2          0          4          0   (incl. Padding)
 
@@ -2118,8 +2118,8 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     17724        648       1136          4       2332      57568   Grand Totals
-     17724        648       1136          4       2332      57568   ELF Image Totals
+     17724        648       1136          4       2332      57569   Grand Totals
+     17724        648       1136          4       2332      57569   ELF Image Totals
      17724        648       1136          4          0          0   ROM Totals
 
 ==============================================================================
