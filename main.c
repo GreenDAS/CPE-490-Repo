@@ -151,13 +151,13 @@ int main(void){
 				continue;
 			}
 			// Checks to see if the task to run's Flag is not set
-			else if ((*schedulerTasks.taskFlag[taskToRun] != TRUE) && (schedulerTasks.taskFlag[taskToRun] != NULL)){
+			else if ((*(schedulerTasks.taskFlag[taskToRun]) != TRUE) && (schedulerTasks.taskFlag[taskToRun] != NULL)){
 				schedulerTasks.clksWaited[taskToRun]++;
 				taskToRun = task;
 				continue;
 			}
 			// Checks to see if the task's Flag is not set
-			else if ((*schedulerTasks.taskFlag[task] != TRUE) && (schedulerTasks.taskFlag[taskToRun] != NULL)){
+			else if ((*(schedulerTasks.taskFlag[task]) != TRUE) && (schedulerTasks.taskFlag[taskToRun] != NULL)){
 				schedulerTasks.clksWaited[task]++;
 				continue;
 			}
