@@ -53,48 +53,51 @@ globals.c(26): error: tentative definition has type 'GeneralPurposeTimer' (aka '
       |                ^
 4 errors generated.
 compiling globals.c...
-_init_.c(16): warning: In file included from...
-.\_init_.h(56): error: redefinition of enumerator 'START'
-   56 | typedef enum dispState {START, UPPER, LOWER, SUCCESS} dispState;
-      |                         ^
-.\globals.h(44): note: previous definition is here
-   44 |     START,
-      |     ^
-_init_.c(16): warning: In file included from...
-.\_init_.h(56): error: redefinition of enumerator 'UPPER'
-   56 | typedef enum dispState {START, UPPER, LOWER, SUCCESS} dispState;
-      |                                ^
-.\globals.h(45): note: previous definition is here
-   45 |     UPPER,
-      |     ^
-_init_.c(16): warning: In file included from...
-.\_init_.h(56): error: redefinition of enumerator 'LOWER'
-   56 | typedef enum dispState {START, UPPER, LOWER, SUCCESS} dispState;
-      |                                       ^
-.\globals.h(46): note: previous definition is here
-   46 |     LOWER,
-      |     ^
-_init_.c(16): warning: In file included from...
-.\_init_.h(56): error: redefinition of enumerator 'SUCCESS'
-   56 | typedef enum dispState {START, UPPER, LOWER, SUCCESS} dispState;
-      |                                              ^
-.\globals.h(47): note: previous definition is here
-   47 |     SUCCESS
-      |     ^
-_init_.c(16): warning: In file included from...
-.\_init_.h(56): error: typedef redefinition with different types ('enum dispState' vs 'enum dispState' (aka 'dispState'))
-   56 | typedef enum dispState {START, UPPER, LOWER, SUCCESS} dispState;
+main.c(22): warning: In file included from...
+.\globals.h(59): warning: redefinition of typedef 'IODevice' is a C11 feature [-Wtypedef-redefinition]
+   59 | typedef struct IODevice                         IODevice;
+      |                                                 ^
+.\gpio_lib.h(64): note: previous definition is here
+   64 | }IODevice;
+      |  ^
+main.c(22): warning: In file included from...
+.\globals.h(60): warning: redefinition of typedef 'GeneralPurposeTimer' is a C11 feature [-Wtypedef-redefinition]
+   60 | typedef struct GeneralPurposeTimer              GeneralPurposeTimer;
+      |                                                 ^
+.\timer_lib.h(58): note: previous definition is here
+   58 | }GeneralPurposeTimer;
+      |  ^
+main.c(22): warning: In file included from...
+.\globals.h(61): warning: redefinition of typedef 'GenevaLCDDevice' is a C11 feature [-Wtypedef-redefinition]
+   61 | typedef struct GenevaLCDDevice                  GenevaLCDDevice;
+      |                                                 ^
+.\lcd_lib.h(66): note: previous definition is here
+   66 | }GenevaLCDDevice;
+      |  ^
+main.c(128): error: use of undeclared identifier 'vDeadline'
+  128 |                 .deadlines  = { vDeadline, fDeadline, dDeadline },
+      |                                 ^
+main.c(128): error: use of undeclared identifier 'fDeadline'
+  128 |                 .deadlines  = { vDeadline, fDeadline, dDeadline },
+      |                                            ^
+main.c(128): error: use of undeclared identifier 'dDeadline'
+  128 |                 .deadlines  = { vDeadline, fDeadline, dDeadline },
       |                                                       ^
-.\globals.h(48): note: previous definition is here
-   48 | } dispState;
-      |   ^
-_init_.c(16): warning: In file included from...
-.\_init_.h(63): error: typedef redefinition with different types ('struct EDFToDo' vs 'struct EDFToDo' (aka 'EDFToDo'))
-   63 | } EDFToDo;
-      |   ^
-.\globals.h(56): note: previous definition is here
-   56 | } EDFToDo;
-      |   ^
+main.c(134): error: use of undeclared identifier 'True'; did you mean 'free'?
+  134 |         while(True){ 
+      |               ^~~~
+      |               free
+C:\ARM\ARMCLANG\bin\..\include\stdlib.h(330): note: 'free' declared here
+  330 | extern _ARMABI void free(void * /*ptr*/);
+      |                     ^
+main.c(140): error: use of undeclared identifier 'MaxTasks'
+  140 |                 for (uint32_t task = 1; task < MaxTasks; task++){
+      |                                                ^
+main.c(166): warning: expression result unused [-Wunused-value]
+  166 |                 schedulerTasks.tasks[taskToRun]; // Run the selected Task
+      |                 ~~~~~~~~~~~~~~~~~~~~ ~~~~~~~~~^
+4 warnings and 5 errors generated.
+compiling main.c...
 _init_.c(17): warning: In file included from...
 .\gpio_lib.h(64): warning: redefinition of typedef 'IODevice' is a C11 feature [-Wtypedef-redefinition]
    64 | }IODevice;
@@ -120,77 +123,9 @@ _init_.c(20): warning: In file included from...
 _init_.c(141): warning: passing 'volatile uint32_t *' (aka 'volatile unsigned int *') to parameter of type 'uint32_t *' (aka 'unsigned int *') discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
   141 |         Timer2.setBits(&(Timer2.TIMX->CR1),0,1);
       |                        ^~~~~~~~~~~~~~~~~~~
-4 warnings and 6 errors generated.
+4 warnings generated.
 compiling _init_.c...
-main.c(22): warning: In file included from...
-.\globals.h(44): error: redefinition of enumerator 'START'
-   44 |     START,
-      |     ^
-.\_init_.h(56): note: previous definition is here
-   56 | typedef enum dispState {START, UPPER, LOWER, SUCCESS} dispState;
-      |                         ^
-main.c(22): warning: In file included from...
-.\globals.h(45): error: redefinition of enumerator 'UPPER'
-   45 |     UPPER,
-      |     ^
-.\_init_.h(56): note: previous definition is here
-   56 | typedef enum dispState {START, UPPER, LOWER, SUCCESS} dispState;
-      |                                ^
-main.c(22): warning: In file included from...
-.\globals.h(46): error: redefinition of enumerator 'LOWER'
-   46 |     LOWER,
-      |     ^
-.\_init_.h(56): note: previous definition is here
-   56 | typedef enum dispState {START, UPPER, LOWER, SUCCESS} dispState;
-      |                                       ^
-main.c(22): warning: In file included from...
-.\globals.h(47): error: redefinition of enumerator 'SUCCESS'
-   47 |     SUCCESS
-      |     ^
-.\_init_.h(56): note: previous definition is here
-   56 | typedef enum dispState {START, UPPER, LOWER, SUCCESS} dispState;
-      |                                              ^
-main.c(22): warning: In file included from...
-.\globals.h(48): error: typedef redefinition with different types ('enum dispState' (aka 'dispState') vs 'enum dispState')
-   48 | } dispState;
-      |   ^
-.\_init_.h(56): note: previous definition is here
-   56 | typedef enum dispState {START, UPPER, LOWER, SUCCESS} dispState;
-      |                                                       ^
-main.c(22): warning: In file included from...
-.\globals.h(56): error: typedef redefinition with different types ('struct EDFToDo' (aka 'EDFToDo') vs 'struct EDFToDo')
-   56 | } EDFToDo;
-      |   ^
-.\_init_.h(63): note: previous definition is here
-   63 | } EDFToDo;
-      |   ^
-main.c(22): warning: In file included from...
-.\globals.h(59): warning: redefinition of typedef 'IODevice' is a C11 feature [-Wtypedef-redefinition]
-   59 | typedef struct IODevice                         IODevice;
-      |                                                 ^
-.\gpio_lib.h(64): note: previous definition is here
-   64 | }IODevice;
-      |  ^
-main.c(22): warning: In file included from...
-.\globals.h(60): warning: redefinition of typedef 'GeneralPurposeTimer' is a C11 feature [-Wtypedef-redefinition]
-   60 | typedef struct GeneralPurposeTimer              GeneralPurposeTimer;
-      |                                                 ^
-.\timer_lib.h(58): note: previous definition is here
-   58 | }GeneralPurposeTimer;
-      |  ^
-main.c(22): warning: In file included from...
-.\globals.h(61): warning: redefinition of typedef 'GenevaLCDDevice' is a C11 feature [-Wtypedef-redefinition]
-   61 | typedef struct GenevaLCDDevice                  GenevaLCDDevice;
-      |                                                 ^
-.\lcd_lib.h(66): note: previous definition is here
-   66 | }GenevaLCDDevice;
-      |  ^
-main.c(166): warning: expression result unused [-Wunused-value]
-  166 |                 schedulerTasks.tasks[taskToRun]; // Run the selected Task
-      |                 ~~~~~~~~~~~~~~~~~~~~ ~~~~~~~~~^
-4 warnings and 6 errors generated.
-compiling main.c...
-".\Objects\Template.axf" - 16 Error(s), 8 Warning(s).
+".\Objects\Template.axf" - 9 Error(s), 8 Warning(s).
 
 <h2>Software Packages used:</h2>
 

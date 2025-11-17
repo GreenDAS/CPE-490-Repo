@@ -14,6 +14,14 @@
 
 #include "globals.h"
 
+#include "gpio_lib.h"
+#include "timer_lib.h"
+#include "stdio.h"
+#include "stdlib.h"
+#include "lcd_lib.h"
+#include "string.h"
+#include "string_lib.h"
+
 //------------------------------------------------------------------------------
 // Function Prototypes
 //------------------------------------------------------------------------------
