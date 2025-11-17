@@ -103,3 +103,13 @@ void TIM2_IRQHandler(void){
 }
 
 
+//Testing Vars
+extern IODevice FreqGenerator;
+
+void TIM4_IRQHandler(void){
+
+	FreqGenerator.toggle(&FreqGenerator);
+
+	TIM3->SR &= ~TIM_SR_UIF; // Clear interrupt flag
+	NVIC_ClearPendingIRQ(TIM4_IRQn);
+}
