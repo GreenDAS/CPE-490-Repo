@@ -19,7 +19,8 @@
 #include "lcd_lib.h"
 #include "string.h"
 #include "string_lib.h"
-#include "math.h"
+#include "globals.h"
+
 
 //------------------------------------------------------------------------------
 // # defines
@@ -115,23 +116,7 @@ void displayUpdate(){
 // Main
 //------------------------------------------------------------------------------
 
-// Global Vars
-IODevice VoltReader;
-IODevice FreqReader;
-GeneralPurposeTimer Timer2;
-GenevaLCDDevice *Display;
-int voltageMeasurements = 0;
-float voltageAccum = 0;
-float frequency = 0;
-int freqCounts = 0;
-extern double timeElapsed;
 
-EDFToDo schedulerTasks;
-dispState displayState = SUCCESS;
-
-// FLAGS
-int calcVoltFlag = 1; // Set to always be 1 to calculate voltage so long as the deadline is met
-int calcFreqFlag = 0;
 extern int systickFlag;
 
 int main(void){

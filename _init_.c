@@ -11,6 +11,8 @@
 // Files to Include 
 //------------------------------------------------------------------------------
 
+#include "stm32l476xx.h"
+#include "globals.h"
 #include "_init_.h"
 #include "gpio_lib.h"
 #include "timer_lib.h"
@@ -85,19 +87,8 @@ void InitSysTick(int load, int enableInterrupt){
 // Main
 //------------------------------------------------------------------------------
 
-extern EDFToDo schedulerTasks;
-extern IODevice VoltReader;
-extern IODevice FreqReader;
-extern GeneralPurposeTimer Timer2;
-GeneralPurposeTimer Timer3;
-extern GenevaLCDDevice *Display;
-//extern StringClass* str;
-extern const int size;
-
 void _init_(){
 	Timer3 = GeneralPurposeTimer_Create(3,1,CountAtMilSecondRate,TimerPeriod1SecondInMilSeconds*10,'D',0); // Sets up Timer3 for GP Timer Use & for the Display
-
-	
 
 	unsigned char msg[GenevaLCDRowSize][(GenevaLCDColSize+1)] = {// The Message to Display
 			//1st Row

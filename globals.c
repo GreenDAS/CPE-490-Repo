@@ -12,22 +12,31 @@
 // Files to Include 
 //------------------------------------------------------------------------------
 
+#include "globals.h"
+
 //------------------------------------------------------------------------------
 // Function Prototypes
 //------------------------------------------------------------------------------
 
 
+// Global Vars
+IODevice VoltReader;
+IODevice FreqReader;
+GeneralPurposeTimer Timer2;
+GeneralPurposeTimer Timer3;
+GenevaLCDDevice *Display;
+int voltageMeasurements = 0;
+float voltageAccum = 0;
+float frequency = 0;
+int freqCounts = 0;
+extern double timeElapsed;
 
-//------------------------------------------------------------------------------
-// # defines
-//------------------------------------------------------------------------------
+EDFToDo schedulerTasks;
+dispState displayState = SUCCESS;
 
-
-//------------------------------------------------------------------------------
-// # Type Definitions
-//------------------------------------------------------------------------------
-
-typedef enum dispState {START, UPPER, LOWER, SUCCESS} dispState;
+// FLAGS
+int calcVoltFlag = 1; // Set to always be 1 to calculate voltage so long as the deadline is met
+int calcFreqFlag = 0;
 
 
 
