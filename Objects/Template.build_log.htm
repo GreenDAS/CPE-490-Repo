@@ -27,7 +27,33 @@ Project File Date:  11/17/2025
 <h2>Output:</h2>
 *** Using Compiler 'V6.22', folder: 'C:\ARM\ARMCLANG\Bin'
 Build target 'Target_1'
-".\Objects\Template.axf" - 0 Error(s), 0 Warning(s).
+main.c(22): warning: In file included from...
+.\globals.h(60): warning: redefinition of typedef 'IODevice' is a C11 feature [-Wtypedef-redefinition]
+   60 | typedef struct IODevice                         IODevice;
+      |                                                 ^
+.\gpio_lib.h(64): note: previous definition is here
+   64 | }IODevice;
+      |  ^
+main.c(22): warning: In file included from...
+.\globals.h(61): warning: redefinition of typedef 'GeneralPurposeTimer' is a C11 feature [-Wtypedef-redefinition]
+   61 | typedef struct GeneralPurposeTimer              GeneralPurposeTimer;
+      |                                                 ^
+.\timer_lib.h(58): note: previous definition is here
+   58 | }GeneralPurposeTimer;
+      |  ^
+main.c(22): warning: In file included from...
+.\globals.h(62): warning: redefinition of typedef 'GenevaLCDDevice' is a C11 feature [-Wtypedef-redefinition]
+   62 | typedef struct GenevaLCDDevice                  GenevaLCDDevice;
+      |                                                 ^
+.\lcd_lib.h(66): note: previous definition is here
+   66 | }GenevaLCDDevice;
+      |  ^
+main.c(135): error: field designator 'taskFlag' does not refer to any field in type 'EDFToDo'
+  135 |                 .taskFlag = { voltageReady(), freqCalcReady(), displayReady() }
+      |                 ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3 warnings and 1 error generated.
+compiling main.c...
+".\Objects\Template.axf" - 1 Error(s), 3 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -49,7 +75,8 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE@6.1.0
-Build Time Elapsed:  00:00:01
+Target not created.
+Build Time Elapsed:  00:00:00
 </pre>
 </body>
 </html>
