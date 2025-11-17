@@ -125,7 +125,7 @@ int main(void){
 	// Set up Scheduler Tasks
 	schedulerTasks = (EDFToDo){
 		.tasks = { calcVoltage, calcFrequency, displayUpdate },
-		.deadlines  = { VOLTAGE_DEADLINE, FREQ_DEADLINE, DISPLAY_DEADLINE },
+		.deadlines  = { VOLTAGE_DEADLINE, FREQ_DEADLINE, DISPLAY_DEADLINE/80 },
 		.cooldowns  = { 0, 0, 0 },
 		.clksWaited = { 0, 0, 0 },
 		.taskFlag = {&calcVoltFlag, &calcFreqFlag, NULL}
@@ -138,6 +138,7 @@ int main(void){
 		readVoltage(); // always read voltage every systick (should a few us)
 
 		uint32_t taskToRun = 0;
+		// Picks the Best Task To Run (BTTR)
 		for (uint32_t task = 1; task < MAX_TASKS; task++){
 			// Checks to see if the task to run has a cooldown
 			if(schedulerTasks.cooldowns[taskToRun] != 0) {
@@ -172,12 +173,13 @@ int main(void){
 				schedulerTasks.clksWaited[task]++;
 				continue;
 			}
-
 		}
-		
-		schedulerTasks.tasks[taskToRun](); // Run the selected Task
-		schedulerTasks.cooldowns[taskToRun] = schedulerTasks.deadlines[taskToRun]; // Set the cooldown
-		schedulerTasks.clksWaited[taskToRun] = 0; // Reset clks waited (Could be used for priority in the EDF if need be)
+		// Checks the BTTR to see if it should be ran
+		if((*schedulerTasks.taskFlag[taskToRun] == TRUE) && (schedulerTasks.cooldowns[taskToRun] == 0)){
+			schedulerTasks.tasks[taskToRun](); // Run the selected Task
+			schedulerTasks.cooldowns[taskToRun] = schedulerTasks.deadlines[taskToRun]; // Set the cooldown
+			schedulerTasks.clksWaited[taskToRun] = 0; // Reset clks waited (Could be used for priority in the EDF if need be)
+		}
 		systickFlag = 0; // Clear the systick Flag
 	}
 }
