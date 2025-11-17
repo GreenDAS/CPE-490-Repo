@@ -54,6 +54,7 @@ typedef struct {
     int  cooldowns[MAX_TASKS];
     int  clksWaited[MAX_TASKS];
 	int  (*taskCond[MAX_TASKS])(void);
+    int  (*coolDownFn[MAX_TASKS])(void);
 } EDFToDo;
 
 /* Forward declarations – NEVER include full structs here */
