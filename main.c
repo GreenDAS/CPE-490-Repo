@@ -161,10 +161,6 @@ int main(void){
 	uint32_t dissableFreqCalcUntil = 0;
 	uint32_t dissableDisplayUpdateUntil = 0;
 
-	uint8_t vDissabled = 0;
-	uint8_t fDissabled = 0;
-	uint8_t dDissabled = 0;
-
 	dispState displayState = SUCCESS;
 
 	while(True){ 
@@ -175,26 +171,22 @@ int main(void){
 		diffFDead = freqDeadline - systick_counter;
 		diffDDead = displayDeadline - systick_counter;
 
-		vDissabled = (dissableVoltCalcUntil > systick_counter) ? 1 : 0;
-		fDissabled = (dissableFreqCalcUntil > systick_counter) ? 1 : 0;
-		dDissabled = (dissableDisplayUpdateUntil > systick_counter) ? 1 : 0;
-
 		readVoltage(&voltageMeasurements, &voltageAccum); // always read voltage every systick (should a few us)
 
-		if(((!calcFreqFlag && (diffDDead <= diffFDead) && !fDissabled) || ((diffDDead <= diffVDead) && !vDissabled)) && (!dDissabled)){ // update display if its deadline is met and either frequency calc is not set or display deadline is sooner than freq deadline
+		if(((!calcFreqFlag && (diffDDead <= diffFDead)) || (diffDDead <= diffVDead)) && (dissableDisplayUpdateUntil <= systick_counter)){ // update display if its deadline is met and either frequency calc is not set or display deadline is sooner than freq deadline
 			if(displayUpdate(Display, &displayState)){ // Move Deadline if whole message is sent to the Display
 				dissableDisplayUpdateUntil = displayDeadline;
 				displayDeadline = (displayDeadline + dDeadline) > systick_counterMax ? displayDeadline + dDeadline - systick_counterMax: displayDeadline + dDeadline; // Handles Clock Overflow
 			}
 		}
-		else if((calcVoltFlag && (!calcFreqFlag && (diffVDead <= diffFDead) && !fDissabled)) && (!vDissabled)){ // calculate voltage if its deadline is met and the flag is set
+		else if((calcVoltFlag && (!calcFreqFlag && (diffVDead <= diffFDead))) && (dissableVoltCalcUntil <= systick_counter)){ // calculate voltage if its deadline is met and the flag is set
 			calcVoltage(Display, &voltageMeasurements, &voltageAccum); // Calculate Voltage & Update Message
 			dissableVoltCalcUntil = voltDeadline;
 			voltDeadline = (voltDeadline + vDeadline) > systick_counterMax ? voltDeadline + vDeadline - systick_counterMax : voltDeadline + vDeadline; // Handles Clock Overflow
 			calcVoltFlag = 1;
 
 		}
-		else if(calcFreqFlag && (!fDissabled)){ // should only calculate frequency if its deadline is the soonest and the flag is set
+		else if(calcFreqFlag && (dissableFreqCalcUntil <= systick_counter)){ // should only calculate frequency if its deadline is the soonest and the flag is set
 			calcFrequency(Display, &freqCounts, &timeElapsed);
 			dissableFreqCalcUntil = freqDeadline;
 			freqDeadline = (freqDeadline + fDeadline) > systick_counterMax ? freqDeadline + fDeadline - systick_counterMax : freqDeadline + fDeadline; // Handles Clock Overflow
