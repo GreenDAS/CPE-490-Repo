@@ -27,9 +27,9 @@
 
 #define FSIZE 12
 #define VSIZE 4
-#define vDeadline 600
+#define vDeadline 400
 #define fDeadline 500
-#define dDeadline 300
+#define dDeadline 550
 #define systick_counterMax 1200
 #define lineSize 15 // 16 Max however index 15 is the control character
 
