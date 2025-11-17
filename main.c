@@ -118,7 +118,7 @@ int dispUpdaReady(){return 1;}
 
 int voltCoolDown(){return VOLTAGE_DEADLINE;}
 int freqCoolDown(){return FREQ_DEADLINE;}
-int dispCoolDown(){return 0;}
+int dispCoolDown(){return 1;}
 //------------------------------------------------------------------------------
 // Main
 //------------------------------------------------------------------------------
