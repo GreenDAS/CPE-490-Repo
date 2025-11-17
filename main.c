@@ -75,7 +75,7 @@ void calcFrequency(GenevaLCDDevice* Disp, int* freqCounts, double* timeElapsed){
 	createFreqString(&(Disp->wholeMSG[1][0]), *freqCounts / *timeElapsed); // Update Frequency String
 }
 
-int displayUpdate(GenevaLCDDevice* Disp, dispState* state){
+void displayUpdate(GenevaLCDDevice* Disp, dispState* state){
 
 	if(Disp->lcd_Nack() || *state == SUCCESS){
 		*state = START;
@@ -117,12 +117,6 @@ int displayUpdate(GenevaLCDDevice* Disp, dispState* state){
 		break;
 	default:
 		while(1); // Error Catching
-	}
-	if ((Disp->wholeMSG[Disp->cursorPos[0]][Disp->cursorPos[1]] == 0x00) && (*state == SUCCESS) && (Disp->cursorPos[0] == 1)){
-		return 1; // Indicate Success
-	}
-	else{
-		return 0; // Indicate Not Done Yet
 	}
 }
 
@@ -170,22 +164,20 @@ int main(void){
 
 		if(calcVoltFlag && ((calcFreqFlag && (diffVDead <= diffFDead)) || (diffVDead <= diffDDead))){ // calculate voltage if its deadline is met and the flag is set
 			calcVoltage(Display, &voltageMeasurements, &voltageAccum); // Calculate Voltage & Update Message
-			voltDeadline = (voltDeadline + vDeadline) > systick_counterMax ? voltDeadline + vDeadline - systick_counterMax : voltDeadline + vDeadline; // Handles Clock Overflow
+			voltDeadline = (voltDeadline + vDeadline) > systick_counterMax ? diffVDead + vDeadline : voltDeadline + vDeadline; // Handles Clock Overflow
 			calcVoltFlag = 1;
 		}
 		else if(calcFreqFlag && (diffFDead <= diffDDead)){ // should only calculate frequency if its deadline is the soonest and the flag is set
 			calcFrequency(Display, &freqCounts, &timeElapsed);
-			freqDeadline = (freqDeadline + fDeadline) > systick_counterMax ? freqDeadline + fDeadline - systick_counterMax : freqDeadline + fDeadline; // Handles Clock Overflow
+			freqDeadline = (freqDeadline + fDeadline) > systick_counterMax ? diffFDead + fDeadline : freqDeadline + fDeadline; // Handles Clock Overflow
 			freqCounts = 0;
 			timeElapsed = 0.0;
 			calcFreqFlag = 0;
 		}
 		else // displays if its deadline is the soonest
 		{
-			if(displayUpdate(Display, &displayState)){ // Move Deadline if whole message is sent to the Display
-				displayDeadline = (displayDeadline + dDeadline) > systick_counterMax ? displayDeadline + dDeadline - systick_counterMax: displayDeadline + dDeadline; // Handles Clock Overflow
-			}
-			
+			displayUpdate(Display, &displayState);
+			displayDeadline = (displayDeadline + 10) > systick_counterMax ? displayDeadline + 10 - systick_counterMax : displayDeadline + 10; // Handles Clock Overflow
 		}
 		systickFlag = 0;
 	}
