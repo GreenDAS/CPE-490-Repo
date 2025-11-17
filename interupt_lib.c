@@ -91,6 +91,8 @@ void initCCInterupt(TIM_TypeDef *Timer){
 	Timer->CCMR1 &= ~0b1100; // Clear Prescalar
 	Timer->CCER &= ~0b1011; // Clears Enable Register
 	Timer->CCER |= 1UL; // Enables Interupt
+	Timer->CCER &= ~TIM_CCER_CC1P;   // Clear polarity bit → rising edge
+	Timer->CCER &= ~TIM_CCER_CC1NP;  // Not both edges
 	Timer->DIER &= ~0b10; // Clears Interupt Enabled for Channel 1
 	Timer->DIER |= 0b10; // Sets Interupt Enabled for Channel 1
 }
@@ -127,7 +129,7 @@ typedef struct GPIOInteruptHandling{
 	uint32_t connectInteruptToNVICMask; // Mask that connects the external interupt to the NVIC
 	
 	//*-Function Pointers-*//
-	void (*setPinInterupt)(struct GPIOInteruptHandling* self, int pin); // Enables the interupt
+	void (*setPinInterupt)(struct GPIOInteruptHandling* self, int pin, int priority); // Enables the interupt
 	
 }GPIOInteruptHandling;
 
@@ -137,13 +139,13 @@ typedef struct GPIOInteruptHandling{
  Arg1 = The Object Itself
  Arg2 = The IODevice's Pin #
 */
-void setPinInterupt(GPIOInteruptHandling* self, int pin){
+void setPinInterupt(GPIOInteruptHandling* self, int pin,int priority){
 	SYSCFG->EXTICR[pin/4] &= ~self->clearInteruptMask; // Clear's pin #'s bit
 	SYSCFG->EXTICR[pin/4] |= self->setInteruptMask; // Sets pin #'s bit (GPIOC)
 	EXTI->RTSR1 &= ~self->edgeMask; // Masks over rising edge Register
 	EXTI->FTSR1 |= self->edgeMask; // Set Falling edge register
 	EXTI->IMR1 |= self->connectInteruptToNVICMask; // "Connects" the interupt to the NVIC
-	NVIC_SetPriority(self->IRQN,0); // 0 is highest priority
+	NVIC_SetPriority(self->IRQN,priority); // 0 is highest priority
 	NVIC_EnableIRQ(self->IRQN);
 
 }
@@ -154,13 +156,19 @@ void setPinInterupt(GPIOInteruptHandling* self, int pin){
  Arg2 = The IODevice's GPIO Base (A,B,C,D,...)
  Arg3 = The IRQn number of the Interupt
 */
-void _init_GPIOInterupt(int pin, char GPIOChar, IRQn_Type IRQn, int ccInterupt){
+void _init_GPIOInterupt(int pin, char GPIOChar, IRQn_Type IRQn, int ccInterupt, int priority){
 	if(!(RCC->APB2ENR & RCC_APB2ENR_SYSCFGEN)) {RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;} // Turns on Clk to Pin Interupts if not already enabled
 	GPIOInteruptHandling *self = malloc(sizeof(GPIOInteruptHandling)); // Creates spot in memory
 	if(ccInterupt){
 		switch(GPIOChar){ // Enables the GPIO Interupt 
 		case('A'):
-			GPIOA->AFR[pin] = 1UL; // Enables Pin A to Capture Interupt
+			if (pin <= 7) {
+				GPIOA->AFR[0] &= ~(1UL << (pin * 4));     // Clear old AF
+				GPIOA->AFR[0] |=  (1UL << (pin * 4));     // Set AF1
+			} else {
+				GPIOA->AFR[1] &= ~(1UL << ((pin - 8) * 4));
+				GPIOA->AFR[1] |=  (1UL << ((pin - 8) * 4));
+			}
 			break;
 		case('B'):
 		case('C'):
@@ -206,7 +214,7 @@ void _init_GPIOInterupt(int pin, char GPIOChar, IRQn_Type IRQn, int ccInterupt){
 			}
 	}
 	self->setPinInterupt = setPinInterupt;
-	self->setPinInterupt(self, pin);
+	self->setPinInterupt(self, pin, priority);
 	free(self); // Kills itself (Frees spot in memory)
 }
 #endif

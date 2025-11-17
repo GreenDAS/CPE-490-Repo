@@ -469,6 +469,16 @@
               <FileType>5</FileType>
               <FilePath>.\string_lib.h</FilePath>
             </File>
+            <File>
+              <FileName>globals.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\globals.c</FilePath>
+            </File>
+            <File>
+              <FileName>globals.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\globals.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

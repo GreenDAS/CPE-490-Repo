@@ -22,11 +22,13 @@
 // # defines
 //------------------------------------------------------------------------------
 
-#define TimerPeriod1SecondInMilSeconds 1000
+#define TimerPeriod1SecondInMilSeconds 1000 // hex is 0x3E8,  *10 is 0x2710
 
-#define CountAtMilSecondRate 3999
+#define CountAtMilSecondRate 3999 // hex is 0xF9F
 
 #define MilSecondsScalar 0.001
+
+#define clockSpeedHz 4000000.0
 
 //------------------------------------------------------------------------------
 // # Classes
