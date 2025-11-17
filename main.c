@@ -56,7 +56,7 @@ int main(void){
 	_init_();	// Sets up classes and other variables
 	float voltage = 0;
 	
-	while(True){
+	while(True){ // End of Lab 8
 		
 		if(calcVoltFlag == 1){
 		ADC1->ISR |= ADC_ISR_EOC; // Clear End of Conversion Flag
