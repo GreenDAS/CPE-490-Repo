@@ -185,6 +185,11 @@ int main(void){
 			displayUpdate(Display, &displayState);
 			displayDeadline = (displayDeadline + dDeadline) > systick_counterMax ? diffDDead + dDeadline : displayDeadline + dDeadline; // Handles Clock Overflow
 		}
+		if((diffDDead <0) || (diffFDead <0) || (diffVDead <0)){ // Missed Deadline
+			voltDeadline = (systick_counter + vDeadline) > systick_counterMax ? (systick_counter + vDeadline) - systick_counterMax : (systick_counter + vDeadline);
+			freqDeadline = (systick_counter + fDeadline) > systick_counterMax ? (systick_counter + fDeadline) - systick_counterMax : (systick_counter + fDeadline);
+			displayDeadline = (systick_counter + dDeadline) > systick_counterMax ? (systick_counter + dDeadline) - systick_counterMax : (systick_counter + dDeadline);
+		}
 		systickFlag = 0;
 	}
 }
