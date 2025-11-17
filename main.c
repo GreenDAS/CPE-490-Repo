@@ -55,7 +55,7 @@ void createVoltString(unsigned char msg[GenevaLCDColSize], double volt){
 void readVoltage(int* voltageMeasurements, float* voltageAccum){
 
 	// Read Voltage
-	*voltageAccum += ((ADC1->DR) * (10/3))/ 255.0;
+	*voltageAccum += ((ADC1->DR) * (10.0/3.0))/ 255.0;
 	*voltageMeasurements += 1;
 
 	// Start New Conversion
