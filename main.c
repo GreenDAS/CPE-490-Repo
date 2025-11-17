@@ -125,7 +125,7 @@ int main(void){
 	// Set up Scheduler Tasks
 	schedulerTasks = (EDFToDo){
 		.tasks = { calcVoltage, calcFrequency, displayUpdate },
-		.deadlines  = { VOLTAGE_DEADLINE, FREQ_DEADLINE, DISPLAY_DEADLINE/80 },
+		.deadlines  = { VOLTAGE_DEADLINE, FREQ_DEADLINE, DISPLAY_DEADLINE/(80*4) },
 		.cooldowns  = { 0, 0, 0 },
 		.clksWaited = { 0, 0, 0 },
 		.taskFlag = {&calcVoltFlag, &calcFreqFlag, NULL}
