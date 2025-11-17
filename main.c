@@ -152,7 +152,7 @@ int main(void){
 	int diffDDead = 0;
 	dispState displayState = SUCCESS;
 
-	while(True){ 
+	while(True){ //This RTOS works as of now
 		while(!systickFlag){} // Wait for SysTick
 
 		systick_counter = (systick_counter + 1) > systick_counterMax ? 0 : systick_counter + 1;
