@@ -19,6 +19,7 @@
 #include "lcd_lib.h"
 #include "string.h"
 #include "string_lib.h"
+#include "math.h"
 
 //------------------------------------------------------------------------------
 // # defines
@@ -55,7 +56,7 @@ void createVoltString(unsigned char msg[GenevaLCDColSize], double volt){
 void readVoltage(int* voltageMeasurements, float* voltageAccum){
 
 	// Read Voltage
-	*voltageAccum += ((ADC1->DR) * (10/3))/ 255.0;
+	*voltageAccum += ((ADC1->DR) * (10/3))/ (pow(2,12) -1);
 	*voltageMeasurements += 1;
 
 	// Start New Conversion
