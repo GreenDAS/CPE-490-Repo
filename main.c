@@ -19,6 +19,7 @@
 #include "lcd_lib.h"
 #include "string.h"
 #include "string_lib.h"
+#include "math.h"
 
 //------------------------------------------------------------------------------
 // # defines
@@ -72,8 +73,6 @@ void calcVoltage(GenevaLCDDevice* Disp,int* voltageMeasurements, float* voltageA
 
 void calcFrequency(GenevaLCDDevice* Disp, int* freqCounts, double* timeElapsed){
 	createFreqString(&(Disp->wholeMSG[1][0]), *freqCounts / *timeElapsed); // Update Frequency String
-	*freqCounts = 0;
-	*timeElapsed = 0;
 }
 
 void displayUpdate(GenevaLCDDevice* Disp, dispState* state){
@@ -141,6 +140,8 @@ int calcVoltFlag = 1; // Set to always be 1 to calculate voltage so long as the 
 int calcFreqFlag = 0;
 extern int systickFlag;
 
+//Testing Vars
+IODevice FreqGenerator;
 
 int main(void){
 	_init_();	// Sets up classes and other variables
@@ -163,6 +164,8 @@ int main(void){
 	while(True){ 
 		while(!systickFlag){} // Wait for SysTick
 
+		FreqGenerator.toggle(&FreqGenerator); // Toggles Frequency Generator for Testing
+
 		systick_counter = (systick_counter + 1) > systick_counterMax ? 0 : systick_counter + 1;
 		diffVDead = voltDeadline - systick_counter; // Maybe add some logic to handle missing of a deadline so that it does not get stuck
 		diffFDead = freqDeadline - systick_counter;
@@ -178,6 +181,8 @@ int main(void){
 		else if(calcFreqFlag && (diffFDead <= diffDDead)){ // should only calculate frequency if its deadline is the soonest and the flag is set
 			calcFrequency(Display, &freqCounts, &timeElapsed);
 			freqDeadline = (freqDeadline + fDeadline) > systick_counterMax ? diffFDead + fDeadline : freqDeadline + fDeadline; // Handles Clock Overflow
+			freqCounts = 0;
+			timeElapsed = 0.0;
 			calcFreqFlag = 0;
 		}
 		else // displays if its deadline is the soonest

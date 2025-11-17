@@ -61,7 +61,7 @@ Peripheral ISRs
 // Externs
 extern int calcFreqFlag;
 extern int freqCounts;
-extern GeneralPurposeTimer* Timer2;
+extern GeneralPurposeTimer Timer2;
 
 // Local Vars
 uint32_t timeI;
@@ -79,15 +79,16 @@ void TIM2_IRQHandler(void){
 			timeI = TIM2->CCR1;
 		}
 		else{
-			freqCounts++;
 			timeF = TIM2->CCR1;
-			if(timeF >= timeI){
-				timeElapsed += ((double)(timeF - timeI) + Timer2->TIMX->ARR)*((Timer2->PSC+1)/clockSpeedHz); // in seconds
-			}
-			else{
-				timeElapsed += ((double)(timeI - timeF))*((Timer2->PSC+1)/clockSpeedHz); // in seconds
-			}
+
+			int deltaTime = timeI - timeF;
+			double clkSpeed = (double)clockSpeedHz / (double)(Timer2.PSC + 1);
+
+			if (deltaTime < 0) deltaTime += TIM2->ARR + 1;    // Wrap-around
+			timeElapsed += (double)deltaTime / clkSpeed;
+			freqCounts++;
 			timeI = timeF;
+
 			if(timeElapsed >= 0.5){ // Every 0.5 seconds
 				calcFreqFlag = 1;
 			}
