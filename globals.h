@@ -16,19 +16,24 @@
 #define FALSE               0
 
 /* Pin assignments (use uppercase + _t suffix for clarity) */
+
+// GPIOC
 #define LED1                0
 #define LED2                1
 #define LED3                2
 #define LED4                3
-#define COL1                3
-#define COL2                2
-#define COL3                1
-#define ROW1                7
-#define ROW2                6
-#define ROW3                5
-#define ROW4                4
 #define SW1                 4
 #define SW2                 5
+
+#define ROW1                14
+#define ROW2                13
+#define ROW3                12
+#define ROW4                11
+#define COL1                10
+#define COL2                9
+#define COL3                8
+//
+
 
 #define MAX_TASKS           3
 #define VOLTAGE_DEADLINE    400
