@@ -71,7 +71,7 @@ typedef struct IODevice{
 	GPIO_TypeDef* GPIOX;
 	
 	//*-Properties-*//
-		char GPIOchar;
+	char GPIOchar;
 	char MODERState;
 	int pin;
 	int state;
@@ -93,9 +93,9 @@ typedef struct IODevice{
 ***For Output Only***
 */
 void setState(IODevice* self,int value) {
-		self->prevState = self->state;
-		self->state = value;
-		if(self->MODERState != 'O'){return;}
+	self->prevState = self->state;
+	self->state = value;
+	if(self->MODERState != 'O'){return;}
     SetGPIO(self->GPIOX, self->pin, value);
 }
 
@@ -103,8 +103,8 @@ void setState(IODevice* self,int value) {
 ***For Input Only***
 */
 void getState(IODevice* self) {
-		if(self->MODERState != 'I'){return;}
-		self->prevState = self->state;
+	if(self->MODERState != 'I'){return;}
+	self->prevState = self->state;
     self->state = GetGPIO(self->GPIOX, self->pin, self->trueState);
 }
 

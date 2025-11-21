@@ -46,7 +46,7 @@ typedef enum {
     LOWER,
     SUCCESS
 } dispState;
-
+//hampter
 /* EDF scheduler task table */
 typedef struct {
     void (*tasks[MAX_TASKS])(void);
