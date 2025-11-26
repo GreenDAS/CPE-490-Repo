@@ -202,19 +202,19 @@ int main(void){
 
 	// Set up Scheduler Tasks
 	schedulerTasks = (EDFToDo){
-		.tasks = { calcVoltage, calcFrequency, displayUpdate },
-		.deadlines  = { VOLTAGE_DEADLINE, FREQ_DEADLINE, DISPLAY_DEADLINE },
-		.cooldowns  = { 0, 0, 0 },
-		.clksWaited = { 0, 0, 0 },
-		.taskCond = { voltCalcReady, freqCalcReady, dispUpdaReady },
-		.coolDownFn = { voltCoolDown, freqCoolDown, dispCoolDown }
+		.tasks = { readPad, handlePadPress, displayUpdate },
+		.deadlines  = { READ_NUMPAD_DEADLINE, HANDLE_NUMPAD_PRESS_DEADLINE },
+		.cooldowns  = { 0, 0 },
+		.clksWaited = { 0, 0 },
+		.taskCond = { readPadReady, handlePadPressReady, dispUpdaReady },
+		.coolDownFn = { readPadCooldown, handlePadPressCooldown, dispCoolDown }
 	};
 	// End Set up Scheduler Tasks
 
 	while(TRUE){ 
 		while(!systickFlag){} // Wait for SysTick
 
-		readVoltage(); // always read voltage every systick (should a few us)
+		gettingUserInputFlag = 1;
 
 		uint32_t taskToRun = 0;
 		// Picks the Best Task To Run (BTTR)
