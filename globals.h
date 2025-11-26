@@ -40,6 +40,10 @@
 #define SYSTICK_MAX         1200
 #define LINE_SIZE           15   /* 16 chars total, index 15 = null terminator */
 
+// RPM Bounds
+#define RPM_UPPER           200
+#define RPM_LOWER           25
+
 // Deadlines
 #define VOLTAGE_DEADLINE    400
 #define FREQ_DEADLINE       500
