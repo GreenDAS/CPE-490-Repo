@@ -228,7 +228,7 @@ typedef struct Numpad{
 	int *numpadValues; // Points to a 2D flattened array of int values that holds the Numpad Key's Values
 	//*-Function Pointers-*//
 	void (*changeDimMODER)(struct Numpad*, char Dimension, char MODERType); // Changes either the row's or cols MODER
-	void (*rtosReadPad)(struct Numpad*); // RTOS friendly Numpad Read
+	void (*stateMachineReadPad)(struct Numpad*); // RTOS friendly Numpad Read
 	
 }Numpad;
 
@@ -265,7 +265,7 @@ void changeDimMODER(Numpad* self, char Dim, char MODERType){
 	Array[row*cols+col]
 	
 */
-void rtosReadPad(Numpad* self){
+void stateMachineReadPad(Numpad* self){
 	
 	// Have I finished?
 	if(self->readState == readPadFINISHED){ // If So, Reset State
@@ -333,7 +333,7 @@ Numpad Numpad_Create(int *NumpadValues, IODevice* RowIO, IODevice* ColIO, int Ro
 	self.colSize = ColSize;
 	self.timer = Timer;
 	self.changeDimMODER = changeDimMODER;
-	self.rtosReadPad = rtosReadPad;
+	self.stateMachineReadPad = stateMachineReadPad;
 	
 	return self;
 }
