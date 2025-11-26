@@ -31,6 +31,16 @@
 // Functions
 //------------------------------------------------------------------------------
 
+void createTargetString(unsigned char msg[GenevaLCDColSize], void *value, int isString){
+	if (isString){
+		snprintf((char*)msg, 40, "Target: %s", (char*)value); // Insert the target String into the %s spot
+	}
+	else{
+		snprintf((char*)msg, 40, "Target: %7.2f", *(float*)(value)); // Insert the target String into the %s spot
+	}
+	msg[39] = 0x00; // Null Terminator it just in case
+}
+
 void createFreqString(unsigned char msg[GenevaLCDColSize], double freq){
 	snprintf((char*)msg, 40, "FREQ: %8.2fHz", freq);  // 2 decimal places
 	msg[39] = 0x00; // Null Terminator
@@ -118,6 +128,50 @@ void readPad(){
 	NumberPad->stateMachineReadPad(NumberPad);
 }
 
+void handlePadPress(){
+	static unsigned char targetString[7] = {'_', '_', '_', '.', '_', '_', NULL};
+	static unsigned int cursorAt = 0;
+	// Detect button release
+	if ((!(NumberPad->state)) == NumberPad->prevState){
+		// Button Press was a backspace
+		switch (NumberPad->recentPress){
+			case 10:
+				cursorAt--;
+				targetString[cursorAt] = '_';
+			break;
+
+			case 11:
+			float tempTargetRPM = 0;
+				if (targetString[0] != '_'){
+					for (cursorAt = 0; cursorAt < 7; cursorAt++){
+						if (cursorAt == 3){cursorAt++;} // Skip the decimal
+						if (targetString[cursorAt] == '_'){continue;} // Skip location if it is an _
+						float tempValue = targetString[cursorAt] - '0';
+						float numbersPlace = 10;
+						if (cursorAt > 3){ // add the decimal value to target RPM
+							for (int i = 0; i < (cursorAt - 4); i++){ numbersPlace *= 10; } // Find the correct decimal place
+							tempTargetRPM += tempValue / numbersPlace; // Add the decimal place value to targetRPM
+						}
+						else{
+							for (int i = 0; i < (2 - cursorAt) ; i++){ numbersPlace *= 10; } // Find the correct numbers place
+							tempTargetRPM += tempValue * numbersPlace;
+						}
+					}
+					targetRPM = (tempTargetRPM > RPM_UPPER) ? RPM_UPPER : tempTargetRPM; // Upper Limit
+					targetRPM = (tempTargetRPM < RPM_LOWER) ? RPM_LOWER : tempTargetRPM; // Lower Limit
+				}
+				targetSetFlag = 1;
+				// Set switch 1's flag to swap back to main menu ********
+			break;
+
+			default:
+				targetString[cursorAt] = NumberPad->recentPress + '0';
+				cursorAt++;
+			break;
+		}
+	}
+	createTargetString(&(Display->wholeMSG[0][0]), &(targetString[0]), 1);
+}
 // Ready Fns
 
 int voltCalcReady(){return calcVoltFlag;}

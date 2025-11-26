@@ -90,7 +90,7 @@ extern float            frequency;
 extern int              freqCounts;
 extern double           timeElapsed;
 
-extern float targetRPM;
+extern float            targetRPM;
 
 extern EDFToDo          schedulerTasks;
 extern dispState      	displayState;
