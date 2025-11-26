@@ -32,7 +32,7 @@
 //------------------------------------------------------------------------------
 
 // NUMPAD SETUP //
-Numpad CreateNumpad(){
+Numpad* CreateNumpad(){
 	// Start Setting Up Numpad
 	static int NumpadValues[4][3] = {
 		{ 1, 2, 3},
@@ -44,19 +44,16 @@ Numpad CreateNumpad(){
 	IODevice* rowIOP = malloc(4 * sizeof(IODevice));
 	IODevice* colIOP = malloc(3 * sizeof(IODevice));
 	
-	rowIOP[0] = IODevice_Create('A', ROW1, 0, 1, 'I');
-	rowIOP[1] = IODevice_Create('A', ROW2, 0, 1, 'I');
-	rowIOP[2] = IODevice_Create('A', ROW3, 0, 1, 'I');
-	rowIOP[3] = IODevice_Create('A', ROW4, 0, 1, 'I');
+	rowIOP[0] = IODevice_Create('C', ROW1, 0, 1, 'I');
+	rowIOP[1] = IODevice_Create('C', ROW2, 0, 1, 'I');
+	rowIOP[2] = IODevice_Create('C', ROW3, 0, 1, 'I');
+	rowIOP[3] = IODevice_Create('C', ROW4, 0, 1, 'I');
 
-	colIOP[0] = IODevice_Create('A', COL1, 0, 1, 'I');
-	colIOP[1] = IODevice_Create('A', COL2, 0, 1, 'I');
-	colIOP[2] = IODevice_Create('A', COL3, 0, 1, 'I');
-	
-	GeneralPurposeTimer* Timer2 = malloc(sizeof(GeneralPurposeTimer));
-	*Timer2 = GeneralPurposeTimer_Create(2,1,3999,10000,'D',0);
+	colIOP[0] = IODevice_Create('C', COL1, 0, 1, 'I');
+	colIOP[1] = IODevice_Create('C', COL2, 0, 1, 'I');
+	colIOP[2] = IODevice_Create('C', COL3, 0, 1, 'I');
 
-	return Numpad_Create(&NumpadValues[0][0], rowIOP, colIOP, 4, 3, 0, Timer2);
+	return Numpad_Create(&NumpadValues[0][0], rowIOP, colIOP, 4, 3);
 	
 }
 

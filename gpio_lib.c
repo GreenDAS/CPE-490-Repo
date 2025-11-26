@@ -212,15 +212,15 @@ typedef struct Numpad{
 	//*-Properties-*//
 	int rowSize; // the rowSize of the numPad
 	int colSize; // the colSize of the numPad
-	int prevState = 0; // T/F value if a button was previously pressed
-	int state = 0;  // T/F value if a button was pressed
-	int recentPress = 0; // Numpad Value if a button is pressed
+	int prevState; // T/F value if a button was previously pressed
+	int state;  // T/F value if a button was pressed
+	int recentPress; // Numpad Value if a button is pressed
 
-	int readingRow = 0; // Used to point out what row is being read from: init as 0
-	int rowsTruesCount = 0; // Used to check how many rows are reporting being pressed: init as 0
-	int readingCol = 0; // Used to point out what col is being read from: init as 0
-	int colsTruesCount = 0; // Used to check how many cols are reporting being pressed: init as 0
-	NumpadReadState readState = readPadFINISHED; // The Numpad Read State
+	int readingRow; // Used to point out what row is being read from: init as 0
+	int rowsTruesCount; // Used to check how many rows are reporting being pressed: init as 0
+	int readingCol; // Used to point out what col is being read from: init as 0
+	int colsTruesCount; // Used to check how many cols are reporting being pressed: init as 0
+	NumpadReadState readState; // The Numpad Read State
 
 	//*-Array Pointers-*//
 	IODevice *rowIO; // Points to an array of GPIO ports for the rows of the Numpad
@@ -324,16 +324,26 @@ void stateMachineReadPad(Numpad* self){
 
 
 // Constructor
-Numpad Numpad_Create(int *NumpadValues, IODevice* RowIO, IODevice* ColIO, int RowSize, int ColSize) {
-	Numpad self;
-	self.numpadValues = NumpadValues;
-	self.rowIO = RowIO;
-	self.colIO = ColIO;
-	self.rowSize = RowSize;
-	self.colSize = ColSize;
-	self.timer = Timer;
-	self.changeDimMODER = changeDimMODER;
-	self.stateMachineReadPad = stateMachineReadPad;
+Numpad* Numpad_Create(int *NumpadValues, IODevice* RowIO, IODevice* ColIO, int RowSize, int ColSize) {
+	Numpad* self = malloc(sizeof(Numpad));
+	self->numpadValues = NumpadValues;
+	self->rowIO = RowIO;
+	self->colIO = ColIO;
+	self->rowSize = RowSize;
+	self->colSize = ColSize;
+
+	self->prevState = 0; // T/F value if a button was previously pressed
+	self->state = 0;  // T/F value if a button was pressed
+	self->recentPress = 0; // Numpad Value if a button is pressed
+
+	self->readingRow = 0; // Used to point out what row is being read from: init as 0
+	self->rowsTruesCount = 0; // Used to check how many rows are reporting being pressed: init as 0
+	self->readingCol = 0; // Used to point out what col is being read from: init as 0
+	self->colsTruesCount = 0; // Used to check how many cols are reporting being pressed: init as 0
+	self->readState = readPadFINISHED; // The Numpad Read State
+
+	self->changeDimMODER = changeDimMODER;
+	self->stateMachineReadPad = stateMachineReadPad;
 	
 	return self;
 }
