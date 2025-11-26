@@ -41,6 +41,8 @@ float frequency = 0;
 int freqCounts = 0;
 extern double timeElapsed;
 
+float targetRPM = 50;
+
 EDFToDo schedulerTasks;
 dispState displayState = SUCCESS;
 

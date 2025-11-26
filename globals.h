@@ -86,6 +86,8 @@ extern float            frequency;
 extern int              freqCounts;
 extern double           timeElapsed;
 
+extern float targetRPM;
+
 extern EDFToDo          schedulerTasks;
 extern dispState      	displayState;
 
@@ -96,4 +98,4 @@ extern int              gettingUserInputFlag; /* 0 = not getting user input by d
 extern int              targetSetFlag;  /* 0 = value not just set yet*/
 /* -------------------------------------------------------------------------
  * End of globals.h
- * ------------------------------------------------------------------------- */
+ * -------------------------------------------------------------------------*/
