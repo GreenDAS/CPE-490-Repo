@@ -74,6 +74,7 @@ void TIM2_IRQHandler(void){
 
 		TIM2->SR &= ~TIM_SR_UIF; // Clear interrupt flag
   } 
+
 	else if (TIM2->SR & TIM_SR_CC1IF) { // Channel #1
 		if(calcFreqFlag){
 			timeI = TIM2->CCR1;
