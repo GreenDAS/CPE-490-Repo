@@ -36,12 +36,15 @@
 
 
 #define MAX_TASKS           3
-#define VOLTAGE_DEADLINE    400
-#define FREQ_DEADLINE       500
-#define DISPLAY_DEADLINE    600
+
 #define SYSTICK_MAX         1200
 #define LINE_SIZE           15   /* 16 chars total, index 15 = null terminator */
 
+// Deadlines
+#define VOLTAGE_DEADLINE    400
+#define FREQ_DEADLINE       500
+#define DISPLAY_DEADLINE    600
+#define READ_NUMPAD_DEADLINE 25
 /* -------------------------------------------------------------------------
  * Type Definitions
  * ------------------------------------------------------------------------- */
