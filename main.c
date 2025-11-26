@@ -203,7 +203,7 @@ int main(void){
 	// Set up Scheduler Tasks
 	schedulerTasks = (EDFToDo){
 		.tasks = { readPad, handlePadPress, displayUpdate },
-		.deadlines  = { READ_NUMPAD_DEADLINE, HANDLE_NUMPAD_PRESS_DEADLINE },
+		.deadlines  = { READ_NUMPAD_DEADLINE, HANDLE_NUMPAD_PRESS_DEADLINE, DISPLAY_DEADLINE },
 		.cooldowns  = { 0, 0, 0 },
 		.clksWaited = { 0, 0, 0 },
 		.taskCond = { readPadReady, handlePadPressReady, dispUpdaReady },
