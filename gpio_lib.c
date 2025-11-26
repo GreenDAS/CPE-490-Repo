@@ -222,7 +222,7 @@ void stateMachineReadPad(Numpad* self){
 			// Read Rows
 			for(int i = 0; i<self->rowSize; i++){	// Read Rows And Count 0s
 				self->rowIO[i].getState(&self->rowIO[i]); // Gets the state a row
-				self->colsTruesCount += self->rowIO[i].state;	// Counts up 1 if the there was a 0
+				self->rowsTruesCount += self->rowIO[i].state;	// Counts up 1 if the there was a 0
 				if(self->rowIO[i].state){self->readingRow = i;} // Remembers where the last 1 was
 			}
 
