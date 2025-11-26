@@ -215,6 +215,7 @@ typedef struct Numpad{
 	int prevState; // T/F value if a button was previously pressed
 	int state;  // T/F value if a button was pressed
 	int recentPress; // Numpad Value if a button is pressed
+	
 	//*-Array Pointers-*//
 	IODevice *rowIO; // Points to an array of GPIO ports for the rows of the Numpad
 	IODevice *colIO; // Points to an array of GPIO ports for the cols of the Numpad
@@ -299,6 +300,69 @@ void greedyReadPad(Numpad* self){
 		self->state = 0;  // Updates State
 	}
 }
+
+
+/* Read Pad and stop program to wait for X amount of time to pass 
+	(hence the Greedy as it steals valuable processing time by waiting.)
+--To manually index throgh a flattened 2D array, algorythoim is the following--
+	row = which row you want (0 � rows-1)
+	cols = the total number of columns in each row (not cols-1)
+	col = which column in that row (0 � cols-1)
+	Array[row*cols+col]
+*/
+void rtosReadPad(Numpad* self){
+	
+
+
+
+
+
+	// Pointing out what Value was used
+	int rowVal =0; // What Row was 0
+	int colVal =0; // What Col was 0
+	
+	// Error Correction
+	int truesCountRows =0; // how many 0s from Row
+	int truesCountCollumns =0; // How many 0s from Col
+	
+	for(int i=0; i < self->rowSize; i++){self->rowIO[i].setState(&(self->rowIO[i]),0);} // Ensures the ODR for the Row is set to 0 to prevent any wonky signals
+	self->changeDimMODER(self, 'R', 'I'); // Sets the row GPIO ports to Input
+	self->changeDimMODER(self, 'C', 'O'); // Sets the col GPIO ports to Output
+	for(int j=0; j < self->colSize; j++){self->colIO[j].setState(&(self->colIO[j]),1);} // Sets the Col to on
+	
+	self->timer->greedyWait(self->timer,5,1/1000); // Wait 5ms
+	
+	for(int i = 0; i<self->rowSize; i++){	// Read Rows And Count 0s
+		self->rowIO[i].getState(&self->rowIO[i]); // Gets the state a row
+		truesCountRows += self->rowIO[i].state;	// Counts up 1 if the there was a 0
+		if(self->rowIO[i].state){rowVal = i;} // Remembers where the last 1 was
+	}
+	
+	self->changeDimMODER(self, 'R', 'O'); // Sets the row GPIO ports to Output
+	for(int i=0; i < self->rowSize; i++){self->rowIO[i].setState(&(self->rowIO[i]),1);} // Sets the Row to on
+	for(int j=0; j < self->colSize; j++){self->colIO[j].setState(&(self->colIO[j]),0);} // Ensures the ODR for the Col is set to 0 to prevent any wonky signals
+	self->changeDimMODER(self, 'C', 'I'); // Sets the col GPIO ports to Input
+	
+	self->timer->greedyWait(self->timer,5,1/1000); // Wait 5ms
+	
+	for(int j = 0; j<self->colSize; j++){ // Read Col and Count 0s
+		self->colIO[j].getState(&self->colIO[j]); // Gets the state a col
+		truesCountCollumns += self->colIO[j].state; // Counts up 1 if the there was a 0
+		if(self->colIO[j].state){colVal = j;} // Remembers where the last 1 was
+	}
+	// Check to see if more or eqial to 1 button is being pressed
+	if((truesCountRows >= 1) && (truesCountCollumns >= 1)){  // If not, update recent press value and state values
+		self->prevState = self->state; // Updates PrevState
+		self->state = 1; // Updates State
+		if ((truesCountRows == 1) && (truesCountCollumns == 1)){self->recentPress = self->numpadValues[rowVal*(self->colSize)+colVal];} // If only one 1 in row and one 1 in columns, then update the recent press value
+	}
+	else{	// If so, update state values
+		self->prevState = self->state;  // Updates PrevState
+		self->state = 0;  // Updates State
+	}
+}
+
+
 // Constructor
 Numpad Numpad_Create(int *NumpadValues,IODevice* RowIO,IODevice* ColIO, int RowSize, int ColSize, int State, GeneralPurposeTimer* Timer) {
 	Numpad self;
