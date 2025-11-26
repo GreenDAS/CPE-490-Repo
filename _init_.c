@@ -105,6 +105,8 @@ void _init_(){
 
 	Display = GenevaLCDDevice_Create(&Timer3, 5, 10, msg); // Sets up LCD Display
 
+	NumberPad = CreateNumpad();
+
 	RCC->AHB2ENR |= RCC_AHB2ENR_ADCEN; // Enable ADC Clock
 	if ((ADC1->CR & ADC_CR_DEEPPWD) == ADC_CR_DEEPPWD){ADC1->CR &= ~ADC_CR_DEEPPWD;} // Wake up ADC from Deep Power Down
 	ADC1->CR |= ADC_CR_ADVREGEN; // Enable ADC Voltage Regulator

@@ -263,7 +263,10 @@ void stateMachineReadPad(Numpad* self){
 				self->prevState = self->state;  // Updates PrevState
 				self->state = 0;  // Updates State
 			}
-			self->readingRow, self->rowsTruesCount, self->colsTruesCount, self->readingCol = 0; // Reset Values for next read
+			self->readingRow = 0;
+			self->rowsTruesCount = 0;
+			self->colsTruesCount = 0;
+			self->readingCol = 0; // Reset Values for next read
 			break;
 	}
 }
