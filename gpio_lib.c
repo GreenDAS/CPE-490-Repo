@@ -228,7 +228,7 @@ void stateMachineReadPad(Numpad* self){
 
 			// Setup Reading Cols
 			self->changeDimMODER(self, 'R', 'O'); // Sets the row GPIO ports to Output
-			for(int i=0; i < self->rowSize; i++){self->rowIO[i].setState(&(self->rowIO[i]),0);} // Sets the Row to on
+			for(int i=0; i < self->rowSize; i++){self->rowIO[i].setState(&(self->rowIO[i]),1);} // Sets the Row to on
 			for(int j=0; j < self->colSize; j++){self->colIO[j].setState(&(self->colIO[j]),0);} // Ensures the ODR for the Col is set to 0 to prevent any wonky signals
 			self->changeDimMODER(self, 'C', 'I'); // Sets the col GPIO ports to Input
 
@@ -245,7 +245,7 @@ void stateMachineReadPad(Numpad* self){
 			for(int i=0; i < self->rowSize; i++){self->rowIO[i].setState(&(self->rowIO[i]),0);} // Ensures the ODR for the Row is set to 0 to prevent any wonky signals
 			self->changeDimMODER(self, 'R', 'I'); // Sets the row GPIO ports to Input
 			self->changeDimMODER(self, 'C', 'O'); // Sets the col GPIO ports to Output
-			for(int j=0; j < self->colSize; j++){self->colIO[j].setState(&(self->colIO[j]),0);} // Sets the Col to on
+			for(int j=0; j < self->colSize; j++){self->colIO[j].setState(&(self->colIO[j]),1);} // Sets the Col to on
 
 			break;
 		case readPadFINISHED:
