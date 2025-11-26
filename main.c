@@ -161,6 +161,7 @@ void handlePadPress(){
 				targetRPM = (tempTargetRPM < RPM_LOWER) ? RPM_LOWER : tempTargetRPM; // Lower Limit
 			}
 			targetSetFlag = 1;
+			gettingUserInputFlag = 0;
 			// Set switch 1's flag to swap back to main menu ********
 		break;
 
