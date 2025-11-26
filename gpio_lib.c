@@ -13,6 +13,7 @@
 //------------------------------------------------------------------------------
 
 #include "stm32l476xx.h"
+#include "gpio_lib.h"
 
 #ifndef timerLib
 #define timerLib
@@ -215,7 +216,7 @@ typedef struct Numpad{
 	int prevState; // T/F value if a button was previously pressed
 	int state;  // T/F value if a button was pressed
 	int recentPress; // Numpad Value if a button is pressed
-	
+	NumpadReadState readState = readPadFINISHED; // The Numpad Read State
 	//*-Array Pointers-*//
 	IODevice *rowIO; // Points to an array of GPIO ports for the rows of the Numpad
 	IODevice *colIO; // Points to an array of GPIO ports for the cols of the Numpad
@@ -313,9 +314,19 @@ void greedyReadPad(Numpad* self){
 void rtosReadPad(Numpad* self){
 	
 
-
-
-
+	
+	switch (self->readState){
+		case readPadROW:
+			break;
+		case readPadCOL:
+			break;
+		case readPadFINISHED:
+			break;
+	}
+	if(self->readState == readPadFINISHED){
+		self->readState = readPadROW;
+	}
+	else{(self->readState)++;}
 
 	// Pointing out what Value was used
 	int rowVal =0; // What Row was 0

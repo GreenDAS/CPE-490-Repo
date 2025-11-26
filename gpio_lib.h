@@ -81,6 +81,13 @@ IODevice IODevice_Create(char GPIO, int Pin, int NormalState, int TrueState, cha
 
 	#include "timer_lib.h"
 
+	typedef enum {
+		readPadROW,
+		readPadCOL,
+		readPadFINISHED,
+	} NumpadReadState; // The Numpad Read State
+
+
 // Forward Delclaration
 typedef struct Numpad{
 	//*-Parents-*//
@@ -91,11 +98,7 @@ typedef struct Numpad{
 	int prevState; // T/F value if a button was previously pressed
 	int state;  // T/F value if a button was pressed
 	int recentPress; // Numpad Value if a button is pressed
-	enum {
-		ROW,
-		COL,
-		FINISHED,
-	} readState; // The Numpad Read State
+	NumpadReadState readState; // The Numpad Read State
 	//*-Array Pointers-*//
 	IODevice *rowIO; // Points to an array of GPIO ports for the rows of the Numpad
 	IODevice *colIO; // Points to an array of GPIO ports for the cols of the Numpad
