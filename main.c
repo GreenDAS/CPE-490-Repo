@@ -132,52 +132,57 @@ void handlePadPress(){
 	static unsigned char targetString[7] = {'_', '_', '_', '.', '_', '_', NULL};
 	static unsigned int cursorAt = 0;
 	// Detect button release
-	if ((!(NumberPad->state)) == NumberPad->prevState){
-		// Button Press was a backspace
-		switch (NumberPad->recentPress){
-			case 10:
-				cursorAt--;
-				targetString[cursorAt] = '_';
-			break;
+	switch (NumberPad->recentPress){
+		// Button Press was a backspace (*)
+		case 10:
+			cursorAt--;
+			targetString[cursorAt] = '_';
+		break;
 
-			case 11:
-			float tempTargetRPM = 0;
-				if (targetString[0] != '_'){
-					for (cursorAt = 0; cursorAt < 7; cursorAt++){
-						if (cursorAt == 3){cursorAt++;} // Skip the decimal
-						if (targetString[cursorAt] == '_'){continue;} // Skip location if it is an _
-						float tempValue = targetString[cursorAt] - '0';
-						float numbersPlace = 10;
-						if (cursorAt > 3){ // add the decimal value to target RPM
-							for (int i = 0; i < (cursorAt - 4); i++){ numbersPlace *= 10; } // Find the correct decimal place
-							tempTargetRPM += tempValue / numbersPlace; // Add the decimal place value to targetRPM
-						}
-						else{
-							for (int i = 0; i < (2 - cursorAt) ; i++){ numbersPlace *= 10; } // Find the correct numbers place
-							tempTargetRPM += tempValue * numbersPlace;
-						}
+		// Button Press was enter (#)
+		case 11:
+		float tempTargetRPM = 0;
+			if (targetString[0] != '_'){
+				for (cursorAt = 0; cursorAt < 7; cursorAt++){
+					if (cursorAt == 3){cursorAt++;} // Skip the decimal
+					if (targetString[cursorAt] == '_'){continue;} // Skip location if it is an _
+					float tempValue = targetString[cursorAt] - '0';
+					float numbersPlace = 10;
+					if (cursorAt > 3){ // add the decimal value to target RPM
+						for (int i = 0; i < (cursorAt - 4); i++){ numbersPlace *= 10; } // Find the correct decimal place
+						tempTargetRPM += tempValue / numbersPlace; // Add the decimal place value to targetRPM
 					}
-					targetRPM = (tempTargetRPM > RPM_UPPER) ? RPM_UPPER : tempTargetRPM; // Upper Limit
-					targetRPM = (tempTargetRPM < RPM_LOWER) ? RPM_LOWER : tempTargetRPM; // Lower Limit
+					else{
+						for (int i = 0; i < (2 - cursorAt) ; i++){ numbersPlace *= 10; } // Find the correct numbers place
+						tempTargetRPM += tempValue * numbersPlace;
+					}
 				}
-				targetSetFlag = 1;
-				// Set switch 1's flag to swap back to main menu ********
-			break;
+				targetRPM = (tempTargetRPM > RPM_UPPER) ? RPM_UPPER : tempTargetRPM; // Upper Limit
+				targetRPM = (tempTargetRPM < RPM_LOWER) ? RPM_LOWER : tempTargetRPM; // Lower Limit
+			}
+			targetSetFlag = 1;
+			// Set switch 1's flag to swap back to main menu ********
+		break;
 
-			default:
-				targetString[cursorAt] = NumberPad->recentPress + '0';
-				cursorAt++;
-			break;
-		}
+		default:
+			targetString[cursorAt] = NumberPad->recentPress + '0';
+			cursorAt++;
+		break;
+
 	}
 	createTargetString(&(Display->wholeMSG[0][0]), &(targetString[0]), 1);
 }
+
 // Ready Fns
 
 int voltCalcReady(){return calcVoltFlag;}
 int freqCalcReady(){return calcFreqFlag;}
 int dispUpdaReady(){return 1;}
 int readPadReady(){return gettingUserInputFlag;}
+int handlePadPressReady(){
+	if ((!(NumberPad->state)) == NumberPad->prevState){return 1;}
+	return 0;
+}
 
 // Cooldown Fns
 
@@ -185,6 +190,7 @@ int voltCoolDown(){return VOLTAGE_DEADLINE;}
 int freqCoolDown(){return FREQ_DEADLINE;}
 int dispCoolDown(){return 0;}
 int readPadCooldown(){return 5;}
+int handlePadPressCooldown(){return 0;}
 
 //------------------------------------------------------------------------------
 // Main

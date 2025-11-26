@@ -106,7 +106,7 @@ typedef struct Numpad{
 	int *numpadValues; // Points to a 2D flattened array of int values that holds the Numpad Key's Values
 	//*-Function Pointers-*//
 	void (*changeDimMODER)(struct Numpad*, char Dimension, char MODERType); // Changes either the row's or cols MODER
-	int (*stateMachineReadPad)(struct Numpad*); // RTOS friendly Numpad Read
+	void (*stateMachineReadPad)(struct Numpad*); // RTOS friendly Numpad Read
 	
 }Numpad;
 
