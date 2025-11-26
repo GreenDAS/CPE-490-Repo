@@ -49,6 +49,7 @@
 #define FREQ_DEADLINE       500
 #define DISPLAY_DEADLINE    600
 #define READ_NUMPAD_DEADLINE 25
+#define HANDLE_NUMPAD_PRESS_DEADLINE 100
 /* -------------------------------------------------------------------------
  * Type Definitions
  * ------------------------------------------------------------------------- */
