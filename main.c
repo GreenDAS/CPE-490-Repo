@@ -179,7 +179,7 @@ int voltCalcReady(){return calcVoltFlag;}
 int freqCalcReady(){return calcFreqFlag;}
 int dispUpdaReady(){return 1;}
 int readPadReady(){return gettingUserInputFlag;}
-int handlePadPressReady(){return ((!(NumberPad->state)) == NumberPad->prevState) ? 1 : 0;}
+int handlePadPressReady(){return ((!(NumberPad->state)) == NumberPad->prevState) ? gettingUserInputFlag : 0;}
 
 // Cooldown Fns
 
