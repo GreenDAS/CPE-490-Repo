@@ -51,6 +51,7 @@ int calcVoltFlag = 1; // Set to always be 1 to calculate voltage so long as the 
 int calcFreqFlag = 0;
 int gettingUserInputFlag = 0;
 int targetSetFlag = 0;
+int padPressedFlag = 0;
 
 
 

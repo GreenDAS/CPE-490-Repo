@@ -100,6 +100,7 @@ extern int              calcVoltFlag;   /* 1 = always calculate voltage when rea
 extern int              calcFreqFlag;   /* 0 = off by default */
 extern int              gettingUserInputFlag; /* 0 = not getting user input by default*/
 extern int              targetSetFlag;  /* 0 = value not just set yet*/
+extern int              padPressedFlag; /* 0 = no button pressed yet*/
 /* -------------------------------------------------------------------------
  * End of globals.h
  * -------------------------------------------------------------------------*/
