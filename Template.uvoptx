@@ -152,18 +152,34 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>174</LineNumber>
+          <LineNumber>223</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134229958</Address>
+          <Address>134232504</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>.\main.c</Filename>
+          <Filename>.\gpio_lib.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\Template\main.c\174</Expression>
+          <Expression>\\Template\gpio_lib.c\223</Expression>
+        </Bp>
+        <Bp>
+          <Number>1</Number>
+          <Type>0</Type>
+          <LineNumber>223</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134232590</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>.\gpio_lib.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\Template\gpio_lib.c\223</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -176,6 +192,11 @@
           <count>1</count>
           <WinNumber>1</WinNumber>
           <ItemText>Display</ItemText>
+        </Ww>
+        <Ww>
+          <count>2</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>NumberPad</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>
@@ -236,6 +257,10 @@
         <Entry>
           <Name>System Viewer\ADC1</Name>
           <WinId>35905</WinId>
+        </Entry>
+        <Entry>
+          <Name>System Viewer\GPIOC</Name>
+          <WinId>35904</WinId>
         </Entry>
       </SystemViewers>
       <DebugDescription>
