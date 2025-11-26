@@ -262,8 +262,8 @@ void stateMachineReadPad(Numpad* self){
 			else{	
 				self->prevState = self->state;  // Updates PrevState
 				self->state = 0;  // Updates State
-
 			}
+			self->readingRow, self->rowsTruesCount, self->colsTruesCount, self->readingCol = 0; // Reset Values for next read
 			break;
 	}
 }
