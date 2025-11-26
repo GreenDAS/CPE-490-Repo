@@ -167,7 +167,16 @@ void handlePadPress(){
 
 		default:
 			targetString[cursorAt] = NumberPad->recentPress + '0';
-			cursorAt = (cursorAt >= 7) ? 6 : cursorAt + 1;
+			cursorAt++;
+			if(cursorAt == 3){
+				cursorAt =  4;
+			
+			}
+			else if ((cursorAt >= 7))
+			{
+				cursorAt =  6;
+			}
+			
 		break;
 
 	}
