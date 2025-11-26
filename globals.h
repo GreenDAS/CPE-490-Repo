@@ -74,6 +74,7 @@ typedef struct {
 typedef struct IODevice		         	IODevice;
 typedef struct GeneralPurposeTimer 		GeneralPurposeTimer;
 typedef struct GenevaLCDDevice			GenevaLCDDevice;
+typedef struct Numpad		        	Numpad;
 
 /* -------------------------------------------------------------------------
  * Global Variables – extern declarations only
