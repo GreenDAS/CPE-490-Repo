@@ -41,6 +41,8 @@ void createVoltString(unsigned char msg[GenevaLCDColSize], double volt){
 	msg[39] = 0x00; // Null Terminator
 }
 
+// Tasks
+
 void readVoltage(){
 
 	// Read Voltage
@@ -112,13 +114,24 @@ void displayUpdate(){
 	}
 }
 
+void readPad(){
+	NumberPad->stateMachineReadPad(NumberPad);
+}
+
+// Ready Fns
+
 int voltCalcReady(){return calcVoltFlag;}
 int freqCalcReady(){return calcFreqFlag;}
 int dispUpdaReady(){return 1;}
+int readPadReady(){return gettingUserInputFlag;}
+
+// Cooldown Fns
 
 int voltCoolDown(){return VOLTAGE_DEADLINE;}
 int freqCoolDown(){return FREQ_DEADLINE;}
 int dispCoolDown(){return 0;}
+int readPadCooldown(){return 5;}
+
 //------------------------------------------------------------------------------
 // Main
 //------------------------------------------------------------------------------
