@@ -93,6 +93,7 @@ extern dispState      	displayState;
 extern int              calcVoltFlag;   /* 1 = always calculate voltage when ready */
 extern int              calcFreqFlag;   /* 0 = off by default */
 extern int              gettingUserInputFlag; /* 0 = not getting user input by default*/
+extern int              targetSetFlag;  /* 0 = value not just set yet*/
 /* -------------------------------------------------------------------------
  * End of globals.h
  * ------------------------------------------------------------------------- */
