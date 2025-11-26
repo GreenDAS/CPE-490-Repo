@@ -33,6 +33,8 @@ IODevice FreqReader;
 GeneralPurposeTimer Timer2;
 GeneralPurposeTimer Timer3;
 GenevaLCDDevice *Display;
+Numpad *NumberPad;
+
 int voltageMeasurements = 0;
 float voltageAccum = 0;
 float frequency = 0;

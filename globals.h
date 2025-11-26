@@ -75,6 +75,7 @@ extern IODevice         FreqReader;
 extern GeneralPurposeTimer Timer2;
 extern GeneralPurposeTimer Timer3;
 extern GenevaLCDDevice *Display;
+extern Numpad           *NumberPad;
 
 extern int              voltageMeasurements;
 extern float            voltageAccum;
