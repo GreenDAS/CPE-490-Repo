@@ -61,10 +61,6 @@ void SetGPIO(GPIO_TypeDef* base, int pin, int value){
 #define IODeviceClassCode
 #include "interupt_lib.h"
 
-
-// Class Declaration
-
-
 // Class Methods //
 
 /* Sets the Pin's State to a Value
@@ -183,12 +179,7 @@ IODevice IODevice_Create(char GPIO, int Pin, int NormalState, int TrueState, cha
 
 /*---Numpads---*/
 
-// Class Declaration
-
-
-
 // Class Methods
-
 // Changes the Row or Column IO to the proper MODERType
 void changeDimMODER(Numpad* self, char Dim, char MODERType){
 	switch(Dim){
@@ -208,14 +199,12 @@ void changeDimMODER(Numpad* self, char Dim, char MODERType){
 }
 
 
-
-
 /* Moves through steps of the Numpad Read Process at an RTOS's Discresstion.
 	For my EDF RTOS, use a cooldown of 5ms & a deadline of 100ms
 --To manually index throgh a flattened 2D array, algorythoim is the following--
-	row = which row you want (0 ; rows-1)
+	row = which row you want (0 - rows-1)
 	cols = the total number of columns in each row (not cols-1)
-	col = which column in that row (0 ; cols-1)
+	col = which column in that row (0 - cols-1)
 	Array[row*cols+col]
 	
 */
@@ -277,7 +266,13 @@ void stateMachineReadPad(Numpad* self){
 }
 
 
-// Constructor
+/* Constructor
+ Arg1 = Pointer to a 2D RowSize by ColSize array
+ Arg2 = An 1D RowSize Array of IODevices
+ Arg3 = An 1D ColSize Array of IODevices
+ Arg4 = # of rows on Numpad
+ Arg5 = # of cols on Numpad
+ */
 Numpad* Numpad_Create(int *NumpadValues, IODevice* RowIO, IODevice* ColIO, int RowSize, int ColSize) {
 	Numpad* self = malloc(sizeof(Numpad));
 	self->numpadValues = NumpadValues;
