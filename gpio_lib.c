@@ -210,12 +210,11 @@ IODevice IODevice_Create(char GPIO, int Pin, int NormalState, int TrueState, cha
 typedef struct Numpad{
 	//*-Parents-*//
 	//*-Properties-*//
-	GeneralPurposeTimer* timer; // The timer used to wait
 	int rowSize; // the rowSize of the numPad
 	int colSize; // the colSize of the numPad
-	int prevState; // T/F value if a button was previously pressed
-	int state;  // T/F value if a button was pressed
-	int recentPress; // Numpad Value if a button is pressed
+	int prevState = 0; // T/F value if a button was previously pressed
+	int state = 0;  // T/F value if a button was pressed
+	int recentPress = 0; // Numpad Value if a button is pressed
 
 	int readingRow = 0; // Used to point out what row is being read from: init as 0
 	int rowsTruesCount = 0; // Used to check how many rows are reporting being pressed: init as 0
@@ -229,7 +228,7 @@ typedef struct Numpad{
 	int *numpadValues; // Points to a 2D flattened array of int values that holds the Numpad Key's Values
 	//*-Function Pointers-*//
 	void (*changeDimMODER)(struct Numpad*, char Dimension, char MODERType); // Changes either the row's or cols MODER
-	void (*greedyReadPad)(struct Numpad*); // Hog Processor time with greedy waits to read the numpad
+	void (*rtosReadPad)(struct Numpad*); // RTOS friendly Numpad Read
 	
 }Numpad;
 
@@ -254,69 +253,17 @@ void changeDimMODER(Numpad* self, char Dim, char MODERType){
 	}
 }
 
-/* Read Pad and stop program to wait for X amount of time to pass 
-	(hence the Greedy as it steals valuable processing time by waiting.)
---To manually index throgh a flattened 2D array, algorythoim is the following--
-	row = which row you want (0 � rows-1)
-	cols = the total number of columns in each row (not cols-1)
-	col = which column in that row (0 � cols-1)
-	Array[row*cols+col]
-*/
-void greedyReadPad(Numpad* self){
-	// Pointing out what Value was used
-	int rowVal =0; // What Row was 0
-	int colVal =0; // What Col was 0
-	
-	// Error Correction
-	int truesCountRows =0; // how many 0s from Row
-	int truesCountCollumns =0; // How many 0s from Col
-	
-	for(int i=0; i < self->rowSize; i++){self->rowIO[i].setState(&(self->rowIO[i]),0);} // Ensures the ODR for the Row is set to 0 to prevent any wonky signals
-	self->changeDimMODER(self, 'R', 'I'); // Sets the row GPIO ports to Input
-	self->changeDimMODER(self, 'C', 'O'); // Sets the col GPIO ports to Output
-	for(int j=0; j < self->colSize; j++){self->colIO[j].setState(&(self->colIO[j]),1);} // Sets the Col to on
-	
-	self->timer->greedyWait(self->timer,5,1/1000); // Wait 5ms
-	
-	for(int i = 0; i<self->rowSize; i++){	// Read Rows And Count 0s
-		self->rowIO[i].getState(&self->rowIO[i]); // Gets the state a row
-		truesCountRows += self->rowIO[i].state;	// Counts up 1 if the there was a 0
-		if(self->rowIO[i].state){rowVal = i;} // Remembers where the last 1 was
-	}
-	
-	self->changeDimMODER(self, 'R', 'O'); // Sets the row GPIO ports to Output
-	for(int i=0; i < self->rowSize; i++){self->rowIO[i].setState(&(self->rowIO[i]),1);} // Sets the Row to on
-	for(int j=0; j < self->colSize; j++){self->colIO[j].setState(&(self->colIO[j]),0);} // Ensures the ODR for the Col is set to 0 to prevent any wonky signals
-	self->changeDimMODER(self, 'C', 'I'); // Sets the col GPIO ports to Input
-	
-	self->timer->greedyWait(self->timer,5,1/1000); // Wait 5ms
-	
-	for(int j = 0; j<self->colSize; j++){ // Read Col and Count 0s
-		self->colIO[j].getState(&self->colIO[j]); // Gets the state a col
-		truesCountCollumns += self->colIO[j].state; // Counts up 1 if the there was a 0
-		if(self->colIO[j].state){colVal = j;} // Remembers where the last 1 was
-	}
-	// Check to see if more or eqial to 1 button is being pressed
-	if((truesCountRows >= 1) && (truesCountCollumns >= 1)){  // If not, update recent press value and state values
-		self->prevState = self->state; // Updates PrevState
-		self->state = 1; // Updates State
-		if ((truesCountRows == 1) && (truesCountCollumns == 1)){self->recentPress = self->numpadValues[rowVal*(self->colSize)+colVal];} // If only one 1 in row and one 1 in columns, then update the recent press value
-	}
-	else{	// If so, update state values
-		self->prevState = self->state;  // Updates PrevState
-		self->state = 0;  // Updates State
-	}
-}
 
 
-/* Read Pad and stop program to wait for X amount of time to pass 
-	(hence the Greedy as it steals valuable processing time by waiting.)
+
+/* Moves through steps of the Numpad Read Process at an RTOS's Discresstion.
+	For my EDF RTOS, use a cooldown of 5ms & a deadline of 100ms
 --To manually index throgh a flattened 2D array, algorythoim is the following--
 	row = which row you want (0 ; rows-1)
 	cols = the total number of columns in each row (not cols-1)
 	col = which column in that row (0 ; cols-1)
 	Array[row*cols+col]
-	use a cooldown of 5ms
+	
 */
 void rtosReadPad(Numpad* self){
 	
@@ -377,18 +324,16 @@ void rtosReadPad(Numpad* self){
 
 
 // Constructor
-Numpad Numpad_Create(int *NumpadValues,IODevice* RowIO,IODevice* ColIO, int RowSize, int ColSize, int State, GeneralPurposeTimer* Timer) {
+Numpad Numpad_Create(int *NumpadValues, IODevice* RowIO, IODevice* ColIO, int RowSize, int ColSize) {
 	Numpad self;
 	self.numpadValues = NumpadValues;
 	self.rowIO = RowIO;
 	self.colIO = ColIO;
 	self.rowSize = RowSize;
 	self.colSize = ColSize;
-	self.state = State;
-	self.prevState = State;
 	self.timer = Timer;
 	self.changeDimMODER = changeDimMODER;
-	self.greedyReadPad = greedyReadPad;
+	self.rtosReadPad = rtosReadPad;
 	
 	return self;
 }
