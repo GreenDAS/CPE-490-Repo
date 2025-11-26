@@ -47,7 +47,7 @@ dispState displayState = SUCCESS;
 // FLAGS
 int calcVoltFlag = 1; // Set to always be 1 to calculate voltage so long as the deadline is met
 int calcFreqFlag = 0;
-int gettingUserInput = 0;
+int gettingUserInputFlag = 0;
 
 
 
