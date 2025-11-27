@@ -44,14 +44,14 @@ Numpad* CreateNumpad(){
 	IODevice* rowIOP = malloc(4 * sizeof(IODevice));
 	IODevice* colIOP = malloc(3 * sizeof(IODevice));
 	
-	rowIOP[0] = IODevice_Create('B', ROW1, 0, 1, 'I');
-	rowIOP[1] = IODevice_Create('B', ROW2, 0, 1, 'I');
-	rowIOP[2] = IODevice_Create('B', ROW3, 0, 1, 'I');
-	rowIOP[3] = IODevice_Create('B', ROW4, 0, 1, 'I');
+	rowIOP[0] = IODevice_Create('C', ROW1, 0, 1, 'I');
+	rowIOP[1] = IODevice_Create('C', ROW2, 0, 1, 'I');
+	rowIOP[2] = IODevice_Create('C', ROW3, 0, 1, 'I');
+	rowIOP[3] = IODevice_Create('C', ROW4, 0, 1, 'I');
 
-	colIOP[0] = IODevice_Create('B', COL1, 0, 1, 'I');
-	colIOP[1] = IODevice_Create('B', COL2, 0, 1, 'I');
-	colIOP[2] = IODevice_Create('B', COL3, 0, 1, 'I');
+	colIOP[0] = IODevice_Create('C', COL1, 0, 1, 'I');
+	colIOP[1] = IODevice_Create('C', COL2, 0, 1, 'I');
+	colIOP[2] = IODevice_Create('C', COL3, 0, 1, 'I');
 
 	return Numpad_Create(&NumpadValues[0][0], rowIOP, colIOP, 4, 3);
 	

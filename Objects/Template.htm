@@ -3,9 +3,9 @@
 <title>Static Call Graph - [.\Objects\Template.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\Template.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Wed Nov 26 17:02:05 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Wed Nov 26 18:26:32 2025
 <BR><P>
-<H3>Maximum Stack Usage =        896 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =        904 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
 __rt_entry_main &rArr; main &rArr; _init_ &rArr; CreateNumpad &rArr; Numpad_Create &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
 <P>
@@ -452,7 +452,7 @@ Global Symbols
 <P><STRONG><a name="[142]"></a>__rt_entry_postsh_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$00000009))
 
 <P><STRONG><a name="[b1]"></a>__rt_entry_main</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$0000000D))
-<BR><BR>[Stack]<UL><LI>Max Depth = 896 + Unknown Stack Size
+<BR><BR>[Stack]<UL><LI>Max Depth = 904 + Unknown Stack Size
 <LI>Call Chain = __rt_entry_main &rArr; main &rArr; _init_ &rArr; CreateNumpad &rArr; Numpad_Create &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -1265,8 +1265,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__default_signal_display
 </UL>
 
-<P><STRONG><a name="[e6]"></a>CreateNumpad</STRONG> (Thumb, 816 bytes, Stack size 424 bytes, _init_.o(.text.CreateNumpad))
-<BR><BR>[Stack]<UL><LI>Max Depth = 504<LI>Call Chain = CreateNumpad &rArr; Numpad_Create &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
+<P><STRONG><a name="[e6]"></a>CreateNumpad</STRONG> (Thumb, 822 bytes, Stack size 432 bytes, _init_.o(.text.CreateNumpad))
+<BR><BR>[Stack]<UL><LI>Max Depth = 512<LI>Call Chain = CreateNumpad &rArr; Numpad_Create &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc
 <LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Numpad_Create
@@ -1384,7 +1384,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[f5]"></a>_init_</STRONG> (Thumb, 720 bytes, Stack size 288 bytes, _init_.o(.text._init_))
-<BR><BR>[Stack]<UL><LI>Max Depth = 792<LI>Call Chain = _init_ &rArr; CreateNumpad &rArr; Numpad_Create &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
+<BR><BR>[Stack]<UL><LI>Max Depth = 800<LI>Call Chain = _init_ &rArr; CreateNumpad &rArr; Numpad_Create &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
 </UL>
 <BR>[Calls]<UL><LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
 <LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PeripheralInteruptHandling_Create
@@ -1539,7 +1539,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[b2]"></a>main</STRONG> (Thumb, 572 bytes, Stack size 104 bytes, main.o(.text.main))
-<BR><BR>[Stack]<UL><LI>Max Depth = 896<LI>Call Chain = main &rArr; _init_ &rArr; CreateNumpad &rArr; Numpad_Create &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
+<BR><BR>[Stack]<UL><LI>Max Depth = 904<LI>Call Chain = main &rArr; _init_ &rArr; CreateNumpad &rArr; Numpad_Create &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
 </UL>
 <BR>[Calls]<UL><LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy4
 <LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_init_

@@ -25,13 +25,13 @@
 #define SW1                 4
 #define SW2                 5
 
-#define ROW1                7
-#define ROW2                6
-#define ROW3                5
-#define ROW4                4
-#define COL1                3
-#define COL2                2
-#define COL3                1
+#define ROW1                14
+#define ROW2                13
+#define ROW3                12
+#define ROW4                11
+#define COL1                10
+#define COL2                9
+#define COL3                8
 //
 
 

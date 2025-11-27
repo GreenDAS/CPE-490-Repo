@@ -210,15 +210,12 @@ void changeDimMODER(Numpad* self, char Dim, char MODERType){
 */
 void stateMachineReadPad(Numpad* self){
 	
-	// Have I finished?
-	if(self->readState == readPadFINISHED){ // If So, Reset State
-		self->readState = readPadROW;
-	}
-	// If not, increment
-	else{(self->readState)++;}
-	
 	switch (self->readState){
 		case readPadROW:
+			self->readingRow = 0;
+			self->rowsTruesCount = 0;
+			
+
 			// Read Rows
 			for(int i = 0; i<self->rowSize; i++){	// Read Rows And Count 0s
 				self->rowIO[i].getState(&self->rowIO[i]); // Gets the state a row
@@ -226,7 +223,7 @@ void stateMachineReadPad(Numpad* self){
 				if(self->rowIO[i].state){self->readingRow = i;} // Remembers where the last 1 was
 			}
 
-			// Setup Reading Cols
+			// Setup Reading Cols	
 			self->changeDimMODER(self, 'R', 'O'); // Sets the row GPIO ports to Output
 			for(int i=0; i < self->rowSize; i++){self->rowIO[i].setState(&(self->rowIO[i]),1);} // Sets the Row to on
 			for(int j=0; j < self->colSize; j++){self->colIO[j].setState(&(self->colIO[j]),0);} // Ensures the ODR for the Col is set to 0 to prevent any wonky signals
@@ -234,6 +231,9 @@ void stateMachineReadPad(Numpad* self){
 
 			break;
 		case readPadCOL:
+			self->colsTruesCount = 0;
+			self->readingCol = 0;
+
 			// Read Cols
 			for(int j = 0; j<self->colSize; j++){ // Read Col and Count 0s
 				self->colIO[j].getState(&self->colIO[j]); // Gets the state a col
@@ -263,12 +263,14 @@ void stateMachineReadPad(Numpad* self){
 				self->prevState = self->state;  // Updates PrevState
 				self->state = 0;  // Updates State
 			}
-			self->readingRow = 0;
-			self->rowsTruesCount = 0;
-			self->colsTruesCount = 0;
-			self->readingCol = 0; // Reset Values for next read
 			break;
 	}
+	// Have I finished?
+	if(self->readState == readPadFINISHED){ // If So, Reset State
+		self->readState = readPadROW;
+	}
+	// If not, increment
+	else{(self->readState)++;}
 }
 
 

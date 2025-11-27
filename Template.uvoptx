@@ -152,25 +152,9 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>218</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134232456</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>.\gpio_lib.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\Template\gpio_lib.c\218</Expression>
-        </Bp>
-        <Bp>
-          <Number>1</Number>
-          <Type>0</Type>
           <LineNumber>253</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134232930</Address>
+          <Address>134232938</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -182,11 +166,11 @@
           <Expression>\\Template\gpio_lib.c\253</Expression>
         </Bp>
         <Bp>
-          <Number>2</Number>
+          <Number>1</Number>
           <Type>0</Type>
           <LineNumber>230</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134232598</Address>
+          <Address>134232606</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -198,11 +182,11 @@
           <Expression>\\Template\gpio_lib.c\230</Expression>
         </Bp>
         <Bp>
-          <Number>3</Number>
+          <Number>2</Number>
           <Type>0</Type>
-          <LineNumber>246</LineNumber>
+          <LineNumber>245</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134232860</Address>
+          <Address>134232822</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -211,7 +195,7 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>.\gpio_lib.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\Template\gpio_lib.c\246</Expression>
+          <Expression>\\Template\gpio_lib.c\245</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -289,6 +273,10 @@
         <Entry>
           <Name>System Viewer\ADC1</Name>
           <WinId>35905</WinId>
+        </Entry>
+        <Entry>
+          <Name>System Viewer\GPIOB</Name>
+          <WinId>35903</WinId>
         </Entry>
         <Entry>
           <Name>System Viewer\GPIOC</Name>
