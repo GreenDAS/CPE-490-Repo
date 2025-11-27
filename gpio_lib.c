@@ -132,24 +132,25 @@ void toggle(IODevice* self){
  Arg4 = State should read true when; GPIO Pin is 0 or 1
  Arg5 = MODER Type (I, Input; O, Output;  F, Alt-Function; A, Analog)
 */
-IODevice IODevice_Create(char GPIO, int Pin, int NormalState, int TrueState, char MODERType) {
-	IODevice self;
+IODevice* IODevice_Create(char GPIO, int Pin, int NormalState, int TrueState, char MODERType) {
+	IODevice* self = malloc(sizeof(IODevice));
+	while(self == NULL){} // Out of Memmory
 	
 	switch(GPIO){
 		case('A'):
-			self.GPIOX = GPIOA;
+			self->GPIOX = GPIOA;
 			if(((RCC->AHB2ENR & RCC_AHB2ENR_GPIOAEN)>>RCC_AHB2ENR_GPIOAEN) == 0){RCC->AHB2ENR |= RCC_AHB2ENR_GPIOAEN;}
 			break;
 		case('B'):
-			self.GPIOX = GPIOB;
+			self->GPIOX = GPIOB;
 			if(((RCC->AHB2ENR & RCC_AHB2ENR_GPIOBEN)>>RCC_AHB2ENR_GPIOBEN) == 0){RCC->AHB2ENR |= RCC_AHB2ENR_GPIOBEN;}
 			break;
 		case('C'):
-			self.GPIOX = GPIOC;
+			self->GPIOX = GPIOC;
 			if(((RCC->AHB2ENR & RCC_AHB2ENR_GPIOCEN)>>RCC_AHB2ENR_GPIOCEN) == 0){RCC->AHB2ENR |= RCC_AHB2ENR_GPIOCEN;}
 			break;
 		case('D'):
-			self.GPIOX = GPIOD;
+			self->GPIOX = GPIOD;
 			if(((RCC->AHB2ENR & RCC_AHB2ENR_GPIODEN)>>RCC_AHB2ENR_GPIODEN) == 0){RCC->AHB2ENR |= RCC_AHB2ENR_GPIODEN;}
 			break;
 			default:
@@ -157,19 +158,19 @@ IODevice IODevice_Create(char GPIO, int Pin, int NormalState, int TrueState, cha
 	}
 	if(((RCC->AHB2ENR & RCC_AHB2ENR_GPIOCEN)>>RCC_AHB2ENR_GPIOCEN) == 0){RCC->AHB2ENR |= RCC_AHB2ENR_GPIOCEN;}
 	
-	self.MODERState = MODERType;
-	self.pin = Pin;
-	self.GPIOchar = GPIO;
-	self.setState = setState;
-	self.getState = getState;
-	self.toggle = toggle;
-	self.setMODER = setMODER;
-	self.setMODER(&self);
-	self.state = 0;
-	self.prevState = 0;
-	self.normalState = NormalState;
-	self.trueState = TrueState;
-	self.initInterupt = _init_GPIOInterupt;
+	self->MODERState = MODERType;
+	self->pin = Pin;
+	self->GPIOchar = GPIO;
+	self->setState = setState;
+	self->getState = getState;
+	self->toggle = toggle;
+	self->setMODER = setMODER;
+	self->setMODER(&self);
+	self->state = 0;
+	self->prevState = 0;
+	self->normalState = NormalState;
+	self->trueState = TrueState;
+	self->initInterupt = _init_GPIOInterupt;
 	return self;
 }
 #endif
@@ -185,14 +186,14 @@ void changeDimMODER(Numpad* self, char Dim, char MODERType){
 	switch(Dim){
 		case('R'): // Set RowIO to MODERType
 			for(int i = 0; i<self->rowSize; i++){
-				self->rowIO[i].MODERState = MODERType; 
-				self->rowIO[i].setMODER(&(self->rowIO[i]));
+				self->rowIO[i]->MODERState = MODERType; 
+				self->rowIO[i]->setMODER(&(self->rowIO[i]));
 			}
 			break;
 		case('C'): // Set ColIO to MODERType
 			for(int j = 0; j<self->colSize; j++){
-				self->colIO[j].MODERState = MODERType; 
-				self->colIO[j].setMODER(&(self->colIO[j]));
+				self->colIO[j]->MODERState = MODERType; 
+				self->colIO[j]->setMODER(&(self->colIO[j]));
 			}
 			break;
 	}
@@ -218,15 +219,15 @@ void stateMachineReadPad(Numpad* self){
 
 			// Read Rows
 			for(int i = 0; i<self->rowSize; i++){	// Read Rows And Count 0s
-				self->rowIO[i].getState(&self->rowIO[i]); // Gets the state a row
-				self->rowsTruesCount += self->rowIO[i].state;	// Counts up 1 if the there was a 0
-				if(self->rowIO[i].state){self->readingRow = i;} // Remembers where the last 1 was
+				self->rowIO[i]->getState(&self->rowIO[i]); // Gets the state a row
+				self->rowsTruesCount += self->rowIO[i]->state;	// Counts up 1 if the there was a 0
+				if(self->rowIO[i]->state){self->readingRow = i;} // Remembers where the last 1 was
 			}
 
 			// Setup Reading Cols	
 			self->changeDimMODER(self, 'R', 'O'); // Sets the row GPIO ports to Output
-			for(int i=0; i < self->rowSize; i++){self->rowIO[i].setState(&(self->rowIO[i]),1);} // Sets the Row to on
-			for(int j=0; j < self->colSize; j++){self->colIO[j].setState(&(self->colIO[j]),0);} // Ensures the ODR for the Col is set to 0 to prevent any wonky signals
+			for(int i=0; i < self->rowSize; i++){self->rowIO[i]->setState(&(self->rowIO[i]),1);} // Sets the Row to on
+			for(int j=0; j < self->colSize; j++){self->colIO[j]->setState(&(self->colIO[j]),0);} // Ensures the ODR for the Col is set to 0 to prevent any wonky signals
 			self->changeDimMODER(self, 'C', 'I'); // Sets the col GPIO ports to Input
 
 			break;
@@ -236,16 +237,16 @@ void stateMachineReadPad(Numpad* self){
 
 			// Read Cols
 			for(int j = 0; j<self->colSize; j++){ // Read Col and Count 0s
-				self->colIO[j].getState(&self->colIO[j]); // Gets the state a col
-				self->colsTruesCount += self->colIO[j].state; // Counts up 1 if the there was a 0
-				if(self->colIO[j].state){self->readingCol = j;} // Remembers where the last 1 was
+				self->colIO[j]->getState(&self->colIO[j]); // Gets the state a col
+				self->colsTruesCount += self->colIO[j]->state; // Counts up 1 if the there was a 0
+				if(self->colIO[j]->state){self->readingCol = j;} // Remembers where the last 1 was
 			}
 
 			// Setup Reading Rows
-			for(int i=0; i < self->rowSize; i++){self->rowIO[i].setState(&(self->rowIO[i]),0);} // Ensures the ODR for the Row is set to 0 to prevent any wonky signals
+			for(int i=0; i < self->rowSize; i++){self->rowIO[i]->setState(&(self->rowIO[i]),0);} // Ensures the ODR for the Row is set to 0 to prevent any wonky signals
 			self->changeDimMODER(self, 'R', 'I'); // Sets the row GPIO ports to Input
 			self->changeDimMODER(self, 'C', 'O'); // Sets the col GPIO ports to Output
-			for(int j=0; j < self->colSize; j++){self->colIO[j].setState(&(self->colIO[j]),1);} // Sets the Col to on
+			for(int j=0; j < self->colSize; j++){self->colIO[j]->setState(&(self->colIO[j]),1);} // Sets the Col to on
 
 			break;
 		case readPadFINISHED:
@@ -281,7 +282,7 @@ void stateMachineReadPad(Numpad* self){
  Arg4 = # of rows on Numpad
  Arg5 = # of cols on Numpad
  */
-Numpad* Numpad_Create(int *NumpadValues, IODevice* RowIO, IODevice* ColIO, int RowSize, int ColSize) {
+Numpad* Numpad_Create(int *NumpadValues, IODevice** RowIO, IODevice** ColIO, int RowSize, int ColSize) {
 	Numpad* self = malloc(sizeof(Numpad));
 	self->numpadValues = NumpadValues;
 	self->rowIO = RowIO;

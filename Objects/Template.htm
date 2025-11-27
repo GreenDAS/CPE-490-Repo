@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\Template.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\Template.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Wed Nov 26 19:39:07 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Wed Nov 26 20:05:40 2025
 <BR><P>
 <H3>Maximum Stack Usage =       1112 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -80,7 +80,6 @@ Function Pointers
  <LI><a href="#[4b]">LPTIM1_IRQHandler</a> from startup_stm32l476xx.o(.text) referenced from startup_stm32l476xx.o(RESET)
  <LI><a href="#[4c]">LPTIM2_IRQHandler</a> from startup_stm32l476xx.o(.text) referenced from startup_stm32l476xx.o(RESET)
  <LI><a href="#[50]">LPUART1_IRQHandler</a> from startup_stm32l476xx.o(.text) referenced from startup_stm32l476xx.o(RESET)
- <LI><a href="#[6d]">MODERSet</a> from gpio_lib.o(.text.MODERSet) referenced 2 times from gpio_lib.o(.text.IODevice_Create)
  <LI><a href="#[3]">MemManage_Handler</a> from startup_stm32l476xx.o(.text) referenced from startup_stm32l476xx.o(RESET)
  <LI><a href="#[1]">NMI_Handler</a> from startup_stm32l476xx.o(.text) referenced from startup_stm32l476xx.o(RESET)
  <LI><a href="#[4d]">OTG_FS_IRQHandler</a> from startup_stm32l476xx.o(.text) referenced from startup_stm32l476xx.o(RESET)
@@ -152,6 +151,7 @@ Function Pointers
  <LI><a href="#[68]">sendMSGBits</a> from lcd_lib.o(.text.sendMSGBits) referenced 2 times from lcd_lib.o(.text.GenevaLCDDevice_Create)
  <LI><a href="#[61]">setBits</a> from timer_lib.o(.text.setBits) referenced 2 times from timer_lib.o(.text.GeneralPurposeTimer_Create)
  <LI><a href="#[72]">setIXER</a> from interupt_lib.o(.text.setIXER) referenced 2 times from interupt_lib.o(.text.PeripheralInteruptHandling_Create)
+ <LI><a href="#[6d]">setMODER</a> from gpio_lib.o(.text.setMODER) referenced 2 times from gpio_lib.o(.text.IODevice_Create)
  <LI><a href="#[74]">setPinInterupt</a> from interupt_lib.o(.text.setPinInterupt) referenced 2 times from interupt_lib.o(.text._init_GPIOInterupt)
  <LI><a href="#[71]">setPriorityBit</a> from interupt_lib.o(.text.setPriorityBit) referenced 2 times from interupt_lib.o(.text.PeripheralInteruptHandling_Create)
  <LI><a href="#[6a]">setState</a> from gpio_lib.o(.text.setState) referenced 2 times from gpio_lib.o(.text.IODevice_Create)
@@ -1326,11 +1326,6 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_init_
 </UL>
 
-<P><STRONG><a name="[6d]"></a>MODERSet</STRONG> (Thumb, 172 bytes, Stack size 8 bytes, gpio_lib.o(.text.MODERSet))
-<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = MODERSet
-</UL>
-<BR>[Address Reference Count : 1]<UL><LI> gpio_lib.o(.text.IODevice_Create)
-</UL>
 <P><STRONG><a name="[e8]"></a>Numpad_Create</STRONG> (Thumb, 120 bytes, Stack size 32 bytes, gpio_lib.o(.text.Numpad_Create))
 <BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = Numpad_Create &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
 </UL>
@@ -1539,7 +1534,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;greedyWriteString
 </UL>
 
-<P><STRONG><a name="[b2]"></a>main</STRONG> (Thumb, 780 bytes, Stack size 320 bytes, main.o(.text.main))
+<P><STRONG><a name="[b2]"></a>main</STRONG> (Thumb, 782 bytes, Stack size 320 bytes, main.o(.text.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 1112<LI>Call Chain = main &rArr; _init_ &rArr; CreateNumpad &rArr; Numpad_Create &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
 </UL>
 <BR>[Calls]<UL><LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy4
@@ -1590,6 +1585,11 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setIRQn
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> interupt_lib.o(.text.PeripheralInteruptHandling_Create)
+</UL>
+<P><STRONG><a name="[6d]"></a>setMODER</STRONG> (Thumb, 170 bytes, Stack size 12 bytes, gpio_lib.o(.text.setMODER))
+<BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = setMODER
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> gpio_lib.o(.text.IODevice_Create)
 </UL>
 <P><STRONG><a name="[74]"></a>setPinInterupt</STRONG> (Thumb, 140 bytes, Stack size 24 bytes, interupt_lib.o(.text.setPinInterupt))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = setPinInterupt &rArr; __NVIC_SetPriority

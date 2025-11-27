@@ -70,7 +70,7 @@ typedef struct IODevice{
  Arg4 = State should read true when; GPIO Pin is 0 or 1
  Arg5 = MODER Type (I, Input; O, Output;  F, Alt-Function; A, Analog)
 */
-IODevice IODevice_Create(char GPIO, int Pin, int NormalState, int TrueState, char MODERType); // Creates and IO Device
+IODevice* IODevice_Create(char GPIO, int Pin, int NormalState, int TrueState, char MODERType); // Creates and IO Device
 #endif
 
 
@@ -101,8 +101,8 @@ typedef struct Numpad{
 	NumpadReadState readState; // The Numpad Read State
 
 	//*-Array Pointers-*//
-	IODevice *rowIO; // Points to an array of GPIO ports for the rows of the Numpad
-	IODevice *colIO; // Points to an array of GPIO ports for the cols of the Numpad
+	IODevice **rowIO; // Points to an array of GPIO ports for the rows of the Numpad
+	IODevice **colIO; // Points to an array of GPIO ports for the cols of the Numpad
 	int *numpadValues; // Points to a 2D flattened array of int values that holds the Numpad Key's Values
 	//*-Function Pointers-*//
 	void (*changeDimMODER)(struct Numpad*, char Dimension, char MODERType); // Changes either the row's or cols MODER
