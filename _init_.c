@@ -107,6 +107,7 @@ void _init_(){
 
 	NumberPad = CreateNumpad();
 
+	/*
 	RCC->AHB2ENR |= RCC_AHB2ENR_ADCEN; // Enable ADC Clock
 	if ((ADC1->CR & ADC_CR_DEEPPWD) == ADC_CR_DEEPPWD){ADC1->CR &= ~ADC_CR_DEEPPWD;} // Wake up ADC from Deep Power Down
 	ADC1->CR |= ADC_CR_ADVREGEN; // Enable ADC Voltage Regulator
@@ -138,7 +139,7 @@ void _init_(){
 	Timer2.InteruptHandler->setIXER(Timer2.InteruptHandler,'S'); // Enables the interupt in the NVIC
 	Timer2.InteruptHandler->initCCInterupt(Timer2.TIMX);
 	Timer2.setBits(&(Timer2.TIMX->CR1),0,1);
-
+	*/
 	InitSysTick(3999, 1); // Sets up SysTick for 1ms interrupts with interrupt enabled
 
 }

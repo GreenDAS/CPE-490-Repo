@@ -3,11 +3,11 @@
 <title>Static Call Graph - [.\Objects\Template.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\Template.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Wed Nov 26 20:05:40 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Thu Nov 27 08:33:39 2025
 <BR><P>
-<H3>Maximum Stack Usage =       1112 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =        484 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
-__rt_entry_main &rArr; main &rArr; _init_ &rArr; CreateNumpad &rArr; Numpad_Create &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
+__rt_entry_main &rArr; main &rArr; _init_ &rArr; GenevaLCDDevice_Create &rArr; _initLCD_ &rArr; lcd_Init &rArr; tim6_Del
 <P>
 <H3>
 Functions with no stack information
@@ -452,8 +452,8 @@ Global Symbols
 <P><STRONG><a name="[142]"></a>__rt_entry_postsh_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$00000009))
 
 <P><STRONG><a name="[b1]"></a>__rt_entry_main</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$0000000D))
-<BR><BR>[Stack]<UL><LI>Max Depth = 1112 + Unknown Stack Size
-<LI>Call Chain = __rt_entry_main &rArr; main &rArr; _init_ &rArr; CreateNumpad &rArr; Numpad_Create &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
+<BR><BR>[Stack]<UL><LI>Max Depth = 484 + Unknown Stack Size
+<LI>Call Chain = __rt_entry_main &rArr; main &rArr; _init_ &rArr; GenevaLCDDevice_Create &rArr; _initLCD_ &rArr; lcd_Init &rArr; tim6_Del
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;exit
@@ -784,6 +784,7 @@ Global Symbols
 <LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GenevaLCDDevice_Create
 <LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Numpad_Create
 <LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CreateNumpad
+<LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IODevice_Create
 </UL>
 
 <P><STRONG><a name="[bb]"></a>free</STRONG> (Thumb, 78 bytes, Stack size 16 bytes, h1_free.o(.text))
@@ -1265,8 +1266,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__default_signal_display
 </UL>
 
-<P><STRONG><a name="[e6]"></a>CreateNumpad</STRONG> (Thumb, 816 bytes, Stack size 424 bytes, _init_.o(.text.CreateNumpad))
-<BR><BR>[Stack]<UL><LI>Max Depth = 504<LI>Call Chain = CreateNumpad &rArr; Numpad_Create &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
+<P><STRONG><a name="[e6]"></a>CreateNumpad</STRONG> (Thumb, 258 bytes, Stack size 40 bytes, _init_.o(.text.CreateNumpad))
+<BR><BR>[Stack]<UL><LI>Max Depth = 128<LI>Call Chain = CreateNumpad &rArr; IODevice_Create &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc
 <LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Numpad_Create
@@ -1310,8 +1311,10 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getState
 </UL>
 
-<P><STRONG><a name="[e7]"></a>IODevice_Create</STRONG> (Thumb, 366 bytes, Stack size 32 bytes, gpio_lib.o(.text.IODevice_Create))
-<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = IODevice_Create
+<P><STRONG><a name="[e7]"></a>IODevice_Create</STRONG> (Thumb, 406 bytes, Stack size 40 bytes, gpio_lib.o(.text.IODevice_Create))
+<BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = IODevice_Create &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc
 </UL>
 <BR>[Called By]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CreateNumpad
 <LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_init_
@@ -1379,8 +1382,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GenevaLCDDevice_Create
 </UL>
 
-<P><STRONG><a name="[f5]"></a>_init_</STRONG> (Thumb, 720 bytes, Stack size 288 bytes, _init_.o(.text._init_))
-<BR><BR>[Stack]<UL><LI>Max Depth = 792<LI>Call Chain = _init_ &rArr; CreateNumpad &rArr; Numpad_Create &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
+<P><STRONG><a name="[f5]"></a>_init_</STRONG> (Thumb, 720 bytes, Stack size 200 bytes, _init_.o(.text._init_))
+<BR><BR>[Stack]<UL><LI>Max Depth = 348<LI>Call Chain = _init_ &rArr; GenevaLCDDevice_Create &rArr; _initLCD_ &rArr; lcd_Init &rArr; tim6_Del
 </UL>
 <BR>[Calls]<UL><LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
 <LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PeripheralInteruptHandling_Create
@@ -1401,7 +1404,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> gpio_lib.o(.text.IODevice_Create)
 </UL>
-<P><STRONG><a name="[6f]"></a>changeDimMODER</STRONG> (Thumb, 176 bytes, Stack size 32 bytes, gpio_lib.o(.text.changeDimMODER))
+<P><STRONG><a name="[6f]"></a>changeDimMODER</STRONG> (Thumb, 160 bytes, Stack size 32 bytes, gpio_lib.o(.text.changeDimMODER))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = changeDimMODER
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> gpio_lib.o(.text.Numpad_Create)
@@ -1534,8 +1537,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;greedyWriteString
 </UL>
 
-<P><STRONG><a name="[b2]"></a>main</STRONG> (Thumb, 782 bytes, Stack size 320 bytes, main.o(.text.main))
-<BR><BR>[Stack]<UL><LI>Max Depth = 1112<LI>Call Chain = main &rArr; _init_ &rArr; CreateNumpad &rArr; Numpad_Create &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
+<P><STRONG><a name="[b2]"></a>main</STRONG> (Thumb, 766 bytes, Stack size 136 bytes, main.o(.text.main))
+<BR><BR>[Stack]<UL><LI>Max Depth = 484<LI>Call Chain = main &rArr; _init_ &rArr; GenevaLCDDevice_Create &rArr; _initLCD_ &rArr; lcd_Init &rArr; tim6_Del
 </UL>
 <BR>[Calls]<UL><LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy4
 <LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IODevice_Create
@@ -1618,7 +1621,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> lcd_lib.o(.text.GenevaLCDDevice_Create)
 </UL>
-<P><STRONG><a name="[70]"></a>stateMachineReadPad</STRONG> (Thumb, 616 bytes, Stack size 40 bytes, gpio_lib.o(.text.stateMachineReadPad))
+<P><STRONG><a name="[70]"></a>stateMachineReadPad</STRONG> (Thumb, 576 bytes, Stack size 40 bytes, gpio_lib.o(.text.stateMachineReadPad))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = stateMachineReadPad
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> gpio_lib.o(.text.Numpad_Create)
