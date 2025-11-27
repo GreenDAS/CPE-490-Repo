@@ -16,6 +16,7 @@ INCUDES
  #include "gpio_lib.h"
  #include "timer_lib.h"
  #include "lcd_lib.h"
+ #include "globals.h"
  
  // Make sure to clear NVIC_CearPendingIRQ(IRQn);
  

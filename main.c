@@ -204,12 +204,10 @@ int handlePadPressCooldown(){return 0;}
 //------------------------------------------------------------------------------
 
 
-extern int systickFlag;
-
 int main(void){
 	_init_();	// Sets up classes and other variables
 
-	IODevice LEDS[4] = {
+	IODevice* LEDS[4] = {
 		IODevice_Create('C',LED1,0,1,'O'),
 		IODevice_Create('C',LED2,0,1,'O'),
 		IODevice_Create('C',LED3,0,1,'O'),
@@ -277,7 +275,7 @@ int main(void){
 
 		if(NumberPad->prevState && !NumberPad->state){
 			for(int i = 0; i < 4; i++){
-				LEDS[i].setState(&(LEDS[i]),(((NumberPad->recentPress)>>i)&1));
+				LEDS[i]->setState(LEDS[i],(((NumberPad->recentPress)>>i)&1));
 			}
 		}
 
