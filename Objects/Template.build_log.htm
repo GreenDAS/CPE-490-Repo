@@ -27,7 +27,107 @@ Project File Date:  11/22/2025
 <h2>Output:</h2>
 *** Using Compiler 'V6.22', folder: 'C:\ARM\ARMCLANG\Bin'
 Build target 'Target_1'
-".\Objects\Template.axf" - 0 Error(s), 0 Warning(s).
+gpio_lib.c(168): warning: incompatible pointer types passing 'IODevice **' (aka 'struct IODevice **') to parameter of type 'struct IODevice *'; remove & [-Wincompatible-pointer-types]
+  168 |         self->setMODER(&self);
+      |                        ^~~~~
+gpio_lib.c(190): warning: incompatible pointer types passing 'IODevice **' (aka 'struct IODevice **') to parameter of type 'struct IODevice *'; remove & [-Wincompatible-pointer-types]
+  190 |                                 self->rowIO[i]->setMODER(&(self->rowIO[i]));
+      |                                                          ^~~~~~~~~~~~~~~~~
+gpio_lib.c(196): warning: incompatible pointer types passing 'IODevice **' (aka 'struct IODevice **') to parameter of type 'struct IODevice *'; remove & [-Wincompatible-pointer-types]
+  196 |                                 self->colIO[j]->setMODER(&(self->colIO[j]));
+      |                                                          ^~~~~~~~~~~~~~~~~
+gpio_lib.c(222): warning: incompatible pointer types passing 'IODevice **' (aka 'struct IODevice **') to parameter of type 'struct IODevice *'; remove & [-Wincompatible-pointer-types]
+  222 |                                 self->rowIO[i]->getState(&self->rowIO[i]); // Gets the state a row
+      |                                                          ^~~~~~~~~~~~~~~
+gpio_lib.c(229): warning: incompatible pointer types passing 'IODevice **' (aka 'struct IODevice **') to parameter of type 'struct IODevice *'; remove & [-Wincompatible-pointer-types]
+  229 |                         for(int i=0; i < self->rowSize; i++){self->rowIO[i]->setState(&(self->rowIO[i]),1);} // Sets the Row to on
+      |                                                                                       ^~~~~~~~~~~~~~~~~
+gpio_lib.c(230): warning: incompatible pointer types passing 'IODevice **' (aka 'struct IODevice **') to parameter of type 'struct IODevice *'; remove & [-Wincompatible-pointer-types]
+  230 |                         for(int j=0; j < self->colSize; j++){self->colIO[j]->setState(&(self->colIO[j]),0);} // Ensures the ODR for the Col is set to 0 to prevent any wonky signals
+      |                                                                                       ^~~~~~~~~~~~~~~~~
+gpio_lib.c(240): warning: incompatible pointer types passing 'IODevice **' (aka 'struct IODevice **') to parameter of type 'struct IODevice *'; remove & [-Wincompatible-pointer-types]
+  240 |                                 self->colIO[j]->getState(&self->colIO[j]); // Gets the state a col
+      |                                                          ^~~~~~~~~~~~~~~
+gpio_lib.c(246): warning: incompatible pointer types passing 'IODevice **' (aka 'struct IODevice **') to parameter of type 'struct IODevice *'; remove & [-Wincompatible-pointer-types]
+  246 |                         for(int i=0; i < self->rowSize; i++){self->rowIO[i]->setState(&(self->rowIO[i]),0);} // Ensures the ODR for the Row is set to 0 to prevent any wonky signals
+      |                                                                                       ^~~~~~~~~~~~~~~~~
+gpio_lib.c(249): warning: incompatible pointer types passing 'IODevice **' (aka 'struct IODevice **') to parameter of type 'struct IODevice *'; remove & [-Wincompatible-pointer-types]
+  249 |                         for(int j=0; j < self->colSize; j++){self->colIO[j]->setState(&(self->colIO[j]),1);} // Sets the Col to on
+      |                                                                                       ^~~~~~~~~~~~~~~~~
+gpio_lib.c(285): error: conflicting types for 'Numpad_Create'
+  285 | Numpad* Numpad_Create(int *NumpadValues, IODevice** RowIO, IODevice** ColIO, int RowSize, int ColSize) {
+      |         ^
+.\gpio_lib.h(114): note: previous declaration is here
+  114 | Numpad* Numpad_Create(int *NumpadValues, IODevice* RowIO, IODevice* ColIO, int RowSize, int ColSize);
+      |         ^
+9 warnings and 1 error generated.
+compiling gpio_lib.c...
+main.c(22): warning: In file included from...
+.\globals.h(74): warning: redefinition of typedef 'IODevice' is a C11 feature [-Wtypedef-redefinition]
+   74 | typedef struct IODevice                         IODevice;
+      |                                                 ^
+.\gpio_lib.h(64): note: previous definition is here
+   64 | }IODevice;
+      |  ^
+main.c(22): warning: In file included from...
+.\globals.h(75): warning: redefinition of typedef 'GeneralPurposeTimer' is a C11 feature [-Wtypedef-redefinition]
+   75 | typedef struct GeneralPurposeTimer              GeneralPurposeTimer;
+      |                                                 ^
+.\timer_lib.h(58): note: previous definition is here
+   58 | }GeneralPurposeTimer;
+      |  ^
+main.c(22): warning: In file included from...
+.\globals.h(76): warning: redefinition of typedef 'GenevaLCDDevice' is a C11 feature [-Wtypedef-redefinition]
+   76 | typedef struct GenevaLCDDevice                  GenevaLCDDevice;
+      |                                                 ^
+.\lcd_lib.h(66): note: previous definition is here
+   66 | }GenevaLCDDevice;
+      |  ^
+main.c(22): warning: In file included from...
+.\globals.h(77): warning: redefinition of typedef 'Numpad' is a C11 feature [-Wtypedef-redefinition]
+   77 | typedef struct Numpad                           Numpad;
+      |                                                 ^
+.\gpio_lib.h(111): note: previous definition is here
+  111 | }Numpad;
+      |  ^
+main.c(144): warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
+  144 |                 float tempTargetRPM = 0;
+      |                 ^
+main.c(152): warning: comparison of integers of different signs: 'int' and 'unsigned int' [-Wsign-compare]
+  152 |                                                 for (int i = 0; i < (cursorAt - 4); i++){ numbersPlace *= 10; } // Find the correct decimal place
+      |                                                                 ~ ^  ~~~~~~~~~~~~
+main.c(156): warning: comparison of integers of different signs: 'int' and 'unsigned int' [-Wsign-compare]
+  156 |                                                 for (int i = 0; i < (2 - cursorAt) ; i++){ numbersPlace *= 10; } // Find the correct numbers place
+      |                                                                 ~ ^  ~~~~~~~~~~~~
+main.c(213): warning: incompatible pointer types initializing 'GPIO_TypeDef *' with an expression of type 'IODevice *' (aka 'struct IODevice *') [-Wincompatible-pointer-types]
+  213 |                 IODevice_Create('C',LED1,0,1,'O'),
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+main.c(214): error: incompatible pointer to integer conversion initializing 'char' with an expression of type 'IODevice *' (aka 'struct IODevice *') [-Wint-conversion]
+  214 |                 IODevice_Create('C',LED2,0,1,'O'),
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+main.c(215): error: incompatible pointer to integer conversion initializing 'char' with an expression of type 'IODevice *' (aka 'struct IODevice *') [-Wint-conversion]
+  215 |                 IODevice_Create('C',LED3,0,1,'O'),
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+main.c(216): error: incompatible pointer to integer conversion initializing 'int' with an expression of type 'IODevice *' (aka 'struct IODevice *') [-Wint-conversion]
+  216 |                 IODevice_Create('C',LED4,0,1,'O')};
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+main.c(216): warning: missing field 'state' initializer [-Wmissing-field-initializers]
+  216 |                 IODevice_Create('C',LED4,0,1,'O')};
+      |                                                  ^
+main.c(213): warning: suggest braces around initialization of subobject [-Wmissing-braces]
+  213 |                 IODevice_Create('C',LED1,0,1,'O'),
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                 {
+  214 |                 IODevice_Create('C',LED2,0,1,'O'),
+      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  215 |                 IODevice_Create('C',LED3,0,1,'O'),
+      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  216 |                 IODevice_Create('C',LED4,0,1,'O')};
+      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                                                  }
+10 warnings and 3 errors generated.
+compiling main.c...
+".\Objects\Template.axf" - 4 Error(s), 19 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -49,7 +149,8 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE@6.1.0
-Build Time Elapsed:  00:00:00
+Target not created.
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

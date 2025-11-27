@@ -111,4 +111,4 @@ typedef struct Numpad{
 }Numpad;
 
 // Constructor
-Numpad* Numpad_Create(int *NumpadValues, IODevice* RowIO, IODevice* ColIO, int RowSize, int ColSize);
+Numpad* Numpad_Create(int *NumpadValues, IODevice** RowIO, IODevice** ColIO, int RowSize, int ColSize);
