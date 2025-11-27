@@ -163,7 +163,7 @@ IODevice IODevice_Create(char GPIO, int Pin, int NormalState, int TrueState, cha
 	self.setState = setState;
 	self.getState = getState;
 	self.toggle = toggle;
-	self.setMODER = MODERSet;
+	self.setMODER = setMODER;
 	self.setMODER(&self);
 	self.state = 0;
 	self.prevState = 0;
