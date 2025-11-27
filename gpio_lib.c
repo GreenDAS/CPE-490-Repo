@@ -88,31 +88,31 @@ void getState(IODevice* self) {
  F = Alt-Function
  A = Analog
 */ 
-void MODERSet(IODevice* device){
-switch(device->MODERState){
-	case 'I': // Input
-		{
-			device->GPIOX->MODER &= ~(3UL<<(2*device->pin));
-			break;
-		}
-	case 'O': // Output
-		{
-			device->GPIOX->MODER &= ~(3UL<<(2*device->pin));
-			device->GPIOX->MODER |= (1UL<<(2*device->pin));
-			break;
-		}
-	case 'F': // Alt Function
-		{
-			device->GPIOX->MODER &= ~(3UL<<(2*device->pin));
-			device->GPIOX->MODER |= (2UL<<(2*device->pin));
-			break;
-		}
-	case 'A': // Analog
-		{
-			device->GPIOX->MODER |= (3UL<<(2*device->pin));
-			break;
-		}
-	}
+void setMODER(IODevice* self) {
+    uint32_t pinShift = self->pin * 2;  // Each pin uses 2 bits in MODER/PUPDR
+    self->GPIOX->MODER &= ~(3UL << pinShift);  // Clear MODER bits
+    self->GPIOX->PUPDR &= ~(3UL << pinShift);  // Clear PUPDR bits (default to no pull)
+
+    switch (self->MODERState) {
+        case 'I':  // Input
+            // MODER already cleared to 00
+            self->GPIOX->PUPDR |= (2UL << pinShift);  // Set PUPDR=10 (pull-down)
+            break;
+        case 'O':  // Output
+            self->GPIOX->MODER |= (1UL << pinShift);  // MODER=01
+            // PUPDR=00 (no pull, already cleared)
+            break;
+        case 'F':  // Alternate Function
+            self->GPIOX->MODER |= (2UL << pinShift);  // MODER=10
+            // PUPDR=00 (no pull)
+            break;
+        case 'A':  // Analog
+            self->GPIOX->MODER |= (3UL << pinShift);  // MODER=11
+            // PUPDR=00 (no pull)
+            break;
+        default:
+            while (1);  // Error trap
+    }
 }
 
 /* Toggles State
