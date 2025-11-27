@@ -44,8 +44,7 @@ void EXTI4_IRQHandler(void){
 SysTick ISR
 ------------------------------------------------------------------------*/
 
-//Flags
-int systickFlag = 0;
+
 
 // Currently a Cooperative RTOS & EDF
 void SysTick_Handler(void){ 
