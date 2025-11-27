@@ -297,7 +297,7 @@ Numpad* Numpad_Create(int *NumpadValues, IODevice* RowIO, IODevice* ColIO, int R
 	self->rowsTruesCount = 0; // Used to check how many rows are reporting being pressed: init as 0
 	self->readingCol = 0; // Used to point out what col is being read from: init as 0
 	self->colsTruesCount = 0; // Used to check how many cols are reporting being pressed: init as 0
-	self->readState = readPadFINISHED; // The Numpad Read State
+	self->readState = readPadROW; // The Numpad Read State
 
 	self->changeDimMODER = changeDimMODER;
 	self->stateMachineReadPad = stateMachineReadPad;
