@@ -41,8 +41,8 @@ Numpad* CreateNumpad(){
 		{10, 0,11}
 	};
 	
-	IODevice** rowIOP = malloc(4 * sizeof(IODevice));
-	IODevice** colIOP = malloc(3 * sizeof(IODevice));
+	IODevice** rowIOP = malloc(4 * sizeof(IODevice*));
+	IODevice** colIOP = malloc(3 * sizeof(IODevice*));
 	
 	rowIOP[0] = IODevice_Create('C', ROW1, 0, 1, 'I');
 	rowIOP[1] = IODevice_Create('C', ROW2, 0, 1, 'I');
