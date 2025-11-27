@@ -196,7 +196,7 @@ int handlePadPressReady(){return ((!(NumberPad->state)) == NumberPad->prevState)
 int voltCoolDown(){return VOLTAGE_DEADLINE;}
 int freqCoolDown(){return FREQ_DEADLINE;}
 int dispCoolDown(){return 0;}
-int readPadCooldown(){return 5;}
+int readPadCooldown(){return 10=;}
 int handlePadPressCooldown(){return 0;}
 
 //------------------------------------------------------------------------------
