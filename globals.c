@@ -3,13 +3,13 @@
  * Date    10/13/2025
  * File    _init_.h
  * Version V1.0
- * Description 
+ * Description
  * INIT HEADER
  *
  **************************************************************************
-*/
+ */
 //------------------------------------------------------------------------------
-// Files to Include 
+// Files to Include
 //------------------------------------------------------------------------------
 
 #include "globals.h"
@@ -25,7 +25,6 @@
 //------------------------------------------------------------------------------
 // Function Prototypes
 //------------------------------------------------------------------------------
-
 
 // Global Vars
 IODevice VoltReader;
@@ -46,7 +45,9 @@ dispState displayState = SUCCESS;
 int calcVoltFlag = 1; // Set to always be 1 to calculate voltage so long as the deadline is met
 int calcFreqFlag = 0;
 
-
+// this was created by caleb
+int tor_rpm_toggle = 0; // 0 for RPMs(target and actual), 1 for (Target and torque) only
+int togglestate = 0;    // 0 for first string 1 for second // this is for what value to put in
 
 //------------------------------------------------------------------------------
 // Main

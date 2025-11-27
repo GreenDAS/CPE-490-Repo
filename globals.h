@@ -84,6 +84,9 @@ extern dispState      	displayState;
 extern int              calcVoltFlag;   /* 1 = always calculate voltage when ready */
 extern int              calcFreqFlag;   /* 0 = off by default */
 
+extern int              tor_rpm_toggle; // 0 for RPMs(target and actual), 1 for (Target and torque) only
+extern int              togglestate;    // 0 for first string 1 for second //
+
 /* -------------------------------------------------------------------------
  * End of globals.h
  * ------------------------------------------------------------------------- */
