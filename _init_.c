@@ -49,9 +49,9 @@ Numpad* CreateNumpad(){
 	rowIOP[2] = IODevice_Create('A', ROW3, 0, 1, 'I');
 	rowIOP[3] = IODevice_Create('A', ROW4, 0, 1, 'I');
 
-	colIOP[0] = IODevice_Create('A', COL1, 0, 1, 'O');
-	colIOP[1] = IODevice_Create('A', COL2, 0, 1, 'O');
-	colIOP[2] = IODevice_Create('A', COL3, 0, 1, 'O');
+	colIOP[0] = IODevice_Create('B', COL1, 0, 1, 'O');
+	colIOP[1] = IODevice_Create('B', COL2, 0, 1, 'O');
+	colIOP[2] = IODevice_Create('B', COL3, 0, 1, 'O');
 
 	return Numpad_Create(&NumpadValues[0][0], rowIOP, colIOP, 4, 3);
 	

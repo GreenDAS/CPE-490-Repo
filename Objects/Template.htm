@@ -3,9 +3,9 @@
 <title>Static Call Graph - [.\Objects\Template.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\Template.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Fri Nov 28 17:12:07 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Fri Nov 28 17:48:46 2025
 <BR><P>
-<H3>Maximum Stack Usage =        428 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =        396 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
 __rt_entry_main &rArr; main &rArr; _init_ &rArr; GenevaLCDDevice_Create &rArr; _initLCD_ &rArr; lcd_Init &rArr; tim6_Del
 <P>
@@ -449,7 +449,7 @@ Global Symbols
 <P><STRONG><a name="[13c]"></a>__rt_entry_postsh_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$00000009))
 
 <P><STRONG><a name="[ae]"></a>__rt_entry_main</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$0000000D))
-<BR><BR>[Stack]<UL><LI>Max Depth = 428 + Unknown Stack Size
+<BR><BR>[Stack]<UL><LI>Max Depth = 396 + Unknown Stack Size
 <LI>Call Chain = __rt_entry_main &rArr; main &rArr; _init_ &rArr; GenevaLCDDevice_Create &rArr; _initLCD_ &rArr; lcd_Init &rArr; tim6_Del
 </UL>
 <BR>[Calls]<UL><LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -779,8 +779,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_init_GPIOInterupt
 <LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GenevaLCDDevice_Create
 <LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Numpad_Create
-<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CreateNumpad
 <LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IODevice_Create
+<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CreateNumpad
 </UL>
 
 <P><STRONG><a name="[b8]"></a>free</STRONG> (Thumb, 78 bytes, Stack size 16 bytes, h1_free.o(.text))
@@ -1262,8 +1262,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__default_signal_display
 </UL>
 
-<P><STRONG><a name="[e3]"></a>CreateNumpad</STRONG> (Thumb, 268 bytes, Stack size 48 bytes, _init_.o(.text.CreateNumpad))
-<BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = CreateNumpad &rArr; IODevice_Create &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
+<P><STRONG><a name="[e3]"></a>CreateNumpad</STRONG> (Thumb, 266 bytes, Stack size 56 bytes, _init_.o(.text.CreateNumpad))
+<BR><BR>[Stack]<UL><LI>Max Depth = 144<LI>Call Chain = CreateNumpad &rArr; IODevice_Create &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc
 <LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Numpad_Create
@@ -1313,7 +1313,6 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc
 </UL>
 <BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CreateNumpad
-<LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[e9]"></a>InitSysTick</STRONG> (Thumb, 74 bytes, Stack size 16 bytes, _init_.o(.text.InitSysTick))
@@ -1460,7 +1459,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> lcd_lib.o(.text.GenevaLCDDevice_Create)
 </UL>
-<P><STRONG><a name="[73]"></a>handlePadPress</STRONG> (Thumb, 764 bytes, Stack size 48 bytes, main.o(.text.handlePadPress))
+<P><STRONG><a name="[73]"></a>handlePadPress</STRONG> (Thumb, 772 bytes, Stack size 48 bytes, main.o(.text.handlePadPress))
 <BR><BR>[Stack]<UL><LI>Max Depth = 224 + Unknown Stack Size
 <LI>Call Chain = handlePadPress &rArr; createTargetString &rArr; snprintf &rArr; _printf_char_common &rArr; __printf
 </UL>
@@ -1517,11 +1516,10 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;greedyWriteString
 </UL>
 
-<P><STRONG><a name="[af]"></a>main</STRONG> (Thumb, 766 bytes, Stack size 136 bytes, main.o(.text.main))
-<BR><BR>[Stack]<UL><LI>Max Depth = 428<LI>Call Chain = main &rArr; _init_ &rArr; GenevaLCDDevice_Create &rArr; _initLCD_ &rArr; lcd_Init &rArr; tim6_Del
+<P><STRONG><a name="[af]"></a>main</STRONG> (Thumb, 572 bytes, Stack size 104 bytes, main.o(.text.main))
+<BR><BR>[Stack]<UL><LI>Max Depth = 396<LI>Call Chain = main &rArr; _init_ &rArr; GenevaLCDDevice_Create &rArr; _initLCD_ &rArr; lcd_Init &rArr; tim6_Del
 </UL>
 <BR>[Calls]<UL><LI><a href="#[bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy4
-<LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IODevice_Create
 <LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_init_
 </UL>
 <BR>[Called By]<UL><LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_main

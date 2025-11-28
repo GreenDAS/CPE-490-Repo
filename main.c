@@ -213,12 +213,6 @@ int handlePadPressCooldown(){return 0;}
 int main(void){
 	_init_();	// Sets up classes and other variables
 
-	IODevice* LEDS[4] = {
-		IODevice_Create('C',LED1,0,1,'O'),
-		IODevice_Create('C',LED2,0,1,'O'),
-		IODevice_Create('C',LED3,0,1,'O'),
-		IODevice_Create('C',LED4,0,1,'O')};
-
 	// Set up Scheduler Tasks
 	schedulerTasks = (EDFToDo){
 		.tasks = { readPad, handlePadPress, displayUpdate },
@@ -277,11 +271,7 @@ int main(void){
 			schedulerTasks.cooldowns[taskToRun] = schedulerTasks.coolDownFn[taskToRun](); // Set the cooldown
 			schedulerTasks.clksWaited[taskToRun] = 0; // Reset clks waited (Could be used for priority in the EDF if need be)
 		}
-		if(NumberPad->prevState && !NumberPad->state){
-			for(int i = 0; i < 4; i++){
-				LEDS[i]->setState(LEDS[i],(((NumberPad->recentPress)>>i)&1));
-			}
-		}
+
 		systickFlag = 0; // Clear the systick Flag
 	}
 }

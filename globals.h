@@ -17,6 +17,20 @@
 
 /* Pin assignments (use uppercase + _t suffix for clarity) */
 
+
+// GPIOA
+#define ROW1                8
+#define ROW2                9
+#define ROW3                10
+#define ROW4                11
+//
+
+// GPIOB
+#define COL1                8
+#define COL2                9
+#define COL3                10
+//
+
 // GPIOC
 #define LED1                0
 #define LED2                1
@@ -24,16 +38,7 @@
 #define LED4                3
 #define SW1                 4
 #define SW2                 5
-
-#define ROW1                6
-#define ROW2                5
-#define ROW3                4
-#define ROW4                3
-#define COL1                2
-#define COL2                1
-#define COL3                0
 //
-
 
 #define MAX_TASKS           3
 
