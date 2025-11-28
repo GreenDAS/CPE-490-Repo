@@ -136,10 +136,16 @@ void handlePadPress(){
 	switch (NumberPad->recentPress){
 		// Button Press was a backspace (*)
 		case 10:
-			targetString[cursorAt] = '_';
-			cursorAt = (cursorAt == 0) ? 0 : cursorAt - 1;
-			if(cursorAt == 3){
-				cursorAt =  2;
+			if(targetString[cursorAt] == '_'){
+				cursorAt = (cursorAt == 0) ? 0 : cursorAt - 1;
+				if(cursorAt == 3){
+					cursorAt =  2;
+				}
+				targetString[cursorAt] = '_';
+				
+			}
+			else{
+				targetString[cursorAt] = '_';
 			}
 		break;
 
