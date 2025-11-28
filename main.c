@@ -136,7 +136,7 @@ void handlePadPress(){
 	switch (NumberPad->recentPress){
 		// Button Press was a backspace (*)
 		case 10:
-			cursorAt--;
+			cursorAt = (cursorAt == 0) ? 0 : cursorAt - 1;
 			targetString[cursorAt] = '_';
 		break;
 
@@ -224,17 +224,6 @@ int main(void){
 	};
 	// End Set up Scheduler Tasks
 	while(TRUE){ 
-		for(int i = 0; i < 3; i++){
-			readPad();
-			Timer3.greedyWait(&Timer3, 5, MilSecondsScalar);
-		}
-		if(NumberPad->prevState && !NumberPad->state){
-			for(int i = 0; i < 4; i++){
-				LEDS[i]->setState(LEDS[i],(((NumberPad->recentPress)>>i)&1));
-			}
-		}
-	} // Wait for Start Command
-	while(TRUE){ 
 		while(!systickFlag){} // Wait for SysTick
 
 		gettingUserInputFlag = 1;
@@ -282,7 +271,11 @@ int main(void){
 			schedulerTasks.cooldowns[taskToRun] = schedulerTasks.coolDownFn[taskToRun](); // Set the cooldown
 			schedulerTasks.clksWaited[taskToRun] = 0; // Reset clks waited (Could be used for priority in the EDF if need be)
 		}
-
+		if(NumberPad->prevState && !NumberPad->state){
+			for(int i = 0; i < 4; i++){
+				LEDS[i]->setState(LEDS[i],(((NumberPad->recentPress)>>i)&1));
+			}
+		}
 		systickFlag = 0; // Clear the systick Flag
 	}
 }
