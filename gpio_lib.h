@@ -70,37 +70,45 @@ typedef struct IODevice{
  Arg4 = State should read true when; GPIO Pin is 0 or 1
  Arg5 = MODER Type (I, Input; O, Output;  F, Alt-Function; A, Analog)
 */
-IODevice IODevice_Create(char GPIO, int Pin, int NormalState, int TrueState, char MODERType); // Creates and IO Device
+IODevice* IODevice_Create(char GPIO, int Pin, int NormalState, int TrueState, char MODERType); // Creates and IO Device
 #endif
 
 
 
 /*---Numpad---*/
-#ifndef NumpadClass
-#define NumpadClass
 
-	#include "timer_lib.h"
+typedef enum {
+	readPadROW,
+	readPadCOL,
+	readPadFINISHED,
+} NumpadReadState; // The Numpad Read State
+
 
 // Forward Delclaration
 typedef struct Numpad{
 	//*-Parents-*//
 	//*-Properties-*//
-	GeneralPurposeTimer* timer; // The timer used to wait
 	int rowSize; // the rowSize of the numPad
 	int colSize; // the colSize of the numPad
 	int prevState; // T/F value if a button was previously pressed
 	int state;  // T/F value if a button was pressed
 	int recentPress; // Numpad Value if a button is pressed
+
+	int readingRow; // Used to point out what row is being read from: init as 0
+	int rowsTruesCount; // Used to check how many rows are reporting being pressed: init as 0
+	int readingCol; // Used to point out what col is being read from: init as 0
+	int colsTruesCount; // Used to check how many cols are reporting being pressed: init as 0
+	NumpadReadState readState; // The Numpad Read State
+
 	//*-Array Pointers-*//
-	IODevice *rowIO; // Points to an array of GPIO ports for the rows of the Numpad
-	IODevice *colIO; // Points to an array of GPIO ports for the cols of the Numpad
+	IODevice **rowIO; // Points to an array of GPIO ports for the rows of the Numpad
+	IODevice **colIO; // Points to an array of GPIO ports for the cols of the Numpad
 	int *numpadValues; // Points to a 2D flattened array of int values that holds the Numpad Key's Values
 	//*-Function Pointers-*//
 	void (*changeDimMODER)(struct Numpad*, char Dimension, char MODERType); // Changes either the row's or cols MODER
-	void (*greedyReadPad)(struct Numpad*); // Hog Processor time with greedy waits to read the numpad
+	int (*stateMachineReadPad)(struct Numpad*); // RTOS friendly Numpad Read
 	
 }Numpad;
 
 // Constructor
-Numpad Numpad_Create(int *NumpadValues,IODevice *RowIO,IODevice *ColIO, int RowSize, int ColSize, int State, GeneralPurposeTimer* Timer);
-#endif
+Numpad* Numpad_Create(int *NumpadValues, IODevice** RowIO, IODevice** ColIO, int RowSize, int ColSize);

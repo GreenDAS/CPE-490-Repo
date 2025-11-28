@@ -32,7 +32,7 @@
 //------------------------------------------------------------------------------
 
 // NUMPAD SETUP //
-Numpad CreateNumpad(){
+Numpad* CreateNumpad(){
 	// Start Setting Up Numpad
 	static int NumpadValues[4][3] = {
 		{ 1, 2, 3},
@@ -41,22 +41,19 @@ Numpad CreateNumpad(){
 		{10, 0,11}
 	};
 	
-	IODevice* rowIOP = malloc(4 * sizeof(IODevice));
-	IODevice* colIOP = malloc(3 * sizeof(IODevice));
+	IODevice** rowIOP = malloc(4 * sizeof(IODevice*));
+	IODevice** colIOP = malloc(3 * sizeof(IODevice*));
 	
 	rowIOP[0] = IODevice_Create('A', ROW1, 0, 1, 'I');
 	rowIOP[1] = IODevice_Create('A', ROW2, 0, 1, 'I');
 	rowIOP[2] = IODevice_Create('A', ROW3, 0, 1, 'I');
 	rowIOP[3] = IODevice_Create('A', ROW4, 0, 1, 'I');
 
-	colIOP[0] = IODevice_Create('A', COL1, 0, 1, 'I');
-	colIOP[1] = IODevice_Create('A', COL2, 0, 1, 'I');
-	colIOP[2] = IODevice_Create('A', COL3, 0, 1, 'I');
-	
-	GeneralPurposeTimer* Timer2 = malloc(sizeof(GeneralPurposeTimer));
-	*Timer2 = GeneralPurposeTimer_Create(2,1,3999,10000,'D',0);
+	colIOP[0] = IODevice_Create('B', COL1, 0, 1, 'O');
+	colIOP[1] = IODevice_Create('B', COL2, 0, 1, 'O');
+	colIOP[2] = IODevice_Create('B', COL3, 0, 1, 'O');
 
-	return Numpad_Create(&NumpadValues[0][0], rowIOP, colIOP, 4, 3, 0, Timer2);
+	return Numpad_Create(&NumpadValues[0][0], rowIOP, colIOP, 4, 3);
 	
 }
 
@@ -108,12 +105,17 @@ void _init_(){
 
 	Display = GenevaLCDDevice_Create(&Timer3, 5, 10, msg); // Sets up LCD Display
 
+	NumberPad = CreateNumpad();
+	NumberPad->changeDimMODER(NumberPad, 'C', 'O'); // Sets Columns to Output
+	for(int j=0; j < NumberPad->colSize; j++){NumberPad->colIO[j]->setState(NumberPad->colIO[j],1);} // Sets the Col to on
+
+
 	RCC->AHB2ENR |= RCC_AHB2ENR_ADCEN; // Enable ADC Clock
 	if ((ADC1->CR & ADC_CR_DEEPPWD) == ADC_CR_DEEPPWD){ADC1->CR &= ~ADC_CR_DEEPPWD;} // Wake up ADC from Deep Power Down
 	ADC1->CR |= ADC_CR_ADVREGEN; // Enable ADC Voltage Regulator
 	Timer3.greedyWait(&Timer3, 1, MilSecondsScalar); // Wait for ADC Voltage Regulator to start up (min 10us)
 
-	VoltReader = IODevice_Create('A', 0, 1, 0, 'A'); // Sets up VoltReader ADC Pin (PA0)
+	VoltReader = *IODevice_Create('A', 0, 1, 0, 'A'); // Sets up VoltReader ADC Pin (PA0)
 	VoltReader.GPIOX->ASCR |= (1UL); // Enable Analog Switch for PA0
 
 	ADC1->SQR1 |= 0x140UL; // Set ADC to use channel 0 (PA0) as 1st conversion
@@ -130,7 +132,7 @@ void _init_(){
 	ADC1->CR |= ADC_CR_ADSTART; // Start ADC Conversion
 
 	// Sets up Frequency Reader need to use a different pin than Volt Reader (PA0)
-	FreqReader = IODevice_Create('A',5,0,1,'F');
+	FreqReader = *IODevice_Create('A',5,0,1,'F');
 	FreqReader.initInterupt(FreqReader.pin,FreqReader.GPIOchar,EXTI9_5_IRQn,1,4);
 
 	Timer2 = GeneralPurposeTimer_Create(2,1,1,0xFFFFFFFF - 1,'D',0); // Sets up Timer2 to run as fast as possible for CC Interrupt

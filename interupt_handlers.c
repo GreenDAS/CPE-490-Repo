@@ -16,6 +16,7 @@ INCUDES
 #include "gpio_lib.h"
 #include "timer_lib.h"
 #include "lcd_lib.h"
+ #include "globals.h"
 #include "globals.h"
 
 // Make sure to clear NVIC_CearPendingIRQ(IRQn);
@@ -59,8 +60,7 @@ void EXTI4_IRQHandler(void)
 SysTick ISR
 ------------------------------------------------------------------------*/
 
-// Flags
-int systickFlag = 0;
+
 
 // Currently a Cooperative RTOS & EDF
 void SysTick_Handler(void)
@@ -75,9 +75,6 @@ Peripheral ISRs
 // Tim2
 
 // Externs
-extern int calcFreqFlag;
-extern int freqCounts;
-extern GeneralPurposeTimer Timer2;
 
 // Local Vars
 uint32_t timeI;
@@ -91,11 +88,10 @@ void TIM2_IRQHandler(void)
 	{ // UIF Interrupt
 
 		TIM2->SR &= ~TIM_SR_UIF; // Clear interrupt flag
-	}
-	else if (TIM2->SR & TIM_SR_CC1IF)
-	{ // Channel #1
-		if (calcFreqFlag)
-		{
+  } 
+
+	else if (TIM2->SR & TIM_SR_CC1IF) { // Channel #1
+		if(calcFreqFlag){
 			timeI = TIM2->CCR1;
 		}
 		else

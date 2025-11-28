@@ -29,6 +29,26 @@
 // Functions
 //------------------------------------------------------------------------------
 
+void createTargetString(unsigned char msg[GenevaLCDColSize], void *value, int isString){
+	if (isString){
+		snprintf((char*)msg, 40, "Target:%sRPM", (char*)value); // Insert the target String into the %s spot
+	}
+	else{
+		snprintf((char*)msg, 40, "Target:%6.2fRPM", *(float*)(value)); // Insert the target String into the %s spot
+	}
+	msg[39] = 0x00; // Null Terminator it just in case
+}
+
+void createTargetString(unsigned char msg[GenevaLCDColSize], void *value, int isString){
+	if (isString){
+		snprintf((char*)msg, 40, "Target:%sRPM", (char*)value); // Insert the target String into the %s spot
+	}
+	else{
+		snprintf((char*)msg, 40, "Target:%6.2fRPM", *(float*)(value)); // Insert the target String into the %s spot
+	}
+	msg[39] = 0x00; // Null Terminator it just in case
+}
+
 void createFreqString(unsigned char msg[GenevaLCDColSize], double freq)
 {
 	snprintf((char *)msg, 40, "FREQ: %8.2fHz", freq); // 2 decimal places
@@ -77,6 +97,8 @@ void createTorRPMString(unsigned char msg[GenevaLCDColSize], double tor_rpm)
 
 	msg[39] = 0x00; // Null Terminator// i have no idea if i need this
 }
+
+// Tasks
 
 void readVoltage()
 {
@@ -203,20 +225,100 @@ void displayUpdate()
 	}
 }
 
+void readPad(){
+	readFinishedFlag = NumberPad->stateMachineReadPad(NumberPad);
+}
+
+void handlePadPress(){
+	static unsigned char targetString[7] = {'_', '_', '_', '.', '_', '_', 0x00};
+	static unsigned int cursorAt = 0;
+	float tempTargetRPM = 0.0;
+	// Detect button release
+	switch (NumberPad->recentPress){
+		// Button Press was a backspace (*)
+		case 10:
+			if(targetString[cursorAt] == '_'){
+				cursorAt = (cursorAt == 0) ? 0 : cursorAt - 1;
+				if(cursorAt == 3){
+					cursorAt =  2;
+				}
+				targetString[cursorAt] = '_';
+				
+			}
+			else{
+				targetString[cursorAt] = '_';
+			}
+		break;
+
+		// Button Press was enter (#)
+		case 11:
+			if (targetString[0] != '_'){
+				for (cursorAt = 0; targetString[cursorAt] != 0x00; cursorAt++){
+					if (cursorAt == 3){cursorAt++;} // Skip the decimal
+					if (targetString[cursorAt] == '_'){continue;} // Skip location if it is an _
+					float tempValue = targetString[cursorAt] - '0';
+					float numbersPlace;
+					if (cursorAt > 3){ // add the decimal value to target RPM
+						numbersPlace = 10;
+						for (uint32_t i = 0; i < (cursorAt - 4); i++){ numbersPlace *= 10; } // Find the correct decimal place
+						tempTargetRPM += tempValue / numbersPlace; // Add the decimal place value to targetRPM
+					}
+					else{
+						numbersPlace = 1;
+						for (uint32_t i = 0; i < (2 - cursorAt) ; i++){ numbersPlace *= 10; } // Find the correct numbers place
+						tempTargetRPM += tempValue * numbersPlace;
+					}
+				}
+				targetRPM = (tempTargetRPM < RPM_LOWER) ? RPM_LOWER : tempTargetRPM; // Lower Limit
+				targetRPM = (targetRPM > RPM_UPPER) ? RPM_UPPER : targetRPM; // Upper Limit
+			}
+			cursorAt = 0;
+			targetSetFlag = 1;
+			gettingUserInputFlag = 0;
+			snprintf(&(((char*)targetString)[0]), 7, "___.__");
+			// Set switch 1's flag to swap back to main menu ********
+		break;
+
+		default:
+			targetString[cursorAt] = NumberPad->recentPress + '0';
+			cursorAt++;
+			if(cursorAt == 3){
+				cursorAt =  4;
+			}
+			else if ((cursorAt >= 6))
+			{
+				cursorAt =  5;
+			}
+			
+		break;
+
+	}
+	createTargetString(&(Display->wholeMSG[0][0]), &(targetString[0]), 1);
+	readFinishedFlag = 0;
+}
+
+// Ready Fns
+
 int voltCalcReady() { return calcVoltFlag; }
 int freqCalcReady() { return calcFreqFlag; }
 // i know i need to put a ready but dont know how
 int dispUpdaReady() { return 1; }
+int readPadReady(){return gettingUserInputFlag;}
+int handlePadPressReady(){return ( readFinishedFlag && ((!(NumberPad->state)) && NumberPad->prevState)) ? gettingUserInputFlag : 0;}
+
+// Cooldown Fns
 
 int voltCoolDown() { return VOLTAGE_DEADLINE; }
 int freqCoolDown() { return FREQ_DEADLINE; }
 // i know i need a deadline but dont know how
 int dispCoolDown() { return 0; }
+int readPadCooldown(){return 5;}
+int handlePadPressCooldown(){return 0;}
+
 //------------------------------------------------------------------------------
 // Main
 //------------------------------------------------------------------------------
 
-extern int systickFlag;
 
 int main(void)
 {
@@ -231,14 +333,10 @@ int main(void)
 		.taskCond = {voltCalcReady, freqCalcReady, dispUpdaReady},
 		.coolDownFn = {voltCoolDown, freqCoolDown, dispCoolDown}};
 	// End Set up Scheduler Tasks
+	while(TRUE){ 
+		while(!systickFlag){} // Wait for SysTick
 
-	while (TRUE)
-	{
-		while (!systickFlag)
-		{
-		} // Wait for SysTick
-
-		readVoltage(); // always read voltage every systick (should a few us)
+		gettingUserInputFlag = 1;
 
 		uint32_t taskToRun = 0;
 		// Picks the Best Task To Run (BTTR)
@@ -291,6 +389,7 @@ int main(void)
 			schedulerTasks.cooldowns[taskToRun] = schedulerTasks.coolDownFn[taskToRun](); // Set the cooldown
 			schedulerTasks.clksWaited[taskToRun] = 0;									  // Reset clks waited (Could be used for priority in the EDF if need be)
 		}
+
 		systickFlag = 0; // Clear the systick Flag
 	}
 }
