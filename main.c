@@ -39,16 +39,6 @@ void createTargetString(unsigned char msg[GenevaLCDColSize], void *value, int is
 	msg[39] = 0x00; // Null Terminator it just in case
 }
 
-void createTargetString(unsigned char msg[GenevaLCDColSize], void *value, int isString){
-	if (isString){
-		snprintf((char*)msg, 40, "Target:%sRPM", (char*)value); // Insert the target String into the %s spot
-	}
-	else{
-		snprintf((char*)msg, 40, "Target:%6.2fRPM", *(float*)(value)); // Insert the target String into the %s spot
-	}
-	msg[39] = 0x00; // Null Terminator it just in case
-}
-
 void createFreqString(unsigned char msg[GenevaLCDColSize], double freq)
 {
 	snprintf((char *)msg, 40, "FREQ: %8.2fHz", freq); // 2 decimal places
