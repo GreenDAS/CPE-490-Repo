@@ -129,7 +129,7 @@ void readPad(){
 }
 
 void handlePadPress(){
-	static unsigned char targetString[7] = {'_', '_', '_', '.', '_', '_', NULL};
+	static unsigned char targetString[7] = {'_', '_', '_', '.', '_', '_', 0x00};
 	static unsigned int cursorAt = 0;
 	float tempTargetRPM = 0.0;
 	// Detect button release
@@ -197,7 +197,7 @@ int voltCoolDown(){return VOLTAGE_DEADLINE;}
 int freqCoolDown(){return FREQ_DEADLINE;}
 int dispCoolDown(){return 0;}
 int readPadCooldown(){return 5;}
-int handlePadPressCooldown(){return 0;}
+int handlePadPressCooldown(){return 15;}
 
 //------------------------------------------------------------------------------
 // Main
