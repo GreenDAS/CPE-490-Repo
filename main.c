@@ -136,40 +136,36 @@ void handlePadPress(){
 	switch (NumberPad->recentPress){
 		// Button Press was a backspace (*)
 		case 10:
-			if(cursorAt == 4){
+			targetString[cursorAt] = '_';
+			cursorAt = (cursorAt == 0) ? 0 : cursorAt - 1;
+			if(cursorAt == 3){
 				cursorAt =  2;
 			}
-			else if ((cursorAt <= 1))
-			{
-				cursorAt =  0;
-			}
-			else
-			{
-				cursorAt--;
-			}
-			targetString[cursorAt] = '_';
 		break;
 
 		// Button Press was enter (#)
 		case 11:
 			if (targetString[0] != '_'){
-				for (cursorAt = 0; cursorAt < 7; cursorAt++){
+				for (cursorAt = 0; targetString[cursorAt] != 0x00; cursorAt++){
 					if (cursorAt == 3){cursorAt++;} // Skip the decimal
 					if (targetString[cursorAt] == '_'){continue;} // Skip location if it is an _
 					float tempValue = targetString[cursorAt] - '0';
-					float numbersPlace = 10;
+					float numbersPlace;
 					if (cursorAt > 3){ // add the decimal value to target RPM
+						numbersPlace = 10;
 						for (uint32_t i = 0; i < (cursorAt - 4); i++){ numbersPlace *= 10; } // Find the correct decimal place
 						tempTargetRPM += tempValue / numbersPlace; // Add the decimal place value to targetRPM
 					}
 					else{
+						numbersPlace = 1;
 						for (uint32_t i = 0; i < (2 - cursorAt) ; i++){ numbersPlace *= 10; } // Find the correct numbers place
 						tempTargetRPM += tempValue * numbersPlace;
 					}
 				}
-				targetRPM = (tempTargetRPM > RPM_UPPER) ? RPM_UPPER : tempTargetRPM; // Upper Limit
 				targetRPM = (tempTargetRPM < RPM_LOWER) ? RPM_LOWER : tempTargetRPM; // Lower Limit
+				targetRPM = (targetRPM > RPM_UPPER) ? RPM_UPPER : targetRPM; // Upper Limit
 			}
+			cursorAt = 0;
 			targetSetFlag = 1;
 			gettingUserInputFlag = 0;
 			// Set switch 1's flag to swap back to main menu ********
@@ -207,7 +203,7 @@ int voltCoolDown(){return VOLTAGE_DEADLINE;}
 int freqCoolDown(){return FREQ_DEADLINE;}
 int dispCoolDown(){return 0;}
 int readPadCooldown(){return 5;}
-int handlePadPressCooldown(){return 25;}
+int handlePadPressCooldown(){return 0;}
 
 //------------------------------------------------------------------------------
 // Main
