@@ -212,8 +212,8 @@ void changeDimMODER(Numpad* self, char Dim, char MODERType){
 	Array[row*cols+col]
 	
 */
-void stateMachineReadPad(Numpad* self){
-	
+int stateMachineReadPad(Numpad* self){
+	int returnVal = 0;
 	switch (self->readState){
 		case readPadROW:
 			self->readingRow = 0;
@@ -250,7 +250,7 @@ void stateMachineReadPad(Numpad* self){
 			self->changeDimMODER(self, 'R', 'I'); // Sets the row GPIO ports to Input
 			self->changeDimMODER(self, 'C', 'O'); // Sets the col GPIO ports to Output
 			for(int j=0; j < self->colSize; j++){self->colIO[j]->setState(self->colIO[j],1);} // Sets the Col to on
-
+			
 			break;
 		case readPadFINISHED:
 			// Check to see if more or equal to 1 button is being pressed
@@ -267,6 +267,8 @@ void stateMachineReadPad(Numpad* self){
 				self->prevState = self->state;  // Updates PrevState
 				self->state = 0;  // Updates State
 			}
+
+			returnVal = 1;
 			break;
 	}
 	// Have I finished?
@@ -275,6 +277,7 @@ void stateMachineReadPad(Numpad* self){
 	}
 	// If not, increment
 	else{(self->readState)++;}
+	return returnVal;
 }
 
 

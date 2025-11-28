@@ -125,7 +125,7 @@ void displayUpdate(){
 }
 
 void readPad(){
-	NumberPad->stateMachineReadPad(NumberPad);
+	readFinishedFlag = NumberPad->stateMachineReadPad(NumberPad);
 }
 
 void handlePadPress(){
@@ -181,6 +181,7 @@ void handlePadPress(){
 
 	}
 	createTargetString(&(Display->wholeMSG[0][0]), &(targetString[0]), 1);
+	readFinishedFlag = 0;
 }
 
 // Ready Fns
@@ -189,7 +190,7 @@ int voltCalcReady(){return calcVoltFlag;}
 int freqCalcReady(){return calcFreqFlag;}
 int dispUpdaReady(){return 1;}
 int readPadReady(){return gettingUserInputFlag;}
-int handlePadPressReady(){return ((!(NumberPad->state)) == NumberPad->prevState) ? gettingUserInputFlag : 0;}
+int handlePadPressReady(){return ( readFinishedFlag && ((!(NumberPad->state)) == NumberPad->prevState)) ? gettingUserInputFlag : 0;}
 
 // Cooldown Fns
 

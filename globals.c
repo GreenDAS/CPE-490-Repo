@@ -47,11 +47,12 @@ EDFToDo schedulerTasks;
 dispState displayState = SUCCESS;
 
 // FLAGS
-int calcVoltFlag = 1; // Set to always be 1 to calculate voltage so long as the deadline is met
-int calcFreqFlag = 0;
-int gettingUserInputFlag = 0;
-int targetSetFlag = 0;
-volatile int systickFlag = 0; 
+unsigned int calcVoltFlag = 1; // Set to always be 1 to calculate voltage so long as the deadline is met
+unsigned int calcFreqFlag = 0;
+unsigned int gettingUserInputFlag = 0;
+unsigned int targetSetFlag = 0;
+unsigned int readFinishedFlag = 0;
+volatile unsigned int systickFlag = 0; 
 
 
 //------------------------------------------------------------------------------

@@ -98,11 +98,12 @@ extern EDFToDo          schedulerTasks;
 extern dispState      	displayState;
 
 /* Flags */
-extern int              calcVoltFlag;   /* 1 = always calculate voltage when ready */
-extern int              calcFreqFlag;   /* 0 = off by default */
-extern int              gettingUserInputFlag; /* 0 = not getting user input by default*/
-extern int              targetSetFlag;  /* 0 = value not just set yet*/
-extern volatile int     systickFlag; /* 0 = don't run ROTS*/
+extern unsigned int         calcVoltFlag;   /* 1 = always calculate voltage when ready */
+extern unsigned int         calcFreqFlag;   /* 0 = off by default */
+extern unsigned int         gettingUserInputFlag; /* 0 = not getting user input by default*/
+extern unsigned int         targetSetFlag;  /* 0 = value not just set yet*/
+extern unsigned int         readFinishedFlag; /* 0 = read not finished yet*/
+extern volatile unsigned int     systickFlag; /* 0 = don't run ROTS*/
 /* -------------------------------------------------------------------------
  * End of globals.h
  * -------------------------------------------------------------------------*/
