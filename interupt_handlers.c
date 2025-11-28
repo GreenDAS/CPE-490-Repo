@@ -59,9 +59,6 @@ Peripheral ISRs
 //Tim2
 
 // Externs
-extern int calcFreqFlag;
-extern int freqCounts;
-extern GeneralPurposeTimer Timer2;
 
 // Local Vars
 uint32_t timeI;

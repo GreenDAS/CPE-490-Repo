@@ -136,7 +136,17 @@ void handlePadPress(){
 	switch (NumberPad->recentPress){
 		// Button Press was a backspace (*)
 		case 10:
-			cursorAt = (cursorAt == 0) ? 0 : cursorAt - 1;
+			if(cursorAt == 4){
+				cursorAt =  2;
+			}
+			else if ((cursorAt <= 1))
+			{
+				cursorAt =  0;
+			}
+			else
+			{
+				cursorAt--;
+			}
 			targetString[cursorAt] = '_';
 		break;
 
@@ -170,11 +180,10 @@ void handlePadPress(){
 			cursorAt++;
 			if(cursorAt == 3){
 				cursorAt =  4;
-			
 			}
-			else if ((cursorAt >= 7))
+			else if ((cursorAt >= 6))
 			{
-				cursorAt =  6;
+				cursorAt =  5;
 			}
 			
 		break;
@@ -190,7 +199,7 @@ int voltCalcReady(){return calcVoltFlag;}
 int freqCalcReady(){return calcFreqFlag;}
 int dispUpdaReady(){return 1;}
 int readPadReady(){return gettingUserInputFlag;}
-int handlePadPressReady(){return ( readFinishedFlag && ((!(NumberPad->state)) == NumberPad->prevState)) ? gettingUserInputFlag : 0;}
+int handlePadPressReady(){return ( readFinishedFlag && ((!(NumberPad->state)) && NumberPad->prevState)) ? gettingUserInputFlag : 0;}
 
 // Cooldown Fns
 
@@ -198,7 +207,7 @@ int voltCoolDown(){return VOLTAGE_DEADLINE;}
 int freqCoolDown(){return FREQ_DEADLINE;}
 int dispCoolDown(){return 0;}
 int readPadCooldown(){return 5;}
-int handlePadPressCooldown(){return 15;}
+int handlePadPressCooldown(){return 25;}
 
 //------------------------------------------------------------------------------
 // Main
