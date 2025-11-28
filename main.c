@@ -107,7 +107,6 @@ void calcFrequency()
 }
 
 // made by caleb
-
 void togMsg()
 {
 	double torque;
@@ -148,6 +147,7 @@ void togMsg()
 		calcTogFlag = 0;									// doesnt exist yet
 	}
 }
+
 void displayUpdate()
 {
 
