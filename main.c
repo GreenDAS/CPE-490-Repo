@@ -223,7 +223,17 @@ int main(void){
 		.coolDownFn = { readPadCooldown, handlePadPressCooldown, dispCoolDown }
 	};
 	// End Set up Scheduler Tasks
-
+	while(TRUE){ 
+		for(int i = 0; i < 3; i++){
+			readPad();
+			Timer3.greedyWait(&Timer3, 5, MilSecondsScalar);
+		}
+		if(NumberPad->prevState && !NumberPad->state){
+			for(int i = 0; i < 4; i++){
+				LEDS[i]->setState(LEDS[i],(((NumberPad->recentPress)>>i)&1));
+			}
+		}
+	} // Wait for Start Command
 	while(TRUE){ 
 		while(!systickFlag){} // Wait for SysTick
 
@@ -271,12 +281,6 @@ int main(void){
 			schedulerTasks.tasks[taskToRun](); // Run the selected Task
 			schedulerTasks.cooldowns[taskToRun] = schedulerTasks.coolDownFn[taskToRun](); // Set the cooldown
 			schedulerTasks.clksWaited[taskToRun] = 0; // Reset clks waited (Could be used for priority in the EDF if need be)
-		}
-
-		if(NumberPad->prevState && !NumberPad->state){
-			for(int i = 0; i < 4; i++){
-				LEDS[i]->setState(LEDS[i],(((NumberPad->recentPress)>>i)&1));
-			}
 		}
 
 		systickFlag = 0; // Clear the systick Flag
