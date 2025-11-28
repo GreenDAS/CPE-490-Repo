@@ -33,10 +33,10 @@
 
 void createTargetString(unsigned char msg[GenevaLCDColSize], void *value, int isString){
 	if (isString){
-		snprintf((char*)msg, 40, "Target: %s", (char*)value); // Insert the target String into the %s spot
+		snprintf((char*)msg, 40, "Target:%sRPM", (char*)value); // Insert the target String into the %s spot
 	}
 	else{
-		snprintf((char*)msg, 40, "Target: %7.2f", *(float*)(value)); // Insert the target String into the %s spot
+		snprintf((char*)msg, 40, "Target:%6.2fRPM", *(float*)(value)); // Insert the target String into the %s spot
 	}
 	msg[39] = 0x00; // Null Terminator it just in case
 }
@@ -174,6 +174,7 @@ void handlePadPress(){
 			cursorAt = 0;
 			targetSetFlag = 1;
 			gettingUserInputFlag = 0;
+			snprintf(&(((char*)targetString)[0]), 7, "___.__");
 			// Set switch 1's flag to swap back to main menu ********
 		break;
 
