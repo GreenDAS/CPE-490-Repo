@@ -28,12 +28,12 @@
 
 
 // Global Vars
-IODevice VoltReader;
-IODevice FreqReader;
-GeneralPurposeTimer Timer2;
-GeneralPurposeTimer Timer3;
-GenevaLCDDevice *Display;
-Numpad *NumberPad;
+struct IODevice VoltReader;
+struct IODevice FreqReader;
+struct GeneralPurposeTimer Timer2;
+struct GeneralPurposeTimer Timer3;
+struct GenevaLCDDevice *Display;
+struct Numpad *NumberPad;
 
 int voltageMeasurements = 0;
 float voltageAccum = 0;

@@ -71,20 +71,20 @@ typedef struct {
 } EDFToDo;
 
 /* Forward declarations – NEVER include full structs here */
-typedef struct IODevice		         	IODevice;
-typedef struct GeneralPurposeTimer 		GeneralPurposeTimer;
-typedef struct GenevaLCDDevice			GenevaLCDDevice;
-typedef struct Numpad		        	Numpad;
+struct IODevice;
+struct GeneralPurposeTimer;
+struct GenevaLCDDevice;
+struct Numpad;
 
 /* -------------------------------------------------------------------------
  * Global Variables – extern declarations only
- * ------------------------------------------------------------------------- */
-extern IODevice         VoltReader;
-extern IODevice         FreqReader;
-extern GeneralPurposeTimer Timer2;
-extern GeneralPurposeTimer Timer3;
-extern GenevaLCDDevice *Display;
-extern Numpad           *NumberPad;
+ * -------------------------------------------------------------------------*/
+extern struct IODevice         VoltReader;
+extern struct IODevice         FreqReader;
+extern struct GeneralPurposeTimer Timer2;
+extern struct GeneralPurposeTimer Timer3;
+extern struct GenevaLCDDevice *Display;
+extern struct Numpad           *NumberPad;
 
 extern int              voltageMeasurements;
 extern float            voltageAccum;

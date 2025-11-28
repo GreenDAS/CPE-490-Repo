@@ -131,6 +131,7 @@ void readPad(){
 void handlePadPress(){
 	static unsigned char targetString[7] = {'_', '_', '_', '.', '_', '_', NULL};
 	static unsigned int cursorAt = 0;
+	float tempTargetRPM = 0.0;
 	// Detect button release
 	switch (NumberPad->recentPress){
 		// Button Press was a backspace (*)
@@ -141,7 +142,6 @@ void handlePadPress(){
 
 		// Button Press was enter (#)
 		case 11:
-		float tempTargetRPM = 0;
 			if (targetString[0] != '_'){
 				for (cursorAt = 0; cursorAt < 7; cursorAt++){
 					if (cursorAt == 3){cursorAt++;} // Skip the decimal
@@ -149,11 +149,11 @@ void handlePadPress(){
 					float tempValue = targetString[cursorAt] - '0';
 					float numbersPlace = 10;
 					if (cursorAt > 3){ // add the decimal value to target RPM
-						for (int i = 0; i < (cursorAt - 4); i++){ numbersPlace *= 10; } // Find the correct decimal place
+						for (uint32_t i = 0; i < (cursorAt - 4); i++){ numbersPlace *= 10; } // Find the correct decimal place
 						tempTargetRPM += tempValue / numbersPlace; // Add the decimal place value to targetRPM
 					}
 					else{
-						for (int i = 0; i < (2 - cursorAt) ; i++){ numbersPlace *= 10; } // Find the correct numbers place
+						for (uint32_t i = 0; i < (2 - cursorAt) ; i++){ numbersPlace *= 10; } // Find the correct numbers place
 						tempTargetRPM += tempValue * numbersPlace;
 					}
 				}

@@ -69,8 +69,11 @@ void SetGPIO(GPIO_TypeDef* base, int pin, int value){
 void setState(IODevice* self,int value) {
 	self->prevState = self->state;
 	self->state = value;
-	if(self->MODERState != 'O'){return;}
-    SetGPIO(self->GPIOX, self->pin, value);
+	// Always write the ODR so the desired output level is already set
+	// before switching the pin to output mode. Writing ODR while the
+	// pin is an input does not drive the pin, but it guarantees the
+	// correct level is emitted immediately when MODER becomes 'O'.
+	SetGPIO(self->GPIOX, self->pin, value);
 }
 
 /* Gets the State of the Pin
