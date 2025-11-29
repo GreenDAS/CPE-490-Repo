@@ -31,6 +31,8 @@ struct IODevice VoltReader;
 struct IODevice FreqReader;
 struct GeneralPurposeTimer Timer2;
 struct GeneralPurposeTimer Timer3;
+struct GeneralPurposeTimer Timer4;
+struct GeneralPurposeTimer Timer5;
 struct GenevaLCDDevice *Display;
 struct Numpad *NumberPad;
 
