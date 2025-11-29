@@ -86,24 +86,28 @@ void InitSysTick(int load, int enableInterrupt){
 
 void _init_(){
 
-	
+	MotorPWM = createPWMDevice(
+		IODevice_Create('B', PWM, 0, 1, 'F'), // PWM Output Pin
+		/* Timer 3
+		* Prescale = 1
+		* Count Speed = 1 count every 0.5us
+		* ARR = 199
+		* => Timer Period = (PSC + 1) * (ARR + 1) / Clock Speed
+		* => Timer Period = (1 + 1) * (199 + 1) / 4,000,000
+		* => Timer Period = 0.0001s or 100us
+		* Duty Cycle Calculation:
+		* Duty Cycle = (CCR / (ARR + 1))
+		* => CCR = (Duty Cycle * (ARR + 1))
+		*/
+		GeneralPurposeTimer_Create(3,0,1,199,'U',0), // Sets up Timer3 for PWM Use
+		0.0,                                 // Initial Duty Cycle
+		0                                    // Initial CCR Value
+	); // Sets up PWM Device
 
-	/* Timer 3
-	 * Prescale = 1
-	 * Count Speed = 1 count every 0.5us
-	 * ARR = 199
-	 * => Timer Period = (PSC + 1) * (ARR + 1) / Clock Speed
-	 * => Timer Period = (1 + 1) * (199 + 1) / 4,000,000
-	 * => Timer Period = 0.0001s or 100us
-	 * Duty Cycle Calculation:
-	 * Duty Cycle = (CCR / (ARR + 1))
-	 * => CCR = (Duty Cycle * (ARR + 1))
-	 */
-	Timer3 = GeneralPurposeTimer_Create(5,0,1,199,'U',0); // Sets up Timer3 for PWM Use
 
-	Timer4 = GeneralPurposeTimer_Create(4,0,CountAtMilSecondRate,0,'D',1); // Sets up Timer4 for One Pulse Mode Use
+	Timer4 = *GeneralPurposeTimer_Create(4,0,CountAtMilSecondRate,0,'D',1); // Sets up Timer4 for One Pulse Mode Use
 
-	Timer5 = GeneralPurposeTimer_Create(3,1,CountAtMilSecondRate,(TimerPeriod1SecondInMilSeconds - 1)*10,'D',0); // Sets up Timer3 for GP Timer Use & for the Display
+	Timer5 = *GeneralPurposeTimer_Create(5,1,CountAtMilSecondRate,(TimerPeriod1SecondInMilSeconds - 1)*10,'D',0); // Sets up Timer3 for GP Timer Use & for the Display
 
 	unsigned char msg[GenevaLCDRowSize][(GenevaLCDColSize+1)] = {// The Message to Display
 			//1st Row
@@ -139,7 +143,7 @@ void _init_(){
 	RCC->AHB2ENR |= RCC_AHB2ENR_ADCEN; // Enable ADC Clock
 	if ((ADC1->CR & ADC_CR_DEEPPWD) == ADC_CR_DEEPPWD){ADC1->CR &= ~ADC_CR_DEEPPWD;} // Wake up ADC from Deep Power Down
 	ADC1->CR |= ADC_CR_ADVREGEN; // Enable ADC Voltage Regulator
-	Timer3.greedyWait(&Timer3, 1, MilSecondsScalar); // Wait for ADC Voltage Regulator to start up (min 10us)
+	Timer5.greedyWait(&Timer5, 1, MilSecondsScalar); // Wait for ADC Voltage Regulator to start up (min 10us)
 
 	VoltReader = *IODevice_Create('A', 0, 1, 0, 'A'); // Sets up VoltReader ADC Pin (PA0)
 	VoltReader.GPIOX->ASCR |= (1UL); // Enable Analog Switch for PA0
@@ -161,7 +165,7 @@ void _init_(){
 	FreqReader = *IODevice_Create('A',5,0,1,'F');
 	FreqReader.initInterupt(FreqReader.pin,FreqReader.GPIOchar,EXTI9_5_IRQn,1,4);
 
-	Timer2 = GeneralPurposeTimer_Create(2,1,1,0xFFFFFFFF - 1,'D',0); // Sets up Timer2 to run as fast as possible for CC Interrupt
+	Timer2 = *GeneralPurposeTimer_Create(2,1,1,0xFFFFFFFF - 1,'D',0); // Sets up Timer2 to run as fast as possible for CC Interrupt
 	Timer2.InteruptHandler = PeripheralInteruptHandling_Create(TIM2_IRQn);
 	Timer2.InteruptHandler->setPriorityBit(Timer2.InteruptHandler,0b0100); // Sets the Priority Bit's preemption priority to 1, sub priority to 0
 	Timer2.InteruptHandler->setIXER(Timer2.InteruptHandler,'S'); // Enables the interupt in the NVIC
