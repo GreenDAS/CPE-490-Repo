@@ -29,12 +29,12 @@
 // Functions
 //------------------------------------------------------------------------------
 
-void createTargetString(unsigned char msg[GenevaLCDColSize], void *value, int isString, char* units){
+void createTargetString(unsigned char msg[GenevaLCDColSize], void *value, int isString, char* units, char* descriptor){
 	if (isString){
-		snprintf((char*)msg, GenevaLCDColSize, "Target:%s%s", (char*)value, units); // Insert the target String into the %s spot
+		snprintf((char*)msg, GenevaLCDColSize, "%s%s%s", descriptor, (char*)value, units); // Insert the target String into the %s spot
 	}
 	else{
-		snprintf((char*)msg, GenevaLCDColSize, "Target:%6.2f%s", *(float*)(value), units); // Insert the target String into the %s spot
+		snprintf((char*)msg, GenevaLCDColSize, "%s%6.2f%s", descriptor, *(float*)(value), units); // Insert the target String into the %s spot
 	}
 }
 
@@ -96,24 +96,19 @@ void handleSW1Press()
 }
 
 void updateMainMenu(){
-	float value; // Keep This - Green
-	char unitSTR[4] = "RPM"; // Keep this - Green
-	//^these will prolly go away later but i just need to see what im doing
-	switch (tor_rpm_toggle)
-	{
-	case 0:
-		value = targetRPM;
-		snprintf(unitSTR, sizeof(unitSTR), "RPM");
-		break;
+	float value = targetRPM; // Keep This - Green
+	char unitSTR[4] = "RPM";
+	char descriptorSTR[8] = "TARGET:";
+	if (tor_rpm_toggle){
 
-	case 1:
 		torque = 17.29 * (voltage / (22.0/3.0));
 		snprintf(unitSTR, sizeof(unitSTR), "Nm ");
+		snprintf(descriptorSTR, sizeof(descriptorSTR), "TORQUE:");
 		// also V/7.3 is apparently current
 		value = torque;
-		break;
-	}
-	createTargetString(&(Display->wholeMSG[0][0]), &value, FALSE, unitSTR); // Top Row
+	}	
+
+	createTargetString(&(Display->wholeMSG[0][0]), &value, FALSE, unitSTR, descriptorSTR); // Top Row
 	createFreqString(&(Display->wholeMSG[1][0]), (frequency*60)); // Bot Row
 	updateMainMenuFlag = 0;
 }
@@ -248,7 +243,7 @@ void handlePadPress(){
 		break;
 
 	}
-	createTargetString(&(Display->wholeMSG[1][0]), &(targetString[0]), 1, "RPM");
+	createTargetString(&(Display->wholeMSG[1][0]), &(targetString[0]), 1, "RPM", "TARGET:"); // Update Bot Row's Message
 	readFinishedFlag = 0;
 }
 
