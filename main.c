@@ -29,26 +29,23 @@
 // Functions
 //------------------------------------------------------------------------------
 
-void createTargetString(unsigned char msg[GenevaLCDColSize], void *value, int isString){
+void createTargetString(unsigned char msg[GenevaLCDColSize], void *value, int isString, char* units){
 	if (isString){
-		snprintf((char*)msg, 40, "Target:%sRPM", (char*)value); // Insert the target String into the %s spot
+		snprintf((char*)msg, GenevaLCDColSize, "Target:%s%s", (char*)value, units); // Insert the target String into the %s spot
 	}
 	else{
-		snprintf((char*)msg, 40, "Target:%6.2fRPM", *(float*)(value)); // Insert the target String into the %s spot
+		snprintf((char*)msg, GenevaLCDColSize, "Target:%6.2f%s", *(float*)(value), units); // Insert the target String into the %s spot
 	}
-	msg[39] = 0x00; // Null Terminator it just in case
 }
 
 void createFreqString(unsigned char msg[GenevaLCDColSize], double freq)
 {
-	snprintf((char *)msg, 40, "FREQ: %8.2fHz", freq); // 2 decimal places
-	msg[39] = 0x00;									  // Null Terminator
+	snprintf((char *)msg, GenevaLCDColSize, "FREQ: %8.2fHz", freq); // 2 decimal places
 }
 
 void createVoltString(unsigned char msg[GenevaLCDColSize], double volt)
 {
-	snprintf((char *)msg, 40, "VOLTAGE: %5.2fV", volt); // 2 decimal places
-	msg[39] = 0x00;										// Null Terminator
+	snprintf((char *)msg, GenevaLCDColSize, "VOLTAGE: %5.2fV", volt); // 2 decimal places
 }
 
 // this was created by caleb
@@ -60,11 +57,11 @@ void createTorRPMString(unsigned char msg[GenevaLCDColSize], double tor_rpm)
 		switch (togglestate)
 		{
 		case 0:
-			snprintf((char *)msg, 40, "TARGET: %4.2f", tor_rpm); // 2 decimal places
+			snprintf((char *)msg, GenevaLCDColSize, "TARGET: %4.2f", tor_rpm); // 2 decimal places
 			togglestate = 1;
 			break;
 		case 1:
-			snprintf((char *)msg, 40, "ACTUAL: %4.2f", tor_rpm); // 2 decimal places
+			snprintf((char *)msg, GenevaLCDColSize, "ACTUAL: %4.2f", tor_rpm); // 2 decimal places
 			togglestate = 0;
 			break;
 		}
@@ -74,18 +71,16 @@ void createTorRPMString(unsigned char msg[GenevaLCDColSize], double tor_rpm)
 		switch (togglestate)
 		{
 		case 0:
-			snprintf((char *)msg, 40, "TARGET: %4.2f", tor_rpm); // 2 decimal places
+			snprintf((char *)msg, GenevaLCDColSize, "TARGET: %4.2f", tor_rpm); // 2 decimal places
 			togglestate = 1;
 			break;
 		case 1:
-			snprintf((char *)msg, 40, "TORQUE: %4.2f", tor_rpm); // 2 decimal places
+			snprintf((char *)msg, GenevaLCDColSize, "TORQUE: %4.2f", tor_rpm); // 2 decimal places
 			togglestate = 0;
 			break;
 		}
 		break;
 	}
-
-	msg[39] = 0x00; // Null Terminator// i have no idea if i need this
 }
 
 // Tasks
