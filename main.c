@@ -230,6 +230,11 @@ void handlePadPress(){
 	readFinishedFlag = 0;
 }
 
+void handleSW2Press()
+{
+	// Currently does nothing
+}
+
 // Ready Fns
 
 int voltCalcReady() { return calcVoltFlag; }
