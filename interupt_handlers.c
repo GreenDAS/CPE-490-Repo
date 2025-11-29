@@ -49,20 +49,32 @@ void EXTI4_IRQHandler(void)
 	//  i think i am going to make a flag that says its toggle time and main will see that and
 	//  change LCD until it goes to this interrupt again
 
-	SW1LED->toggle(SW1LED); // Toggle LED1
 
-	tor_rpm_toggle ^= 1; // Toggle the torque/RPM display flag
+	if(!gettingUserInputFlag){
+		SW1LED->setState(SW1LED,1); // Toggle LED1
+		sw1PressedFlag = 1;
+	}
 
 	NVIC_ClearPendingIRQ(EXTI4_IRQn);
 	EXTI->PR1 |= EXTI_PR1_PIF4;
 }
 
-// Pin4
-void EXTI5_IRQHandler(void)
+// Pin5
+void EXTI9_5_IRQHandler(void)
 {
-	gettingUserInputFlag ^= 1; // Toggle getting user input flag
-	SW2LED->toggle(SW2LED); // Toggle LED2
-	// Code Here
+	if(!gettingUserInputFlag){
+
+		sw2PressedFlag = 1;
+		gettingUserInputFlag = 1;
+		SW2LED->setState(SW2LED,1); // Turn on LED2 to show we are getting user input
+
+	}
+	else{
+		sw2PressedFlag = 1;
+		gettingUserInputFlag = 0;
+		SW2LED->setState(SW2LED,1); // Turn on LED2 to show we are getting user input
+	}
+
 	NVIC_ClearPendingIRQ(EXTI9_5_IRQn);
 	EXTI->PR1 |= EXTI_PR1_PIF5;
 }

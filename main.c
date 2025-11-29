@@ -29,18 +29,18 @@
 // Functions
 //------------------------------------------------------------------------------
 
-void createTargetString(unsigned char msg[GenevaLCDColSize], void *value, int isString, char* units){
+void createTargetString(unsigned char msg[GenevaLCDColSize], void *value, int isString, char* units, char* descriptor){
 	if (isString){
-		snprintf((char*)msg, GenevaLCDColSize, "Target:%s%s", (char*)value, units); // Insert the target String into the %s spot
+		snprintf((char*)msg, GenevaLCDColSize, "%s%s%s", descriptor, (char*)value, units); // Insert the target String into the %s spot
 	}
 	else{
-		snprintf((char*)msg, GenevaLCDColSize, "Target:%6.2f%s", *(float*)(value), units); // Insert the target String into the %s spot
+		snprintf((char*)msg, GenevaLCDColSize, "%s%6.2f%s", descriptor, *(float*)(value), units); // Insert the target String into the %s spot
 	}
 }
 
 void createFreqString(unsigned char msg[GenevaLCDColSize], double freq)
 {
-	snprintf((char *)msg, GenevaLCDColSize, "FREQ: %8.2fHz", freq); // 2 decimal places
+	snprintf((char *)msg, GenevaLCDColSize, "ACTUAL:%6.2fRPM", freq); // 2 decimal places
 }
 
 void createVoltString(unsigned char msg[GenevaLCDColSize], double volt)
@@ -65,43 +65,52 @@ void readVoltage()
 void calcVoltage()
 {
 	voltage = (voltageAccum / (voltageMeasurements));
-	createVoltString(&(Display->wholeMSG[0][0]), voltage); // Update Voltage String
 	voltageAccum = 0;
 	voltageMeasurements = 0;
 	calcVoltFlag = 1;
+	updateMainMenuFlag = 1; // Set flag to update main menu
 }
 
 void calcFrequency()
 {
 	frequency = freqCounts / timeElapsed;
-	if(gettingUserInputFlag == 0){
-		createFreqString(&(Display->wholeMSG[1][0]), frequency); // Update Frequency String
-	}
+	newRPMFlag = 1;
 	freqCounts = 0;
 	timeElapsed = 0.0;
 	calcFreqFlag = 0;
+	updateMainMenuFlag = 1; // Set flag to update main menu
 }
 
 // made by caleb
 void handleSW1Press()
 {
-	float value; // Keep This - Green
-	char unitSTR[4] = "RPM"; // Keep this - Green
-	//^these will prolly go away later but i just need to see what im doing
-	switch (tor_rpm_toggle)
-	{
-	case 0:
-		value = targetRPM;
-		break;
+	if(!targetSetFlag){
+		tor_rpm_toggle = 0; // Reset to RPM display if a new target RPM was set
+	}
+	else{
+		tor_rpm_toggle ^= 1; // Toggle the torque/RPM display flag
+	}
+	SW1LED->setState(SW1LED,0); // Dissable LED1
+	sw1PressedFlag = 0;
+	updateMainMenuFlag = 1; // Set flag to update main menu
+}
 
-	case 1:
-		torque = 17.29 * (voltage / (22/3)); // prolly needs fixed/ somehow get volts
+void updateMainMenu(){
+	float value = targetRPM; // Keep This - Green
+	char unitSTR[4] = "RPM";
+	char descriptorSTR[8] = "TARGET:";
+	if (tor_rpm_toggle){
+
+		torque = 17.29 * (voltage / (22.0/3.0));
+		snprintf(unitSTR, sizeof(unitSTR), "Nm ");
+		snprintf(descriptorSTR, sizeof(descriptorSTR), "TORQUE:");
 		// also V/7.3 is apparently current
 		value = torque;
-		break;
-	}
+	}	
 
-	createTargetString(&(Display->wholeMSG[0][0]), &value, FALSE, unitSTR); // Top Row
+	createTargetString(&(Display->wholeMSG[0][0]), &value, FALSE, unitSTR, descriptorSTR); // Top Row
+	createFreqString(&(Display->wholeMSG[1][0]), (frequency*60)); // Bot Row
+	updateMainMenuFlag = 0;
 }
 
 void displayUpdate()
@@ -167,6 +176,13 @@ void handlePadPress(){
 	static unsigned char targetString[7] = {'_', '_', '_', '.', '_', '_', 0x00};
 	static unsigned int cursorAt = 0;
 	float tempTargetRPM = 0.0;
+
+	if (sw2PressedFlag && !gettingUserInputFlag)
+	{
+		snprintf(&(((char*)targetString)[0]), 7, "___.__");
+		return;
+	}
+
 	// Detect button release
 	switch (NumberPad->recentPress){
 		// Button Press was a backspace (*)
@@ -208,6 +224,7 @@ void handlePadPress(){
 			}
 			cursorAt = 0;
 			targetSetFlag = 1;
+			sw1PressedFlag = 1; // Set SW1 to reset display
 			gettingUserInputFlag = 0;
 			snprintf(&(((char*)targetString)[0]), 7, "___.__");
 		break;
@@ -226,27 +243,49 @@ void handlePadPress(){
 		break;
 
 	}
-	createTargetString(&(Display->wholeMSG[0][0]), &(targetString[0]), 1, "RPM");
+	createTargetString(&(Display->wholeMSG[1][0]), &(targetString[0]), 1, "RPM", "TARGET:"); // Update Bot Row's Message
 	readFinishedFlag = 0;
+}
+
+void handleSW2Press()
+{
+	if(gettingUserInputFlag){
+		snprintf((char*)(&(Display->wholeMSG[0][0])), GenevaLCDColSize, "Enter Target RPM"); // Update Top Row's Message
+		snprintf((char*)(&(Display->wholeMSG[1][0])), GenevaLCDColSize, "Target:___.__RPM"); // Update Bot Row's Message
+		SW2LED->setState(SW2LED,0); // Dissable LED2
+		sw2PressedFlag = 0;
+	}
+	else{
+		handlePadPress(); // Handle the Pad Press to reset targetString
+		SW2LED->setState(SW2LED,0); // Dissable LED2
+		sw1PressedFlag = 1; // Set SW1 to reset display
+		tor_rpm_toggle = 0; // Reset to RPM display if a new target RPM was set
+		sw2PressedFlag = 0; // Reset SW2 Pressed Flag
+	}
+	updateMainMenuFlag = 0; // Reset Main Menu Update Flag
 }
 
 // Ready Fns
 
-int voltCalcReady() { return calcVoltFlag; }
-int freqCalcReady() { return calcFreqFlag; }
-// i know i need to put a ready but dont know how
-int dispUpdaReady() { return 1; }
-int readPadReady(){return gettingUserInputFlag;}
-int handlePadPressReady(){return ( readFinishedFlag && ((!(NumberPad->state)) && NumberPad->prevState)) ? gettingUserInputFlag : 0;}
+int voltCalcReady() { return (tor_rpm_toggle) ? 1 : 0; } // Onlt calc voltage when torque is being displayed
+int freqCalcReady() { return calcFreqFlag; } // Only calc frequency when flag is set
+int handleSW1PressReady() { return sw1PressedFlag; } // Only handle SW1 press when SW1 is pressed
+int updateMainMenuReady() { return (updateMainMenuFlag && !gettingUserInputFlag); } // Only update main menu when flag is set and not getting user input
+int dispUpdaReady() { return 1; } // Always ready to update display
+int readPadReady(){return gettingUserInputFlag;} // Only read pad when getting user input
+int handlePadPressReady(){return ( readFinishedFlag && ((!(NumberPad->state)) && NumberPad->prevState)) ? gettingUserInputFlag : 0;} // Only handle pad press when read is finished and getting user input
+int handleSW2PressReady() { return sw2PressedFlag; } // Only handle SW2 press when SW2 is pressed
 
 // Cooldown Fns
 
-int voltCoolDown() { return VOLTAGE_DEADLINE; }
-int freqCoolDown() { return FREQ_DEADLINE; }
-// i know i need a deadline but dont know how
-int dispCoolDown() { return 0; }
-int readPadCooldown(){return 5;}
-int handlePadPressCooldown(){return 0;}
+int voltCooldown() { return VOLTAGE_DEADLINE; } // Voltage deadline
+int freqCooldown() { return FREQ_DEADLINE; } // Frequency deadline
+int handleSW1PressCooldown() { return 0; } // Run as fast as possible after SW1 is pressed
+int updateMainMenuCooldown() { return 0; } // Run as fast as possible after main menu update
+int dispCooldown() { return 0; } // Run as fast as possible after display update
+int readPadCooldown(){return 5;}  // 5ms cooldown for reading pad for debouncing and capacitance
+int handlePadPressCooldown(){return 0;} // Run as fast as possible after read is finished
+int handleSW2PressCooldown() { return 0; } // Run as fast as possible after SW2 is pressed
 
 //------------------------------------------------------------------------------
 // Main
@@ -259,17 +298,16 @@ int main(void)
 
 	// Set up Scheduler Tasks
 	schedulerTasks = (EDFToDo){
-		.tasks = {calcVoltage, calcFrequency, displayUpdate},
-		.deadlines = {VOLTAGE_DEADLINE, FREQ_DEADLINE, DISPLAY_DEADLINE},
-		.cooldowns = {0, 0, 0},
-		.clksWaited = {0, 0, 0},
-		.taskCond = {voltCalcReady, freqCalcReady, dispUpdaReady},
-		.coolDownFn = {voltCoolDown, freqCoolDown, dispCoolDown}};
+		.tasks = {calcVoltage, calcFrequency, displayUpdate, handleSW1Press, readPad, handlePadPress, handleSW2Press, updateMainMenu},
+		.deadlines = {VOLTAGE_DEADLINE, FREQ_DEADLINE, DISPLAY_DEADLINE, HANDLE_SW1_PRESS_DEADLINE, READ_NUMPAD_DEADLINE, HANDLE_NUMPAD_PRESS_DEADLINE, HANDLE_SW2_PRESS_DEADLINE, MAIN_MENU_UPDATE_DEADLINE},
+		.cooldowns = {0, 0, 0, 0, 0, 0, 0, 0},
+		.clksWaited = {0, 0, 0, 0, 0, 0, 0, 0},
+		.taskCond = {voltCalcReady, freqCalcReady, dispUpdaReady, handleSW1PressReady, readPadReady, handlePadPressReady, handleSW2PressReady, updateMainMenuReady},
+		.coolDownFn = {voltCooldown, freqCooldown, dispCooldown, handleSW1PressCooldown, readPadCooldown, handlePadPressCooldown, handleSW2PressCooldown, updateMainMenuCooldown},};
 	// End Set up Scheduler Tasks
 	while(TRUE){ 
 		while(!systickFlag){} // Wait for SysTick
 
-		gettingUserInputFlag = 1;
 
 		uint32_t taskToRun = 0;
 		// Picks the Best Task To Run (BTTR)
@@ -288,14 +326,14 @@ int main(void)
 				schedulerTasks.cooldowns[task]--;
 				continue;
 			}
-			// Checks to see if the task to run's Flag is not set
+			// Checks to see if the task to run's ready fn says it can run
 			else if (!schedulerTasks.taskCond[taskToRun]())
 			{
 				schedulerTasks.clksWaited[taskToRun]++;
 				taskToRun = task;
 				continue;
 			}
-			// Checks to see if the task's Flag is not set
+			// Checks to see if the task's ready fn says it can run
 			else if (!schedulerTasks.taskCond[task]())
 			{
 				schedulerTasks.clksWaited[task]++;

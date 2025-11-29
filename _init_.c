@@ -110,10 +110,12 @@ void _init_(){
 	for(int j=0; j < NumberPad->colSize; j++){NumberPad->colIO[j]->setState(NumberPad->colIO[j],1);} // Sets the Col to on
 
 	// Setting Up SW1-2 and LED1-2
-	IODevice* Switch1 = IODevice_Create('C',SW1,0,1,'I'); // Sets up SW1 
-	IODevice* Switch2 = IODevice_Create('C',SW2,0,1,'I'); // Sets up SW2 
-	IODevice* SW1LED = IODevice_Create('C',LED1,0,1,'O'); // Sets up LED1 
-	IODevice* SW2LED = IODevice_Create('C',LED2,0,1,'O'); // Sets up LED2 
+	Switch1 = IODevice_Create('C',SW1,0,1,'I'); // Sets up SW1
+	Switch1->initInterupt(Switch1->pin,Switch1->GPIOchar,EXTI4_IRQn,0,4); // Sets up EXTI4 for SW1
+	Switch2 = IODevice_Create('C',SW2,0,1,'I'); // Sets up SW2 
+	Switch2->initInterupt(Switch2->pin,Switch2->GPIOchar,EXTI9_5_IRQn,0,5); // Sets up EXTI9_5 for SW2
+	SW1LED = IODevice_Create('C',LED1,0,1,'O'); // Sets up LED1 
+	SW2LED = IODevice_Create('C',LED2,0,1,'O'); // Sets up LED2 
 
 
 	RCC->AHB2ENR |= RCC_AHB2ENR_ADCEN; // Enable ADC Clock
