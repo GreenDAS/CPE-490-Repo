@@ -102,6 +102,7 @@ void handleSW1Press()
 		break;
 	}
 	createTargetString(&(Display->wholeMSG[0][0]), &value, FALSE, unitSTR); // Top Row
+	SW1LED->setState(SW1LED,0); // Dissable LED1
 	sw1PressedFlag = 0;
 }
 

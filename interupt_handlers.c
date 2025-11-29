@@ -57,7 +57,7 @@ void EXTI4_IRQHandler(void)
 		else{
 			tor_rpm_toggle ^= 1; // Toggle the torque/RPM display flag
 		}
-		SW1LED->toggle(SW1LED); // Toggle LED1
+		SW1LED->setState(SW1LED,1); // Toggle LED1
 		sw1PressedFlag = 1;
 	}
 
