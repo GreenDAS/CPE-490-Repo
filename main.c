@@ -270,7 +270,7 @@ void handleSW2Press()
 int voltCalcReady() { return (tor_rpm_toggle) ? 1 : 0; } // Onlt calc voltage when torque is being displayed
 int freqCalcReady() { return calcFreqFlag; } // Only calc frequency when flag is set
 int handleSW1PressReady() { return sw1PressedFlag; } // Only handle SW1 press when SW1 is pressed
-int updateMainMenuReady() { return (updateMainMenuFlag && !gettingUserInputFlag); } // Update main menu when SW1 or SW2 is pressed or target is set
+int updateMainMenuReady() { return (updateMainMenuFlag && !gettingUserInputFlag); } // Only update main menu when flag is set and not getting user input
 int dispUpdaReady() { return 1; } // Always ready to update display
 int readPadReady(){return gettingUserInputFlag;} // Only read pad when getting user input
 int handlePadPressReady(){return ( readFinishedFlag && ((!(NumberPad->state)) && NumberPad->prevState)) ? gettingUserInputFlag : 0;} // Only handle pad press when read is finished and getting user input
