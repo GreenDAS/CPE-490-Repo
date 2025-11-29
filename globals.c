@@ -36,10 +36,11 @@ struct GeneralPurposeTimer Timer5;
 struct GenevaLCDDevice *Display;
 struct Numpad *NumberPad;
 
+struct IODevice* PWMPin;  // Sets up PWM Pin 
 struct IODevice* Switch1; // Sets up SW1 
 struct IODevice* Switch2; // Sets up SW2 
-struct IODevice* SW1LED; // Sets up LED1 
-struct IODevice* SW2LED; // Sets up LED2
+struct IODevice* SW1LED;  // Sets up LED1 
+struct IODevice* SW2LED;  // Sets up LED2
 
 // Voltage Vars
 int voltageMeasurements = 0;

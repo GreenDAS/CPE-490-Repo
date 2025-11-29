@@ -85,11 +85,25 @@ void InitSysTick(int load, int enableInterrupt){
 //------------------------------------------------------------------------------
 
 void _init_(){
-	Timer3 = GeneralPurposeTimer_Create(3,1,CountAtMilSecondRate,(TimerPeriod1SecondInMilSeconds - 1)*10,'D',0); // Sets up Timer3 for GP Timer Use & for the Display
+
+	
+
+	/* Timer 3
+	 * Prescale = 1
+	 * Count Speed = 1 count every 0.5us
+	 * ARR = 199
+	 * => Timer Period = (PSC + 1) * (ARR + 1) / Clock Speed
+	 * => Timer Period = (1 + 1) * (199 + 1) / 4,000,000
+	 * => Timer Period = 0.0001s or 100us
+	 * Duty Cycle Calculation:
+	 * Duty Cycle = (CCR / (ARR + 1))
+	 * => CCR = (Duty Cycle * (ARR + 1))
+	 */
+	Timer3 = GeneralPurposeTimer_Create(5,0,1,199,'U',0); // Sets up Timer3 for PWM Use
 
 	Timer4 = GeneralPurposeTimer_Create(4,0,CountAtMilSecondRate,0,'D',1); // Sets up Timer4 for One Pulse Mode Use
 
-	// Timer5 = GeneralPurposeTimer_Create(5,1,3999,999,'D',0); // Sets up Timer5 for PWM Use
+	Timer5 = GeneralPurposeTimer_Create(3,1,CountAtMilSecondRate,(TimerPeriod1SecondInMilSeconds - 1)*10,'D',0); // Sets up Timer3 for GP Timer Use & for the Display
 
 	unsigned char msg[GenevaLCDRowSize][(GenevaLCDColSize+1)] = {// The Message to Display
 			//1st Row
@@ -107,7 +121,7 @@ void _init_(){
 
 	};
 
-	Display = GenevaLCDDevice_Create(&Timer3, 5, 10, msg); // Sets up LCD Display
+	Display = GenevaLCDDevice_Create(&Timer5, 5, 10, msg); // Sets up LCD Display
 
 	NumberPad = CreateNumpad();
 	NumberPad->changeDimMODER(NumberPad, 'C', 'O'); // Sets Columns to Output
