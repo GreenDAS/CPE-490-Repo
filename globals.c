@@ -67,7 +67,7 @@ dispState displayState = SUCCESS;
 
         //Volatile
             volatile unsigned int sw1PressedFlag = 0; // Sets when SW1 is pressed
-            volatile unsigned int sw2PressedFlag = 0; // Sets when SW2 is pressed
+            volatile unsigned int sw2PressedFlag = 1; // Sets when SW2 is pressed
 
     // Task
     unsigned int calcVoltFlag = 1;                       // Set to always be 1 to calculate voltage so long as the deadline is met
