@@ -88,19 +88,26 @@ extern struct IODevice         VoltReader;
 extern struct IODevice         FreqReader;
 extern struct GeneralPurposeTimer Timer2;
 extern struct GeneralPurposeTimer Timer3;
-extern struct GenevaLCDDevice *Display;
+extern struct GenevaLCDDevice  *Display;
 extern struct Numpad           *NumberPad;
 
-extern struct IODevice* Switch1; // Sets up SW1 
-extern struct IODevice* Switch2; // Sets up SW2 
-extern struct IODevice* SW1LED; // Sets up LED1 
-extern struct IODevice* SW2LED; // Sets up LED2
+extern struct IODevice*        Switch1; // Sets up SW1 
+extern struct IODevice*        Switch2; // Sets up SW2 
+extern struct IODevice*        SW1LED; // Sets up LED1 
+extern struct IODevice*        SW2LED; // Sets up LED2
 
-extern int              voltageMeasurements;
-extern float            voltageAccum;
-extern float            frequency;
-extern int              freqCounts;
-extern double           timeElapsed;
+// Voltage Vars
+extern int          voltageMeasurements = 0;
+extern float        voltageAccum = 0;
+extern float        voltage = 0;
+
+// Torgue
+extern float        torque = 0;
+
+// Frequency Vars
+extern float        frequency = 0;
+extern int          freqCounts = 0;
+extern double       timeElapsed = 0.0;
 
 extern float            targetRPM;
 
@@ -113,9 +120,8 @@ extern unsigned int         calcFreqFlag;   /* 0 = off by default */
 extern unsigned int         gettingUserInputFlag; /* 0 = not getting user input by default*/
 extern unsigned int         targetSetFlag;  /* 0 = value not just set yet*/
 extern unsigned int         readFinishedFlag; /* 0 = read not finished yet*/
-extern volatile unsigned int     systickFlag; /* 0 = don't run ROTS*/
-extern int              tor_rpm_toggle; // 0 for RPMs(target and actual), 1 for (Target and torque) only
-extern int              togglestate;    // 0 for first string 1 for second //
+extern volatile unsigned int systickFlag; /* 0 = don't run ROTS*/
+extern volatile unsigned int tor_rpm_toggle; // 0 for RPMs(target and actual), 1 for (Target and torque) only
 
 /* -------------------------------------------------------------------------
  * End of globals.h

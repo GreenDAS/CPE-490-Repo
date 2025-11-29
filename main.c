@@ -48,41 +48,6 @@ void createVoltString(unsigned char msg[GenevaLCDColSize], double volt)
 	snprintf((char *)msg, GenevaLCDColSize, "VOLTAGE: %5.2fV", volt); // 2 decimal places
 }
 
-// this was created by caleb
-void createTorRPMString(unsigned char msg[GenevaLCDColSize], double tor_rpm)
-{
-	switch (tor_rpm_toggle)
-	{
-	case 0:
-		switch (togglestate)
-		{
-		case 0:
-			snprintf((char *)msg, GenevaLCDColSize, "TARGET: %4.2f", tor_rpm); // 2 decimal places
-			togglestate = 1;
-			break;
-		case 1:
-			snprintf((char *)msg, GenevaLCDColSize, "ACTUAL: %4.2f", tor_rpm); // 2 decimal places
-			togglestate = 0;
-			break;
-		}
-		break;
-
-	case 1:
-		switch (togglestate)
-		{
-		case 0:
-			snprintf((char *)msg, GenevaLCDColSize, "TARGET: %4.2f", tor_rpm); // 2 decimal places
-			togglestate = 1;
-			break;
-		case 1:
-			snprintf((char *)msg, GenevaLCDColSize, "TORQUE: %4.2f", tor_rpm); // 2 decimal places
-			togglestate = 0;
-			break;
-		}
-		break;
-	}
-}
-
 // Tasks
 
 void readVoltage()
@@ -99,7 +64,8 @@ void readVoltage()
 
 void calcVoltage()
 {
-	createVoltString(&(Display->wholeMSG[0][0]), voltageAccum / (voltageMeasurements)); // Update Voltage String
+	voltage = (voltageAccum / (voltageMeasurements));
+	createVoltString(&(Display->wholeMSG[0][0]), voltage); // Update Voltage String
 	voltageAccum = 0;
 	voltageMeasurements = 0;
 	calcVoltFlag = 1;
@@ -107,53 +73,35 @@ void calcVoltage()
 
 void calcFrequency()
 {
-	createFreqString(&(Display->wholeMSG[1][0]), freqCounts / timeElapsed); // Update Frequency String
+	frequency = freqCounts / timeElapsed;
+	if(gettingUserInputFlag == 0){
+		createFreqString(&(Display->wholeMSG[1][0]), frequency); // Update Frequency String
+	}
 	freqCounts = 0;
 	timeElapsed = 0.0;
 	calcFreqFlag = 0;
 }
 
 // made by caleb
-void togMsg()
+void handleSW1Press()
 {
-	double torque;
-	double target_rpm;
-	double value;
-	double actual_rpm;
-	char unitSTR[4] = "RPM";
+	float value; // Keep This - Green
+	char unitSTR[4] = "RPM"; // Keep this - Green
 	//^these will prolly go away later but i just need to see what im doing
 	switch (tor_rpm_toggle)
 	{
 	case 0:
-		switch (togglestate)
-		{
-		case 0:
-			value = target_rpm;
-			break;
-
-		case 1:
-			value = actual_rpm;
-			break;
-		}
+		value = targetRPM;
 		break;
+
 	case 1:
-		switch (togglestate)
-		{
-		case 0:
-			value = target_rpm;
-			break;
-
-		case 1:
-			torque = 17.29 * (volts / (22/3)); // prolly needs fixed/ somehow get volts
-			// also V/7.3 is apparently current
-			value = torque;
-			break;
-		}
+		torque = 17.29 * (voltage / (22/3)); // prolly needs fixed/ somehow get volts
+		// also V/7.3 is apparently current
+		value = torque;
 		break;
-
-		createTargetString(&(Display->wholeMSG[0][0]), value, FALSE, "Nm" );
-		calcTorFlag = 0;									// doesnt exist yet
 	}
+
+	createTargetString(&(Display->wholeMSG[0][0]), &value, FALSE, unitSTR); // Top Row
 }
 
 void displayUpdate()
@@ -262,7 +210,6 @@ void handlePadPress(){
 			targetSetFlag = 1;
 			gettingUserInputFlag = 0;
 			snprintf(&(((char*)targetString)[0]), 7, "___.__");
-			// Set switch 1's flag to swap back to main menu ********
 		break;
 
 		default:
@@ -279,7 +226,7 @@ void handlePadPress(){
 		break;
 
 	}
-	createTargetString(&(Display->wholeMSG[0][0]), &(targetString[0]), 1);
+	createTargetString(&(Display->wholeMSG[0][0]), &(targetString[0]), 1, "RPM");
 	readFinishedFlag = 0;
 }
 

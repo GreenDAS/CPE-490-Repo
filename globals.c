@@ -39,11 +39,18 @@ struct IODevice* Switch2; // Sets up SW2
 struct IODevice* SW1LED; // Sets up LED1 
 struct IODevice* SW2LED; // Sets up LED2
 
+// Voltage Vars
 int voltageMeasurements = 0;
 float voltageAccum = 0;
+float voltage = 0;
+
+// Torgue
+float torque = 0;
+
+// Frequency Vars
 float frequency = 0;
 int freqCounts = 0;
-extern double timeElapsed;
+double timeElapsed = 0.0;
 
 float targetRPM = 50;
 
@@ -58,8 +65,7 @@ unsigned int targetSetFlag = 0;
 unsigned int readFinishedFlag = 0;
 volatile unsigned int systickFlag = 0; 
 // this was created by caleb
-int tor_rpm_toggle = 0; // 0 for RPMs(target and actual), 1 for (Target and torque) only
-int togglestate = 0;    // 0 for first string 1 for second // this is for what value to put in
+volatile unsigned int tor_rpm_toggle = 0; // 0 for RPMs(target and actual), 1 for (Target and torque) only
 
 //------------------------------------------------------------------------------
 // Main
