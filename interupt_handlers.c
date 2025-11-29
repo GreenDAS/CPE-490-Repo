@@ -51,12 +51,6 @@ void EXTI4_IRQHandler(void)
 
 
 	if(!gettingUserInputFlag){
-		if(targetSetFlag){
-			tor_rpm_toggle = 0; // Reset to RPM display if a new target RPM was set
-		}
-		else{
-			tor_rpm_toggle ^= 1; // Toggle the torque/RPM display flag
-		}
 		SW1LED->setState(SW1LED,1); // Toggle LED1
 		sw1PressedFlag = 1;
 	}

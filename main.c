@@ -86,6 +86,17 @@ void calcFrequency()
 // made by caleb
 void handleSW1Press()
 {
+	if(targetSetFlag){
+		tor_rpm_toggle = 0; // Reset to RPM display if a new target RPM was set
+	}
+	else{
+		tor_rpm_toggle ^= 1; // Toggle the torque/RPM display flag
+	}
+	SW1LED->setState(SW1LED,0); // Dissable LED1
+	sw1PressedFlag = 0;
+}
+
+void updateMainMenu(){
 	float value; // Keep This - Green
 	char unitSTR[4] = "RPM"; // Keep this - Green
 	//^these will prolly go away later but i just need to see what im doing
@@ -93,17 +104,17 @@ void handleSW1Press()
 	{
 	case 0:
 		value = targetRPM;
+		snprintf(unitSTR, sizeof(unitSTR), "RPM");
 		break;
 
 	case 1:
-		torque = 17.29 * (voltage / (22/3)); // prolly needs fixed/ somehow get volts
+		torque = 17.29 * (voltage / (22.0/3.0));
+		snprintf(unitSTR, sizeof(unitSTR), "Nm");
 		// also V/7.3 is apparently current
 		value = torque;
 		break;
 	}
 	createTargetString(&(Display->wholeMSG[0][0]), &value, FALSE, unitSTR); // Top Row
-	SW1LED->setState(SW1LED,0); // Dissable LED1
-	sw1PressedFlag = 0;
 }
 
 void displayUpdate()
@@ -217,6 +228,7 @@ void handlePadPress(){
 			}
 			cursorAt = 0;
 			targetSetFlag = 1;
+			sw1PressedFlag = 1; // Set SW1 to reset display
 			gettingUserInputFlag = 0;
 			snprintf(&(((char*)targetString)[0]), 7, "___.__");
 		break;
