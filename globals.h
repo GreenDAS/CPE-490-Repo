@@ -12,49 +12,55 @@
 /* -------------------------------------------------------------------------
  * Configuration & Constants
  * ------------------------------------------------------------------------- */
-#define TRUE                1
-#define FALSE               0
+
+// Boolean Defines
+    #define TRUE                1
+    #define FALSE               0
+//
 
 /* Pin assignments (use uppercase + _t suffix for clarity) */
 
-
 // GPIOA
-#define ROW1                8
-#define ROW2                9
-#define ROW3                10
-#define ROW4                11
+    #define ROW1                8
+    #define ROW2                9
+    #define ROW3                10
+    #define ROW4                11
 //
 
 // GPIOB
-#define COL1                8
-#define COL2                9
-#define COL3                10
+    #define COL1                8
+    #define COL2                9
+    #define COL3                10
 //
 
 // GPIOC
-#define LED1                0
-#define LED2                1
-#define LED3                2
-#define LED4                3
-#define SW1                 4
-#define SW2                 5
+    #define LED1                0
+    #define LED2                1
+    #define LED3                2
+    #define LED4                3
+    #define SW1                 4
+    #define SW2                 5
 //
 
-#define MAX_TASKS           3
+// Scheduler Config
+    #define MAX_TASKS           3
+    #define SYSTICK_MAX         1200
+    // Deadlines
+        #define VOLTAGE_DEADLINE    400
+        #define FREQ_DEADLINE       500
+        #define DISPLAY_DEADLINE    600
+        #define READ_NUMPAD_DEADLINE 25
+        #define HANDLE_NUMPAD_PRESS_DEADLINE 100
+    //
+//
 
-#define SYSTICK_MAX         1200
 #define LINE_SIZE           15   /* 16 chars total, index 15 = null terminator */
 
 // RPM Bounds
-#define RPM_UPPER           200
-#define RPM_LOWER           25
+    #define RPM_UPPER           200
+    #define RPM_LOWER           25
+//
 
-// Deadlines
-#define VOLTAGE_DEADLINE    400
-#define FREQ_DEADLINE       500
-#define DISPLAY_DEADLINE    600
-#define READ_NUMPAD_DEADLINE 25
-#define HANDLE_NUMPAD_PRESS_DEADLINE 100
 /* -------------------------------------------------------------------------
  * Type Definitions
  * ------------------------------------------------------------------------- */
