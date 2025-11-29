@@ -292,7 +292,7 @@ int main(void)
 		.cooldowns = {0, 0, 0},
 		.clksWaited = {0, 0, 0},
 		.taskCond = {voltCalcReady, freqCalcReady, dispUpdaReady},
-		.coolDownFn = {voltCoolDown, freqCoolDown, dispCoolDown}};
+		.coolDownFn = {voltCooldown, freqCooldown, dispCooldown}};
 	// End Set up Scheduler Tasks
 	while(TRUE){ 
 		while(!systickFlag){} // Wait for SysTick
