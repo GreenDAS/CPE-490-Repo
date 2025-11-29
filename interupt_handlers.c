@@ -62,8 +62,8 @@ void EXTI5_IRQHandler(void)
 {
 	if(!gettingUserInputFlag){
 
-		gettingUserInputFlag ^= 1; // Toggle getting user input flag
-		SW2LED->toggle(SW2LED); // Toggle LED2
+		gettingUserInputFlag = 1;
+		SW2LED->setState(SW2LED,1); // Turn on LED2 to show we are getting user input
 
 	}
 	// Code Here
