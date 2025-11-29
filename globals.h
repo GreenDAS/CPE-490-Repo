@@ -114,15 +114,29 @@ extern float            targetRPM;
 extern EDFToDo          schedulerTasks;
 extern dispState      	displayState;
 
-/* Flags */
-extern unsigned int         calcVoltFlag;   /* 1 = always calculate voltage when ready */
-extern unsigned int         calcFreqFlag;   /* 0 = off by default */
-extern unsigned int         gettingUserInputFlag; /* 0 = not getting user input by default*/
-extern unsigned int         targetSetFlag;  /* 0 = value not just set yet*/
-extern unsigned int         readFinishedFlag; /* 0 = read not finished yet*/
-extern volatile unsigned int systickFlag; /* 0 = don't run ROTS*/
-extern volatile unsigned int tor_rpm_toggle; // 0 for RPMs(target and actual), 1 for (Target and torque) only
+// FLAGS
 
+    // System
+        // Volatile
+            extern volatile unsigned int systickFlag; 
+
+    // Switches
+
+        //Volatile
+            extern volatile unsigned int sw1PressedFlag; // Sets when SW1 is pressed
+            extern volatile unsigned int sw2PressedFlag; // Sets when SW2 is pressed
+
+    // Task
+    extern unsigned int calcVoltFlag; // Set to always be 1 to calculate voltage so long as the deadline is met
+    extern unsigned int calcFreqFlag; // Off by default
+    extern unsigned int gettingUserInputFlag; // 0 = not getting user input by default
+    extern unsigned int readFinishedFlag; // 0 = read not finished yet
+    extern unsigned int targetSetFlag; // 0 = no new target RPM set yet
+    extern unsigned int newRPMFlag; // 0 = no new RPM measured yet
+        //Volatile
+            // this was created by caleb
+            extern volatile unsigned int tor_rpm_toggle; // 0 for RPMs(target and actual), 1 for (Target and torque) only
+    
 /* -------------------------------------------------------------------------
  * End of globals.h
  * -------------------------------------------------------------------------*/
