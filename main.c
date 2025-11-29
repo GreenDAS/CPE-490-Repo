@@ -108,7 +108,7 @@ void updateMainMenu(){
 
 	case 1:
 		torque = 17.29 * (voltage / (22.0/3.0));
-		snprintf(unitSTR, sizeof(unitSTR), "Nm");
+		snprintf(unitSTR, sizeof(unitSTR), "Nm ");
 		// also V/7.3 is apparently current
 		value = torque;
 		break;
