@@ -77,6 +77,7 @@ void calcFrequency()
 	if(gettingUserInputFlag == 0){
 		createFreqString(&(Display->wholeMSG[1][0]), frequency); // Update Frequency String
 	}
+	newRPMFlag = 1;
 	freqCounts = 0;
 	timeElapsed = 0.0;
 	calcFreqFlag = 0;
@@ -167,6 +168,13 @@ void handlePadPress(){
 	static unsigned char targetString[7] = {'_', '_', '_', '.', '_', '_', 0x00};
 	static unsigned int cursorAt = 0;
 	float tempTargetRPM = 0.0;
+
+	if (sw2PressedFlag && !gettingUserInputFlag)
+	{
+		snprintf(&(((char*)targetString)[0]), 7, "___.__");
+		return;
+	}
+
 	// Detect button release
 	switch (NumberPad->recentPress){
 		// Button Press was a backspace (*)
@@ -232,10 +240,19 @@ void handlePadPress(){
 
 void handleSW2Press()
 {
-	snprintf(&(Display->wholeMSG[0][0]), GenevaLCDColSize, "Enter Target RPM"); // Update Top Row's Message
-	snprintf(&(Display->wholeMSG[1][0]), GenevaLCDColSize, "Target:___.__RPM"); // Update Bot Row's Message
-	SW2LED->setState(SW2LED,0); // Dissable LED2
-	sw2PressedFlag = 0;
+	if(gettingUserInputFlag){
+		snprintf(&(Display->wholeMSG[0][0]), GenevaLCDColSize, "Enter Target RPM"); // Update Top Row's Message
+		snprintf(&(Display->wholeMSG[1][0]), GenevaLCDColSize, "Target:___.__RPM"); // Update Bot Row's Message
+		SW2LED->setState(SW2LED,0); // Dissable LED2
+		sw2PressedFlag = 0;
+	}
+	else{
+		handlePadPress(); // Handle the Pad Press to reset targetString
+		SW2LED->setState(SW2LED,0); // Dissable LED2
+		sw1PressedFlag = 1; // Set SW1 to reset display
+		tor_rpm_toggle = 0; // Reset to RPM display if a new target RPM was set
+		sw2PressedFlag = 0; // Reset SW2 Pressed Flag
+	}
 }
 
 // Ready Fns
