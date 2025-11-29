@@ -61,13 +61,13 @@ dispState displayState = SUCCESS;
 
     // System
         // Volatile
-            extern volatile unsigned int systickFlag = 0; 
+            volatile unsigned int systickFlag = 0; 
 
     // Switches
 
         //Volatile
-            extern volatile unsigned int sw1PressedFlag = 0; // Sets when SW1 is pressed
-            extern volatile unsigned int sw2PressedFlag = 0; // Sets when SW2 is pressed
+            volatile unsigned int sw1PressedFlag = 0; // Sets when SW1 is pressed
+            volatile unsigned int sw2PressedFlag = 0; // Sets when SW2 is pressed
 
     // Task
     unsigned int calcVoltFlag = 1; // Set to always be 1 to calculate voltage so long as the deadline is met
@@ -78,7 +78,7 @@ dispState displayState = SUCCESS;
     unsigned int newRPMFlag = 0; // 0 = no new RPM measured yet
         //Volatile
             // this was created by caleb
-            extern volatile unsigned int tor_rpm_toggle = 0; // 0 for RPMs(target and actual), 1 for (Target and torque) only
+            volatile unsigned int tor_rpm_toggle = 0; // 0 for RPMs(target and actual), 1 for (Target and torque) only
 //
 //------------------------------------------------------------------------------
 // Main

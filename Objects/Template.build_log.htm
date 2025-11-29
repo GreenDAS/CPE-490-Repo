@@ -27,12 +27,24 @@ Project File Date:  11/22/2025
 <h2>Output:</h2>
 *** Using Compiler 'V6.22', folder: 'C:\ARM\ARMCLANG\Bin'
 Build target 'Target_1'
+globals.c(64): warning: 'extern' variable has an initializer [-Wextern-initializer]
+   64 |             extern volatile unsigned int systickFlag = 0; 
+      |                                          ^
+globals.c(69): warning: 'extern' variable has an initializer [-Wextern-initializer]
+   69 |             extern volatile unsigned int sw1PressedFlag = 0; // Sets when SW1 is pressed
+      |                                          ^
+globals.c(70): warning: 'extern' variable has an initializer [-Wextern-initializer]
+   70 |             extern volatile unsigned int sw2PressedFlag = 0; // Sets when SW2 is pressed
+      |                                          ^
+globals.c(81): warning: 'extern' variable has an initializer [-Wextern-initializer]
+   81 |             extern volatile unsigned int tor_rpm_toggle = 0; // 0 for RPMs(target and actual), 1 for (Target and torque) only
+      |                                          ^
+4 warnings generated.
+compiling globals.c...
 linking...
-.\Objects\Template.axf: Error: L6218E: Undefined symbol newRPMFlag (referred from main.o).
-Not enough information to list image symbols.
-Not enough information to list load addresses in the image map.
-Finished: 2 information, 0 warning and 1 error messages.
-".\Objects\Template.axf" - 1 Error(s), 0 Warning(s).
+Program Size: Code=19148 RO-data=1204 RW-data=56 ZI-data=3472  
+FromELF: creating hex file...
+".\Objects\Template.axf" - 0 Error(s), 4 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -54,8 +66,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE@6.1.0
-Target not created.
-Build Time Elapsed:  00:00:00
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>
