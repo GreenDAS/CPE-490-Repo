@@ -16,8 +16,11 @@ INCUDES
 #include "gpio_lib.h"
 #include "timer_lib.h"
 #include "lcd_lib.h"
- #include "globals.h"
 #include "globals.h"
+#include "globals.h"
+
+#define DEBOUNCE_TIME_MS 500  // 500 ms debounce time - Also done to prevent multiple presses when getting user input
+		                      // Not a fan of this method, but it works for now
 
 // Make sure to clear NVIC_CearPendingIRQ(IRQn);
 
@@ -51,7 +54,7 @@ void EXTI4_IRQHandler(void)
 	}
 
 	// For Debounce
-	Timer4.TIMX->ARR = 4; // Reset ARR to 5 milli second
+	Timer4.TIMX->ARR = DEBOUNCE_TIME_MS - 1; // Reset ARR
 	Timer4.setBits(&Timer4.TIMX->CR1, TIM_CR1_CEN_Pos, 1); // Turn on Timer4
 
 	NVIC_ClearPendingIRQ(EXTI4_IRQn);
@@ -82,7 +85,7 @@ void EXTI9_5_IRQHandler(void)
 	}
 
 	// For Debounce
-	Timer4.TIMX->ARR = 4; // Reset ARR to 5 milli second
+	Timer4.TIMX->ARR = DEBOUNCE_TIME_MS - 1; // Reset ARR to 5 milli second
 	Timer4.setBits(&Timer4.TIMX->CR1, TIM_CR1_CEN_Pos, 1); // Turn on Timer4
 
 	NVIC_ClearPendingIRQ(EXTI9_5_IRQn);
