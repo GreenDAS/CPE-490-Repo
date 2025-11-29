@@ -85,7 +85,11 @@ void InitSysTick(int load, int enableInterrupt){
 //------------------------------------------------------------------------------
 
 void _init_(){
-	Timer3 = GeneralPurposeTimer_Create(3,1,CountAtMilSecondRate,TimerPeriod1SecondInMilSeconds*10,'D',0); // Sets up Timer3 for GP Timer Use & for the Display
+	Timer3 = GeneralPurposeTimer_Create(3,1,CountAtMilSecondRate,(TimerPeriod1SecondInMilSeconds - 1)*10,'D',0); // Sets up Timer3 for GP Timer Use & for the Display
+
+	Timer4 = GeneralPurposeTimer_Create(4,0,CountAtMilSecondRate,0,'D',1); // Sets up Timer4 for One Pulse Mode Use
+
+	// Timer5 = GeneralPurposeTimer_Create(5,1,3999,999,'D',0); // Sets up Timer5 for PWM Use
 
 	unsigned char msg[GenevaLCDRowSize][(GenevaLCDColSize+1)] = {// The Message to Display
 			//1st Row
