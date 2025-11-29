@@ -97,17 +97,17 @@ extern struct IODevice*        SW1LED; // Sets up LED1
 extern struct IODevice*        SW2LED; // Sets up LED2
 
 // Voltage Vars
-extern int          voltageMeasurements = 0;
-extern float        voltageAccum = 0;
-extern float        voltage = 0;
+extern int          voltageMeasurements;
+extern float        voltageAccum;
+extern float        voltage;
 
 // Torgue
-extern float        torque = 0;
+extern float        torque;
 
 // Frequency Vars
-extern float        frequency = 0;
-extern int          freqCounts = 0;
-extern double       timeElapsed = 0.0;
+extern float        frequency;
+extern int          freqCounts;
+extern double       timeElapsed;
 
 extern float            targetRPM;
 
