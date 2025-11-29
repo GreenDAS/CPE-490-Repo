@@ -52,6 +52,7 @@
         #define HANDLE_NUMPAD_PRESS_DEADLINE 100    // 100ms
         #define HANDLE_SW1_PRESS_DEADLINE 10        // 10ms
         #define HANDLE_SW2_PRESS_DEADLINE 10        // 10ms
+        #define MAIN_MENU_UPDATE_DEADLINE 50        // 50ms
     //
 //
 
