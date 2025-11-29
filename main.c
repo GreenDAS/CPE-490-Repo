@@ -120,6 +120,7 @@ void togMsg()
 	double target_rpm;
 	double value;
 	double actual_rpm;
+	char unitSTR[4] = "RPM";
 	//^these will prolly go away later but i just need to see what im doing
 	switch (tor_rpm_toggle)
 	{
@@ -143,15 +144,15 @@ void togMsg()
 			break;
 
 		case 1:
-			torque = 17.29 * (volts / 7.3); // prolly needs fixed/ somehow get volts
+			torque = 17.29 * (volts / (22/3)); // prolly needs fixed/ somehow get volts
 			// also V/7.3 is apparently current
 			value = torque;
 			break;
 		}
 		break;
 
-		createTogString(&(Display->wholeMSG[0][0]), value); // Update Frequency String
-		calcTogFlag = 0;									// doesnt exist yet
+		createTargetString(&(Display->wholeMSG[0][0]), value, FALSE, "Nm" );
+		calcTorFlag = 0;									// doesnt exist yet
 	}
 }
 

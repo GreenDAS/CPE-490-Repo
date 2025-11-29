@@ -91,6 +91,11 @@ extern struct GeneralPurposeTimer Timer3;
 extern struct GenevaLCDDevice *Display;
 extern struct Numpad           *NumberPad;
 
+extern struct IODevice* Switch1; // Sets up SW1 
+extern struct IODevice* Switch2; // Sets up SW2 
+extern struct IODevice* SW1LED; // Sets up LED1 
+extern struct IODevice* SW2LED; // Sets up LED2
+
 extern int              voltageMeasurements;
 extern float            voltageAccum;
 extern float            frequency;
