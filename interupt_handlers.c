@@ -57,11 +57,15 @@ void EXTI4_IRQHandler(void)
 	EXTI->PR1 |= EXTI_PR1_PIF4;
 }
 
-// Pin4
+// Pin5
 void EXTI5_IRQHandler(void)
 {
-	gettingUserInputFlag ^= 1; // Toggle getting user input flag
-	SW2LED->toggle(SW2LED); // Toggle LED2
+	if(!gettingUserInputFlag){
+
+		gettingUserInputFlag ^= 1; // Toggle getting user input flag
+		SW2LED->toggle(SW2LED); // Toggle LED2
+
+	}
 	// Code Here
 	NVIC_ClearPendingIRQ(EXTI9_5_IRQn);
 	EXTI->PR1 |= EXTI_PR1_PIF5;
