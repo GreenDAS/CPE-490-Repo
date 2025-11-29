@@ -54,8 +54,8 @@ typedef struct GeneralPurposeTimer{
 
 /* Hold Precessor Hostage Until Waiting is Finished
 ***
-	Internal Clock is 40000000 counts/sec
-	countSpeed = 40000000/(PSC+1) if PSC = 3999, then count speed is 1000 count /s or 1 counts/ms
+	Internal Clock is 4000000 counts/sec
+	countSpeed = 4000000/(PSC+1) if PSC = 3999, then count speed is 1000 count /s or 1 counts/ms
 ***
  Arg1 = The Class Object itself
  Arg2 = # of seconds to wait

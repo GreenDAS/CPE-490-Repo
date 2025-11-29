@@ -3,9 +3,9 @@
 <title>Static Call Graph - [.\Objects\Template.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\Template.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Sat Nov 29 00:33:41 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Sat Nov 29 14:38:41 2025
 <BR><P>
-<H3>Maximum Stack Usage =        636 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =        684 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
 __rt_entry_main &rArr; main &rArr; _init_ &rArr; GenevaLCDDevice_Create &rArr; _initLCD_ &rArr; lcd_Init &rArr; tim6_Del
 <P>
@@ -467,7 +467,7 @@ Global Symbols
 <P><STRONG><a name="[157]"></a>__rt_entry_postsh_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$00000009))
 
 <P><STRONG><a name="[c0]"></a>__rt_entry_main</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$0000000D))
-<BR><BR>[Stack]<UL><LI>Max Depth = 636 + Unknown Stack Size
+<BR><BR>[Stack]<UL><LI>Max Depth = 684 + Unknown Stack Size
 <LI>Call Chain = __rt_entry_main &rArr; main &rArr; _init_ &rArr; GenevaLCDDevice_Create &rArr; _initLCD_ &rArr; lcd_Init &rArr; tim6_Del
 </UL>
 <BR>[Calls]<UL><LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -1299,14 +1299,14 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32l476xx.o(RESET)
 </UL>
-<P><STRONG><a name="[14]"></a>EXTI4_IRQHandler</STRONG> (Thumb, 76 bytes, Stack size 16 bytes, interupt_handlers.o(.text.EXTI4_IRQHandler))
+<P><STRONG><a name="[14]"></a>EXTI4_IRQHandler</STRONG> (Thumb, 152 bytes, Stack size 16 bytes, interupt_handlers.o(.text.EXTI4_IRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = EXTI4_IRQHandler &rArr; __NVIC_ClearPendingIRQ
 </UL>
 <BR>[Calls]<UL><LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__NVIC_ClearPendingIRQ
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32l476xx.o(RESET)
 </UL>
-<P><STRONG><a name="[21]"></a>EXTI9_5_IRQHandler</STRONG> (Thumb, 118 bytes, Stack size 8 bytes, interupt_handlers.o(.text.EXTI9_5_IRQHandler))
+<P><STRONG><a name="[21]"></a>EXTI9_5_IRQHandler</STRONG> (Thumb, 194 bytes, Stack size 8 bytes, interupt_handlers.o(.text.EXTI9_5_IRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = EXTI9_5_IRQHandler &rArr; __NVIC_ClearPendingIRQ
 </UL>
 <BR>[Calls]<UL><LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__NVIC_ClearPendingIRQ
@@ -1404,8 +1404,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GenevaLCDDevice_Create
 </UL>
 
-<P><STRONG><a name="[104]"></a>_init_</STRONG> (Thumb, 980 bytes, Stack size 232 bytes, _init_.o(.text._init_))
-<BR><BR>[Stack]<UL><LI>Max Depth = 380<LI>Call Chain = _init_ &rArr; GenevaLCDDevice_Create &rArr; _initLCD_ &rArr; lcd_Init &rArr; tim6_Del
+<P><STRONG><a name="[104]"></a>_init_</STRONG> (Thumb, 1068 bytes, Stack size 280 bytes, _init_.o(.text._init_))
+<BR><BR>[Stack]<UL><LI>Max Depth = 428<LI>Call Chain = _init_ &rArr; GenevaLCDDevice_Create &rArr; _initLCD_ &rArr; lcd_Init &rArr; tim6_Del
 </UL>
 <BR>[Calls]<UL><LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
 <LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PeripheralInteruptHandling_Create
@@ -1617,7 +1617,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[c1]"></a>main</STRONG> (Thumb, 786 bytes, Stack size 256 bytes, main.o(.text.main))
-<BR><BR>[Stack]<UL><LI>Max Depth = 636<LI>Call Chain = main &rArr; _init_ &rArr; GenevaLCDDevice_Create &rArr; _initLCD_ &rArr; lcd_Init &rArr; tim6_Del
+<BR><BR>[Stack]<UL><LI>Max Depth = 684<LI>Call Chain = main &rArr; _init_ &rArr; GenevaLCDDevice_Create &rArr; _initLCD_ &rArr; lcd_Init &rArr; tim6_Del
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy4
 <LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_init_
