@@ -50,6 +50,8 @@
         #define DISPLAY_DEADLINE    600             // 600ms
         #define READ_NUMPAD_DEADLINE 25             // 25ms
         #define HANDLE_NUMPAD_PRESS_DEADLINE 100    // 100ms
+        #define HANDLE_SW1_PRESS_DEADLINE 10        // 10ms
+        #define HANDLE_SW2_PRESS_DEADLINE 10        // 10ms
     //
 //
 
