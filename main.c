@@ -40,7 +40,7 @@ void createTargetString(unsigned char msg[GenevaLCDColSize], void *value, int is
 
 void createFreqString(unsigned char msg[GenevaLCDColSize], double freq)
 {
-	snprintf((char *)msg, GenevaLCDColSize, "ACTUAL: %8.2fRPM", freq); // 2 decimal places
+	snprintf((char *)msg, GenevaLCDColSize, "ACTUAL:%6.2fRPM", freq); // 2 decimal places
 }
 
 void createVoltString(unsigned char msg[GenevaLCDColSize], double volt)
