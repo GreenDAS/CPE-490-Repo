@@ -257,12 +257,12 @@ void handleSW2Press()
 
 // Ready Fns
 
-int voltCalcReady() { return calcVoltFlag; }
-int freqCalcReady() { return calcFreqFlag; }
+int voltCalcReady() { return (tor_rpm_toggle) ? 1 : 0; } // Onlt calc voltage when torque is being displayed
+int freqCalcReady() { return calcFreqFlag; } // Only calc frequency when flag is set
 // i know i need to put a ready but dont know how
-int dispUpdaReady() { return 1; }
-int readPadReady(){return gettingUserInputFlag;}
-int handlePadPressReady(){return ( readFinishedFlag && ((!(NumberPad->state)) && NumberPad->prevState)) ? gettingUserInputFlag : 0;}
+int dispUpdaReady() { return 1; } // Always ready to update display
+int readPadReady(){return gettingUserInputFlag;} // Only read pad when getting user input
+int handlePadPressReady(){return ( readFinishedFlag && ((!(NumberPad->state)) && NumberPad->prevState)) ? gettingUserInputFlag : 0;} // Only handle pad press when read is finished and getting user input
 
 // Cooldown Fns
 
@@ -270,7 +270,7 @@ int voltCoolDown() { return VOLTAGE_DEADLINE; }
 int freqCoolDown() { return FREQ_DEADLINE; }
 // i know i need a deadline but dont know how
 int dispCoolDown() { return 0; }
-int readPadCooldown(){return 5;}
+int readPadCooldown(){return 5;}  // 5ms cooldown for reading pad for debouncing and capacitance
 int handlePadPressCooldown(){return 0;}
 
 //------------------------------------------------------------------------------
