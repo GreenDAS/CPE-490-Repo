@@ -40,7 +40,7 @@ void createTargetString(unsigned char msg[GenevaLCDColSize], void *value, int is
 
 void createFreqString(unsigned char msg[GenevaLCDColSize], double freq)
 {
-	snprintf((char *)msg, GenevaLCDColSize, "FREQ: %8.2fHz", freq); // 2 decimal places
+	snprintf((char *)msg, GenevaLCDColSize, "ACTUAL: %8.2fRPM", freq); // 2 decimal places
 }
 
 void createVoltString(unsigned char msg[GenevaLCDColSize], double volt)
@@ -65,22 +65,20 @@ void readVoltage()
 void calcVoltage()
 {
 	voltage = (voltageAccum / (voltageMeasurements));
-	createVoltString(&(Display->wholeMSG[0][0]), voltage); // Update Voltage String
 	voltageAccum = 0;
 	voltageMeasurements = 0;
 	calcVoltFlag = 1;
+	updateMainMenuFlag = 1; // Set flag to update main menu
 }
 
 void calcFrequency()
 {
 	frequency = freqCounts / timeElapsed;
-	if(gettingUserInputFlag == 0){
-		createFreqString(&(Display->wholeMSG[1][0]), frequency); // Update Frequency String
-	}
 	newRPMFlag = 1;
 	freqCounts = 0;
 	timeElapsed = 0.0;
 	calcFreqFlag = 0;
+	updateMainMenuFlag = 1; // Set flag to update main menu
 }
 
 // made by caleb
@@ -94,6 +92,7 @@ void handleSW1Press()
 	}
 	SW1LED->setState(SW1LED,0); // Dissable LED1
 	sw1PressedFlag = 0;
+	updateMainMenuFlag = 1; // Set flag to update main menu
 }
 
 void updateMainMenu(){
@@ -115,6 +114,8 @@ void updateMainMenu(){
 		break;
 	}
 	createTargetString(&(Display->wholeMSG[0][0]), &value, FALSE, unitSTR); // Top Row
+	createFreqString(&(Display->wholeMSG[1][0]), (frequency*60)); // Bot Row
+	updateMainMenuFlag = 0;
 }
 
 void displayUpdate()
@@ -266,6 +267,7 @@ void handleSW2Press()
 		tor_rpm_toggle = 0; // Reset to RPM display if a new target RPM was set
 		sw2PressedFlag = 0; // Reset SW2 Pressed Flag
 	}
+	updateMainMenuFlag = 0; // Reset Main Menu Update Flag
 }
 
 // Ready Fns
@@ -273,6 +275,7 @@ void handleSW2Press()
 int voltCalcReady() { return (tor_rpm_toggle) ? 1 : 0; } // Onlt calc voltage when torque is being displayed
 int freqCalcReady() { return calcFreqFlag; } // Only calc frequency when flag is set
 int handleSW1PressReady() { return sw1PressedFlag; } // Only handle SW1 press when SW1 is pressed
+int updateMainMenuReady() { return updateMainMenuFlag; } // Update main menu when SW1 or SW2 is pressed or target is set
 int dispUpdaReady() { return 1; } // Always ready to update display
 int readPadReady(){return gettingUserInputFlag;} // Only read pad when getting user input
 int handlePadPressReady(){return ( readFinishedFlag && ((!(NumberPad->state)) && NumberPad->prevState)) ? gettingUserInputFlag : 0;} // Only handle pad press when read is finished and getting user input
@@ -283,6 +286,7 @@ int handleSW2PressReady() { return sw2PressedFlag; } // Only handle SW2 press wh
 int voltCooldown() { return VOLTAGE_DEADLINE; } // Voltage deadline
 int freqCooldown() { return FREQ_DEADLINE; } // Frequency deadline
 int handleSW1PressCooldown() { return 0; } // Run as fast as possible after SW1 is pressed
+int updateMainMenuCooldown() { return 0; } // Run as fast as possible after main menu update
 int dispCooldown() { return 0; } // Run as fast as possible after display update
 int readPadCooldown(){return 5;}  // 5ms cooldown for reading pad for debouncing and capacitance
 int handlePadPressCooldown(){return 0;} // Run as fast as possible after read is finished
