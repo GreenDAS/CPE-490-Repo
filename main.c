@@ -100,8 +100,8 @@ void handleSW1Press()
 		value = torque;
 		break;
 	}
-
 	createTargetString(&(Display->wholeMSG[0][0]), &value, FALSE, unitSTR); // Top Row
+	sw1PressedFlag = 0;
 }
 
 void displayUpdate()
@@ -234,7 +234,8 @@ void handleSW2Press()
 {
 	snprintf(&(Display->wholeMSG[0][0]), GenevaLCDColSize, "Enter Target RPM"); // Update Top Row's Message
 	snprintf(&(Display->wholeMSG[1][0]), GenevaLCDColSize, "Target:___.__RPM"); // Update Bot Row's Message
-	SW2LED->toggle(SW2LED); // Toggle LED2
+	SW2LED->setState(SW2LED,0); // Dissable LED2
+	sw2PressedFlag = 0;
 }
 
 // Ready Fns

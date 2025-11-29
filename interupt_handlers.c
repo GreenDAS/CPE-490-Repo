@@ -51,8 +51,13 @@ void EXTI4_IRQHandler(void)
 
 	SW1LED->toggle(SW1LED); // Toggle LED1
 
-	tor_rpm_toggle ^= 1; // Toggle the torque/RPM display flag
-
+	if(targetSetFlag){
+		tor_rpm_toggle = 0; // Reset to RPM display if a new target RPM was set
+	}
+	else{
+		tor_rpm_toggle ^= 1; // Toggle the torque/RPM display flag
+	}
+	sw1PressedFlag = 1;
 	NVIC_ClearPendingIRQ(EXTI4_IRQn);
 	EXTI->PR1 |= EXTI_PR1_PIF4;
 }
@@ -62,6 +67,7 @@ void EXTI5_IRQHandler(void)
 {
 	if(!gettingUserInputFlag){
 
+		sw2PressedFlag = 1;
 		gettingUserInputFlag = 1;
 		SW2LED->setState(SW2LED,1); // Turn on LED2 to show we are getting user input
 
