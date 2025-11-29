@@ -66,7 +66,7 @@ void EXTI4_IRQHandler(void)
 }
 
 // Pin5
-void EXTI9_5_TRQHandler(void)
+void EXTI9_5_IRQHandler(void)
 {
 	if(!gettingUserInputFlag){
 
