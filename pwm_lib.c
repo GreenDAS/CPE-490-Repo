@@ -125,7 +125,7 @@ void PWMDevice_setCCR(struct PWMDevice* self, unsigned int ccrValue){
  * 
  */
 
-PWMDevice* createPWMDevice(struct IODevice* pin_out, struct GeneralPurposeTimer* pwm_clock, float dutyCycle, unsigned int CCR){
+PWMDevice* PWMDevice_Create(struct IODevice* pin_out, struct GeneralPurposeTimer* pwm_clock, float dutyCycle, unsigned int CCR){
     PWMDevice* self = malloc(sizeof(PWMDevice));
     
     self->pinOut = pin_out;

@@ -80,7 +80,7 @@ typedef struct PWMDevice{
  * @return Pointer to the created PWMDevice instance
  *
 */
-PWMDevice* createPWMDevice(struct IODevice* pin_out, struct GeneralPurposeTimer* pwm_clock, float dutyCycle, unsigned int ccrValue);
+PWMDevice* PWMDevice_Create(struct IODevice* pin_out, struct GeneralPurposeTimer* pwm_clock, float dutyCycle, unsigned int ccrValue);
 
 /**
  * @}

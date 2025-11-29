@@ -86,7 +86,7 @@ void InitSysTick(int load, int enableInterrupt){
 
 void _init_(){
 
-	MotorPWM = createPWMDevice(
+	MotorPWM = PWMDevice_Create(
 		IODevice_Create('B', PWM, 0, 1, 'F'), // PWM Output Pin
 		/* Timer 3
 		* Prescale = 1
