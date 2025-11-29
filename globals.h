@@ -141,6 +141,7 @@ extern dispState      	displayState;           // Current display state
     extern unsigned int readFinishedFlag;                   // 0 = read not finished yet
     extern unsigned int targetSetFlag;                      // 0 = no new target RPM set yet
     extern unsigned int newRPMFlag;                         // 0 = no new RPM measured yet
+    extern unsigned int updateMainMenuFlag;                 // 0 = no need to update main menu
         //Volatile
             // this was created by caleb
             extern volatile unsigned int tor_rpm_toggle;    // 0 for RPMs(target and actual), 1 for (Target and torque) only
