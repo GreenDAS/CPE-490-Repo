@@ -26,12 +26,48 @@ Project File Date:  11/22/2025
 
 <h2>Output:</h2>
 *** Using Compiler 'V6.22', folder: 'C:\ARM\ARMCLANG\Bin'
-Build target 'Target_1'
+Rebuild target 'Target_1'
+main.c(245): warning: passing 'unsigned char *' to parameter of type 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  245 |                 snprintf(&(Display->wholeMSG[0][0]), GenevaLCDColSize, "Enter Target RPM"); // Update Top Row's Message
+      |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\ARM\ARMCLANG\bin\..\include\stdio.h(440): note: passing argument to parameter here
+  440 | extern _ARMABI int snprintf(char * __restrict /*s*/, size_t /*n*/,
+      |                                                    ^
+main.c(246): warning: passing 'unsigned char *' to parameter of type 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  246 |                 snprintf(&(Display->wholeMSG[1][0]), GenevaLCDColSize, "Target:___.__RPM"); // Update Bot Row's Message
+      |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\ARM\ARMCLANG\bin\..\include\stdio.h(440): note: passing argument to parameter here
+  440 | extern _ARMABI int snprintf(char * __restrict /*s*/, size_t /*n*/,
+      |                                                    ^
+2 warnings generated.
+compiling main.c...
 compiling globals.c...
+compiling gpio_lib.c...
+compiling interupt_lib.c...
+pid.c(30): warning: '/*' within block comment [-Wcomment]
+   30 | /*---PID Controler---*/
+      | ^
+1 warning generated.
+compiling pid.c...
+assembling startup_stm32l476xx.s...
+lcd_routines.c(157): warning: unused variable 'delay_Values' [-Wunused-variable]
+  157 |         int delay_Values [] = {TIME_100us,TIME_100us,TIME_100us,TIME_10ms,TIME_100us,TIME_100us};                                                                                                               //List of recommended delays for LCD function
+      |             ^~~~~~~~~~~~
+1 warning generated.
+compiling lcd_routines.c...
+compiling lcd_lib.c...
+compiling string_lib.c...
+compiling interupt_handlers.c...
+compiling timer_lib.c...
+_init_.c(151): warning: passing 'volatile uint32_t *' (aka 'volatile unsigned int *') to parameter of type 'uint32_t *' (aka 'unsigned int *') discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
+  151 |         Timer2.setBits(&(Timer2.TIMX->CR1),0,1);
+      |                        ^~~~~~~~~~~~~~~~~~~
+1 warning generated.
+compiling _init_.c...
 linking...
-Program Size: Code=19148 RO-data=1204 RW-data=56 ZI-data=3472  
+Program Size: Code=19192 RO-data=1204 RW-data=56 ZI-data=3480  
 FromELF: creating hex file...
-".\Objects\Template.axf" - 0 Error(s), 0 Warning(s).
+".\Objects\Template.axf" - 0 Error(s), 5 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -53,7 +89,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE@6.1.0
-Build Time Elapsed:  00:00:00
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>
