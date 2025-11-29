@@ -260,19 +260,21 @@ void handleSW2Press()
 
 int voltCalcReady() { return (tor_rpm_toggle) ? 1 : 0; } // Onlt calc voltage when torque is being displayed
 int freqCalcReady() { return calcFreqFlag; } // Only calc frequency when flag is set
-// i know i need to put a ready but dont know how
+int handleSW1PressReady() { return sw1PressedFlag; } // Only handle SW1 press when SW1 is pressed
 int dispUpdaReady() { return 1; } // Always ready to update display
 int readPadReady(){return gettingUserInputFlag;} // Only read pad when getting user input
 int handlePadPressReady(){return ( readFinishedFlag && ((!(NumberPad->state)) && NumberPad->prevState)) ? gettingUserInputFlag : 0;} // Only handle pad press when read is finished and getting user input
+int handleSW2PressReady() { return sw2PressedFlag; } // Only handle SW2 press when SW2 is pressed
 
 // Cooldown Fns
 
-int voltCoolDown() { return VOLTAGE_DEADLINE; }
-int freqCoolDown() { return FREQ_DEADLINE; }
-// i know i need a deadline but dont know how
-int dispCoolDown() { return 0; }
+int voltCooldown() { return VOLTAGE_DEADLINE; } // Voltage deadline
+int freqCooldown() { return FREQ_DEADLINE; } // Frequency deadline
+int handleSW1PressCooldown() { return 0; } // Run as fast as possible after SW1 is pressed
+int dispCooldown() { return 0; } // Run as fast as possible after display update
 int readPadCooldown(){return 5;}  // 5ms cooldown for reading pad for debouncing and capacitance
-int handlePadPressCooldown(){return 0;}
+int handlePadPressCooldown(){return 0;} // Run as fast as possible after read is finished
+int handleSW2PressCooldown() { return 0; } // Run as fast as possible after SW2 is pressed
 
 //------------------------------------------------------------------------------
 // Main
@@ -313,14 +315,14 @@ int main(void)
 				schedulerTasks.cooldowns[task]--;
 				continue;
 			}
-			// Checks to see if the task to run's Flag is not set
+			// Checks to see if the task to run's ready fn says it can run
 			else if (!schedulerTasks.taskCond[taskToRun]())
 			{
 				schedulerTasks.clksWaited[taskToRun]++;
 				taskToRun = task;
 				continue;
 			}
-			// Checks to see if the task's Flag is not set
+			// Checks to see if the task's ready fn says it can run
 			else if (!schedulerTasks.taskCond[task]())
 			{
 				schedulerTasks.clksWaited[task]++;
