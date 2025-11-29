@@ -75,6 +75,7 @@ dispState displayState = SUCCESS;
     unsigned int gettingUserInputFlag = 0; // 0 = not getting user input by default
     unsigned int readFinishedFlag = 0; // 0 = read not finished yet
     unsigned int targetSetFlag = 0; // 0 = no new target RPM set yet
+    unsigned int newRPMFlag = 0; // 0 = no new RPM measured yet
         //Volatile
             // this was created by caleb
             extern volatile unsigned int tor_rpm_toggle = 0; // 0 for RPMs(target and actual), 1 for (Target and torque) only
