@@ -12,68 +12,77 @@
 /* -------------------------------------------------------------------------
  * Configuration & Constants
  * ------------------------------------------------------------------------- */
-#define TRUE                1
-#define FALSE               0
 
-/* Pin assignments (use uppercase + _t suffix for clarity) */
-
-
-// GPIOA
-#define ROW1                8
-#define ROW2                9
-#define ROW3                10
-#define ROW4                11
+// Boolean Defines
+    #define TRUE                1
+    #define FALSE               0
 //
 
-// GPIOB
-#define COL1                8
-#define COL2                9
-#define COL3                10
+/* Pin assignments*/
+    // GPIOA
+        #define ROW1                8   // Numpad Row 1
+        #define ROW2                9   // Numpad Row 2
+        #define ROW3                10  // Numpad Row 3
+        #define ROW4                11  // Numpad Row 4
+    //
+
+    // GPIOB
+        #define COL1                8   // Numpad Column 1
+        #define COL2                9   // Numpad Column 2
+        #define COL3                10  // Numpad Column 3
+    //
+
+    // GPIOC
+        #define LED1                0   // SW1 LED
+        #define LED2                1   // SW2 LED
+        #define LED3                2   // SW3 LED *Unused*
+        #define LED4                3   // SW4 LED *Unused*
+        #define SW1                 4   // Switch 1
+        #define SW2                 5   // Switch 2
+    //
+
+// Scheduler Config
+    #define MAX_TASKS           8                   // Maximum number of tasks for EDF Scheduler
+    #define SYSTICK_MAX         1200                // SysTick max value ( Doesn't need to change unless a deadline is longer than this )
+    // Deadlines
+        #define VOLTAGE_DEADLINE    400             // 400ms
+        #define FREQ_DEADLINE       500             // 500ms
+        #define DISPLAY_DEADLINE    600             // 600ms
+        #define READ_NUMPAD_DEADLINE 25             // 25ms
+        #define HANDLE_NUMPAD_PRESS_DEADLINE 100    // 100ms
+        #define HANDLE_SW1_PRESS_DEADLINE 10        // 10ms
+        #define HANDLE_SW2_PRESS_DEADLINE 10        // 10ms
+        #define MAIN_MENU_UPDATE_DEADLINE 50        // 50ms
+    //
 //
-
-// GPIOC
-#define LED1                0
-#define LED2                1
-#define LED3                2
-#define LED4                3
-#define SW1                 4
-#define SW2                 5
-//
-
-#define MAX_TASKS           3
-
-#define SYSTICK_MAX         1200
-#define LINE_SIZE           15   /* 16 chars total, index 15 = null terminator */
 
 // RPM Bounds
-#define RPM_UPPER           200
-#define RPM_LOWER           25
+    #define RPM_UPPER           200             // Upper RPM Limit of 200 RPM
+    #define RPM_LOWER           25              // Lower RPM Limit of 25 RPM
+//
 
-// Deadlines
-#define VOLTAGE_DEADLINE    400
-#define FREQ_DEADLINE       500
-#define DISPLAY_DEADLINE    600
-#define READ_NUMPAD_DEADLINE 25
-#define HANDLE_NUMPAD_PRESS_DEADLINE 100
 /* -------------------------------------------------------------------------
  * Type Definitions
  * ------------------------------------------------------------------------- */
-typedef enum {
-    START,
-    UPPER,
-    LOWER,
-    SUCCESS
-} dispState;
-//hampter
+
+ // Display States for handling display updates
+    typedef enum {
+        START,          // Start Talking to Display
+        UPPER,          // Send Upper 8 Bits of Data
+        LOWER,          // Send Lower 8 Bits of Data
+        SUCCESS         // Successful Transmission
+    } dispState;
+
+
 /* EDF scheduler task table */
-typedef struct {
-    void (*tasks[MAX_TASKS])(void);
-    int  deadlines[MAX_TASKS];
-    int  cooldowns[MAX_TASKS];
-    int  clksWaited[MAX_TASKS];
-	int  (*taskCond[MAX_TASKS])(void);
-    int  (*coolDownFn[MAX_TASKS])(void);
-} EDFToDo;
+    typedef struct {
+        void (*tasks[MAX_TASKS])(void);         // Task function pointers
+        int  deadlines[MAX_TASKS];              // Deadlines for each task
+        int  cooldowns[MAX_TASKS];              // Cooldown counters for each task
+        int  clksWaited[MAX_TASKS];             // Clocks waited for each task
+        int  (*taskCond[MAX_TASKS])(void);      // Condition functions to check if task is ready
+        int  (*coolDownFn[MAX_TASKS])(void);    // Cooldown functions for each task
+    } EDFToDo;
 
 /* Forward declarations – NEVER include full structs here */
 struct IODevice;
@@ -84,45 +93,60 @@ struct Numpad;
 /* -------------------------------------------------------------------------
  * Global Variables – extern declarations only
  * -------------------------------------------------------------------------*/
-extern struct IODevice         VoltReader;
-extern struct IODevice         FreqReader;
-extern struct GeneralPurposeTimer Timer2;
-extern struct GeneralPurposeTimer Timer3;
-extern struct GenevaLCDDevice  *Display;
-extern struct Numpad           *NumberPad;
+extern struct IODevice         VoltReader;      // Used to read voltage input
+extern struct IODevice         FreqReader;      // Used to read frequency input
+extern struct GeneralPurposeTimer Timer2;       // Timer2 for frequency measurements
+extern struct GeneralPurposeTimer Timer3;       // Timer3 for general purpose use
+extern struct GenevaLCDDevice  *Display;        // LCD Display
+extern struct Numpad           *NumberPad;      // Numpad Device
 
-extern struct IODevice*        Switch1; // Sets up SW1 
-extern struct IODevice*        Switch2; // Sets up SW2 
-extern struct IODevice*        SW1LED; // Sets up LED1 
-extern struct IODevice*        SW2LED; // Sets up LED2
+extern struct IODevice*        Switch1;         // Sets up SW1 
+extern struct IODevice*        Switch2;         // Sets up SW2 
+extern struct IODevice*        SW1LED;          // Sets up LED1 
+extern struct IODevice*        SW2LED;          // Sets up LED2
 
 // Voltage Vars
-extern int          voltageMeasurements;
-extern float        voltageAccum;
-extern float        voltage;
+extern int          voltageMeasurements;        // Number of voltage measurements taken
+extern float        voltageAccum;               // Accumulated voltage for averaging
+extern float        voltage;                    // Calculated voltage
 
 // Torgue
-extern float        torque;
+extern float        torque;                     // Calculated torque
 
 // Frequency Vars
-extern float        frequency;
-extern int          freqCounts;
-extern double       timeElapsed;
+extern float        frequency;                  // Calculated frequency
+extern int          freqCounts;                 // Frequency counts
+extern double       timeElapsed;                // Time elapsed for frequency measurement
 
-extern float            targetRPM;
+extern float            targetRPM;              // Target RPM value
 
-extern EDFToDo          schedulerTasks;
-extern dispState      	displayState;
+extern EDFToDo          schedulerTasks;         // EDF Scheduler Tasks
+extern dispState      	displayState;           // Current display state
 
-/* Flags */
-extern unsigned int         calcVoltFlag;   /* 1 = always calculate voltage when ready */
-extern unsigned int         calcFreqFlag;   /* 0 = off by default */
-extern unsigned int         gettingUserInputFlag; /* 0 = not getting user input by default*/
-extern unsigned int         targetSetFlag;  /* 0 = value not just set yet*/
-extern unsigned int         readFinishedFlag; /* 0 = read not finished yet*/
-extern volatile unsigned int systickFlag; /* 0 = don't run ROTS*/
-extern volatile unsigned int tor_rpm_toggle; // 0 for RPMs(target and actual), 1 for (Target and torque) only
+// FLAGS
 
+    // System
+        // Volatile
+            extern volatile unsigned int systickFlag;       // SysTick Flag
+
+    // Switches
+
+        //Volatile
+            extern volatile unsigned int sw1PressedFlag;    // Sets when SW1 is pressed
+            extern volatile unsigned int sw2PressedFlag;    // Sets when SW2 is pressed
+
+    // Task
+    extern unsigned int calcVoltFlag;                       // Set to always be 1 to calculate voltage so long as the deadline is met
+    extern unsigned int calcFreqFlag;                       // Off by default
+    extern unsigned int gettingUserInputFlag;               // 1 = getting user input by default
+    extern unsigned int readFinishedFlag;                   // 0 = read not finished yet
+    extern unsigned int targetSetFlag;                      // 0 = no new target RPM set yet
+    extern unsigned int newRPMFlag;                         // 0 = no new RPM measured yet
+    extern unsigned int updateMainMenuFlag;                 // 0 = no need to update main menu
+        //Volatile
+            // this was created by caleb
+            extern volatile unsigned int tor_rpm_toggle;    // 0 for RPMs(target and actual), 1 for (Target and torque) only
+    
 /* -------------------------------------------------------------------------
  * End of globals.h
  * -------------------------------------------------------------------------*/
