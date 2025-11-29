@@ -226,13 +226,15 @@ void handlePadPress(){
 		break;
 
 	}
-	createTargetString(&(Display->wholeMSG[0][0]), &(targetString[0]), 1, "RPM");
+	createTargetString(&(Display->wholeMSG[1][0]), &(targetString[0]), 1, "RPM");
 	readFinishedFlag = 0;
 }
 
 void handleSW2Press()
 {
-	// Currently does nothing
+	snprintf(&(Display->wholeMSG[0][0]), GenevaLCDColSize, "Enter Target RPM"); // Update Top Row's Message
+	snprintf(&(Display->wholeMSG[1][0]), GenevaLCDColSize, "Target:___.__RPM"); // Update Bot Row's Message
+	SW2LED->toggle(SW2LED); // Toggle LED2
 }
 
 // Ready Fns
@@ -274,7 +276,6 @@ int main(void)
 	while(TRUE){ 
 		while(!systickFlag){} // Wait for SysTick
 
-		gettingUserInputFlag = 1;
 
 		uint32_t taskToRun = 0;
 		// Picks the Best Task To Run (BTTR)
