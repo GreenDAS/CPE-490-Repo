@@ -21,6 +21,7 @@
 #include "lcd_lib.h"
 #include "string.h"
 #include "string_lib.h"
+#include "pwm_lib.h"
 
 //------------------------------------------------------------------------------
 // Function Prototypes
@@ -30,17 +31,17 @@
 struct IODevice VoltReader;
 struct IODevice FreqReader;
 struct GeneralPurposeTimer Timer2;
-struct GeneralPurposeTimer Timer3;
 struct GeneralPurposeTimer Timer4;
 struct GeneralPurposeTimer Timer5;
 struct GenevaLCDDevice *Display;
 struct Numpad *NumberPad;
 
-struct IODevice* PWMPin;  // Sets up PWM Pin 
 struct IODevice* Switch1; // Sets up SW1 
 struct IODevice* Switch2; // Sets up SW2 
 struct IODevice* SW1LED;  // Sets up LED1 
 struct IODevice* SW2LED;  // Sets up LED2
+
+struct PWMDevice* MotorPWM; // PWM Device
 
 // Voltage Vars
 int voltageMeasurements = 0;

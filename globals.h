@@ -97,17 +97,17 @@ struct Numpad;
 extern struct IODevice         VoltReader;      // Used to read voltage input
 extern struct IODevice         FreqReader;      // Used to read frequency input
 extern struct GeneralPurposeTimer Timer2;       // Timer2 for frequency measurements
-extern struct GeneralPurposeTimer Timer3;       // Timer3 for PWM use
 extern struct GeneralPurposeTimer Timer4;       // Timer4 for general purpose use - Init in One Pulse Mode
 extern struct GeneralPurposeTimer Timer5;       // Timer5 for Display use
 extern struct GenevaLCDDevice  *Display;        // LCD Display
 extern struct Numpad           *NumberPad;      // Numpad Device
 
-extern struct IODevice*        PWMPin;          // Sets up PWM Pin 
 extern struct IODevice*        Switch1;         // Sets up SW1 
 extern struct IODevice*        Switch2;         // Sets up SW2 
 extern struct IODevice*        SW1LED;          // Sets up LED1 
 extern struct IODevice*        SW2LED;          // Sets up LED2
+
+extern struct PWMDevice* MotorPWM;              // PWM Device for motor control
 
 // Voltage Vars
 extern int          voltageMeasurements;        // Number of voltage measurements taken
