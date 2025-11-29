@@ -129,7 +129,7 @@ extern dispState      	displayState;
     // Task
     extern unsigned int calcVoltFlag; // Set to always be 1 to calculate voltage so long as the deadline is met
     extern unsigned int calcFreqFlag; // Off by default
-    extern unsigned int gettingUserInputFlag; // 0 = not getting user input by default
+    extern unsigned int gettingUserInputFlag; // 1 = getting user input by default
     extern unsigned int readFinishedFlag; // 0 = read not finished yet
     extern unsigned int targetSetFlag; // 0 = no new target RPM set yet
     extern unsigned int newRPMFlag; // 0 = no new RPM measured yet

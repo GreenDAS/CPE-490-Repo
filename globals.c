@@ -72,7 +72,7 @@ dispState displayState = SUCCESS;
     // Task
     unsigned int calcVoltFlag = 1; // Set to always be 1 to calculate voltage so long as the deadline is met
     unsigned int calcFreqFlag = 0; // Off by default
-    unsigned int gettingUserInputFlag = 0; // 0 = not getting user input by default
+    unsigned int gettingUserInputFlag = 1; // 1 = getting user input by default
     unsigned int readFinishedFlag = 0; // 0 = read not finished yet
     unsigned int targetSetFlag = 0; // 0 = no new target RPM set yet
     unsigned int newRPMFlag = 0; // 0 = no new RPM measured yet
