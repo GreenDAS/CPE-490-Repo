@@ -46,10 +46,10 @@ typedef struct PIDController{
 	int dTerm; // dError * dGain
 
 	int iGain;
-	int integral; // pTerm * delta + iTerm : Clamp this value if need be
+	int integral; // pTerm * delta + iTerm : Clamp this value to prevent windup
 	int iTerm; // integral * iGain
 
-	// PID Out = pTerm + dTerm + iTerm
+	// PID Out = pTerm + dTerm + iTerm : Clamp this value to 100> PID Out > 0
 	
 	//*-Function Pointers-*//
 

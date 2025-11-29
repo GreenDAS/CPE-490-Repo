@@ -38,22 +38,21 @@ void EXTI3_IRQHandler(void)
 // Pin4
 void EXTI4_IRQHandler(void)
 {
-	// this was created by caleb
 
-	/*
-	toggle LED1
-	figure out logic to toggle the lcd display stuff from torque to RPM	(main line 35 & 56 for reference)
-	and when pressed again it needs to toggle between target RPM and actual RPM
-	*/
-	// by default target rpm and actual rpm //swap target to torque
-	//  i think i am going to make a flag that says its toggle time and main will see that and
-	//  change LCD until it goes to this interrupt again
-
+	if(Timer4.getBits(Timer4.TIMX->CR1, TIM_CR1_CEN_Pos, 0x1)){ // If Timer4 is running, ignore the button press - For Debounce
+		NVIC_ClearPendingIRQ(EXTI4_IRQn);
+		EXTI->PR1 |= EXTI_PR1_PIF4;
+		return;
+	}
 
 	if(!gettingUserInputFlag){
 		SW1LED->setState(SW1LED,1); // Toggle LED1
 		sw1PressedFlag = 1;
 	}
+
+	// For Debounce
+	Timer4.TIMX->ARR = 4; // Reset ARR to 5 milli second
+	Timer4.setBits(&Timer4.TIMX->CR1, TIM_CR1_CEN_Pos, 1); // Turn on Timer4
 
 	NVIC_ClearPendingIRQ(EXTI4_IRQn);
 	EXTI->PR1 |= EXTI_PR1_PIF4;
@@ -62,6 +61,13 @@ void EXTI4_IRQHandler(void)
 // Pin5
 void EXTI9_5_IRQHandler(void)
 {
+
+	if(Timer4.getBits(Timer4.TIMX->CR1, TIM_CR1_CEN_Pos, 0x1)){ // If Timer4 is running, ignore the button press - For Debounce
+		NVIC_ClearPendingIRQ(EXTI9_5_IRQn);
+		EXTI->PR1 |= EXTI_PR1_PIF5;
+		return;
+	}
+
 	if(!gettingUserInputFlag){
 
 		sw2PressedFlag = 1;
@@ -74,6 +80,10 @@ void EXTI9_5_IRQHandler(void)
 		gettingUserInputFlag = 0;
 		SW2LED->setState(SW2LED,1); // Turn on LED2 to show we are getting user input
 	}
+
+	// For Debounce
+	Timer4.TIMX->ARR = 4; // Reset ARR to 5 milli second
+	Timer4.setBits(&Timer4.TIMX->CR1, TIM_CR1_CEN_Pos, 1); // Turn on Timer4
 
 	NVIC_ClearPendingIRQ(EXTI9_5_IRQn);
 	EXTI->PR1 |= EXTI_PR1_PIF5;
