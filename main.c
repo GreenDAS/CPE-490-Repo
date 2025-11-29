@@ -287,12 +287,12 @@ int main(void)
 
 	// Set up Scheduler Tasks
 	schedulerTasks = (EDFToDo){
-		.tasks = {calcVoltage, calcFrequency, displayUpdate},
-		.deadlines = {VOLTAGE_DEADLINE, FREQ_DEADLINE, DISPLAY_DEADLINE},
-		.cooldowns = {0, 0, 0},
-		.clksWaited = {0, 0, 0},
-		.taskCond = {voltCalcReady, freqCalcReady, dispUpdaReady},
-		.coolDownFn = {voltCooldown, freqCooldown, dispCooldown}};
+		.tasks = {calcVoltage, calcFrequency, displayUpdate, handleSW1Press, readPad, handlePadPress, handleSW2Press},
+		.deadlines = {VOLTAGE_DEADLINE, FREQ_DEADLINE, DISPLAY_DEADLINE, HANDLE_SW1_PRESS_DEADLINE, READ_NUMPAD_DEADLINE, HANDLE_NUMPAD_PRESS_DEADLINE, HANDLE_SW2_PRESS_DEADLINE},
+		.cooldowns = {0, 0, 0, 0, 0, 0, 0},
+		.clksWaited = {0, 0, 0, 0, 0, 0, 0},
+		.taskCond = {voltCalcReady, freqCalcReady, dispUpdaReady, handleSW1PressReady, readPadReady, handlePadPressReady, handleSW2PressReady},
+		.coolDownFn = {voltCooldown, freqCooldown, dispCooldown, handleSW1PressCooldown, readPadCooldown, handlePadPressCooldown, handleSW2PressCooldown}};
 	// End Set up Scheduler Tasks
 	while(TRUE){ 
 		while(!systickFlag){} // Wait for SysTick
