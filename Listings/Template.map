@@ -1270,9 +1270,9 @@ Image Symbol Table
     [Anonymous Symbol]                       0x080020b0   Section        0  pwm_lib.o(.text.PWMDevice_finalizePinOutSetup)
     [Anonymous Symbol]                       0x0800212c   Section        0  pwm_lib.o(.text.PWMDevice_setCCR)
     [Anonymous Symbol]                       0x080021a4   Section        0  pwm_lib.o(.text.PWMDevice_updateDutyCycle)
-    [Anonymous Symbol]                       0x0800221c   Section        0  interupt_lib.o(.text.PeripheralInteruptHandling_Create)
-    [Anonymous Symbol]                       0x08002260   Section        0  gpio_lib.o(.text.SetGPIO)
-    [Anonymous Symbol]                       0x0800228c   Section        0  interupt_handlers.o(.text.SysTick_Handler)
+    [Anonymous Symbol]                       0x08002220   Section        0  interupt_lib.o(.text.PeripheralInteruptHandling_Create)
+    [Anonymous Symbol]                       0x08002264   Section        0  gpio_lib.o(.text.SetGPIO)
+    [Anonymous Symbol]                       0x08002290   Section        0  interupt_handlers.o(.text.SysTick_Handler)
     [Anonymous Symbol]                       0x080022a0   Section        0  interupt_handlers.o(.text.TIM2_IRQHandler)
     [Anonymous Symbol]                       0x08002448   Section        0  interupt_handlers.o(.text.TIM4_IRQHandler)
     __NVIC_ClearPendingIRQ                   0x08002465   Thumb Code    48  interupt_handlers.o(.text.__NVIC_ClearPendingIRQ)
@@ -1759,10 +1759,10 @@ Image Symbol Table
     PWMDevice_finalizePWMClockSetup          0x08001f95   Thumb Code   284  pwm_lib.o(.text.PWMDevice_finalizePWMClockSetup)
     PWMDevice_finalizePinOutSetup            0x080020b1   Thumb Code   124  pwm_lib.o(.text.PWMDevice_finalizePinOutSetup)
     PWMDevice_setCCR                         0x0800212d   Thumb Code   118  pwm_lib.o(.text.PWMDevice_setCCR)
-    PWMDevice_updateDutyCycle                0x080021a5   Thumb Code   120  pwm_lib.o(.text.PWMDevice_updateDutyCycle)
-    PeripheralInteruptHandling_Create        0x0800221d   Thumb Code    66  interupt_lib.o(.text.PeripheralInteruptHandling_Create)
-    SetGPIO                                  0x08002261   Thumb Code    44  gpio_lib.o(.text.SetGPIO)
-    SysTick_Handler                          0x0800228d   Thumb Code    14  interupt_handlers.o(.text.SysTick_Handler)
+    PWMDevice_updateDutyCycle                0x080021a5   Thumb Code   124  pwm_lib.o(.text.PWMDevice_updateDutyCycle)
+    PeripheralInteruptHandling_Create        0x08002221   Thumb Code    66  interupt_lib.o(.text.PeripheralInteruptHandling_Create)
+    SetGPIO                                  0x08002265   Thumb Code    44  gpio_lib.o(.text.SetGPIO)
+    SysTick_Handler                          0x08002291   Thumb Code    14  interupt_handlers.o(.text.SysTick_Handler)
     TIM2_IRQHandler                          0x080022a1   Thumb Code   408  interupt_handlers.o(.text.TIM2_IRQHandler)
     TIM4_IRQHandler                          0x08002449   Thumb Code    26  interupt_handlers.o(.text.TIM4_IRQHandler)
     _initLCD_                                0x08002585   Thumb Code    24  lcd_lib.o(.text._initLCD_)
@@ -2103,12 +2103,12 @@ Memory Map of the image
     0x080020b0   0x080020b0   0x0000007c   Code   RO          307    .text.PWMDevice_finalizePinOutSetup  pwm_lib.o
     0x0800212c   0x0800212c   0x00000076   Code   RO          305    .text.PWMDevice_setCCR  pwm_lib.o
     0x080021a2   0x080021a2   0x00000002   PAD
-    0x080021a4   0x080021a4   0x00000078   Code   RO          303    .text.PWMDevice_updateDutyCycle  pwm_lib.o
-    0x0800221c   0x0800221c   0x00000042   Code   RO          159    .text.PeripheralInteruptHandling_Create  interupt_lib.o
-    0x0800225e   0x0800225e   0x00000002   PAD
-    0x08002260   0x08002260   0x0000002c   Code   RO          105    .text.SetGPIO       gpio_lib.o
-    0x0800228c   0x0800228c   0x0000000e   Code   RO          230    .text.SysTick_Handler  interupt_handlers.o
-    0x0800229a   0x0800229a   0x00000006   PAD
+    0x080021a4   0x080021a4   0x0000007c   Code   RO          303    .text.PWMDevice_updateDutyCycle  pwm_lib.o
+    0x08002220   0x08002220   0x00000042   Code   RO          159    .text.PeripheralInteruptHandling_Create  interupt_lib.o
+    0x08002262   0x08002262   0x00000002   PAD
+    0x08002264   0x08002264   0x0000002c   Code   RO          105    .text.SetGPIO       gpio_lib.o
+    0x08002290   0x08002290   0x0000000e   Code   RO          230    .text.SysTick_Handler  interupt_handlers.o
+    0x0800229e   0x0800229e   0x00000002   PAD
     0x080022a0   0x080022a0   0x000001a8   Code   RO          232    .text.TIM2_IRQHandler  interupt_handlers.o
     0x08002448   0x08002448   0x0000001a   Code   RO          234    .text.TIM4_IRQHandler  interupt_handlers.o
     0x08002462   0x08002462   0x00000002   PAD
@@ -2324,14 +2324,14 @@ Image component sizes
        730          4          0          0          0       6167   lcd_lib.o
       1212          0         48          0          0       4284   lcd_routines.o
       3272         28        302          7          4       6218   main.o
-       790         12          0          0          0       5888   pwm_lib.o
+       794         12          0          0          0       5894   pwm_lib.o
        140         48        392          0       3072        876   startup_stm32l476xx.o
        638          4          0          0          0       5576   timer_lib.o
 
     ----------------------------------------------------------------------
-     11990        148        856         76       3540      64098   Object Totals
+     11990        148        856         76       3540      64104   Object Totals
          0          0         32          0          0          0   (incl. Generated)
-        76          0          2          4          4          0   (incl. Padding)
+        72          0          2          4          4          0   (incl. Padding)
 
     ----------------------------------------------------------------------
 
@@ -2468,8 +2468,8 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     22560        672       1408         76       3636      67422   Grand Totals
-     22560        672       1408         76       3636      67422   ELF Image Totals
+     22560        672       1408         76       3636      67428   Grand Totals
+     22560        672       1408         76       3636      67428   ELF Image Totals
      22560        672       1408         76          0          0   ROM Totals
 
 ==============================================================================
