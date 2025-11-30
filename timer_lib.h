@@ -75,5 +75,5 @@ typedef struct GeneralPurposeTimer{
 }GeneralPurposeTimer;
 
 // Constructor 
-GeneralPurposeTimer GeneralPurposeTimer_Create(int timer, int CEN, int PSC, int ARR, char DIR, int OPM);
+GeneralPurposeTimer* GeneralPurposeTimer_Create(int timer, int CEN, int PSC, int ARR, char DIR, int OPM);
 #endif

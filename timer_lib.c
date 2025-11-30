@@ -14,6 +14,7 @@
 
 #include "stm32l476xx.h"
 #include "interupt_lib.h"
+#include "stdlib.h"
 
 //------------------------------------------------------------------------------
 // # defines
@@ -119,25 +120,25 @@ int setBits(uint32_t *Register, int bitOffset, int value){
  Arg5 = Is the Clk upcounting or down counting (U, Up; D, Down)
  Arg6 = Should One Pulse Mode be enabled on the timer (0, Off; 1, On)
 */
-GeneralPurposeTimer GeneralPurposeTimer_Create(int timer, int CEN, int PSC, int ARR, char DIR, int OPM) {
-	GeneralPurposeTimer self = {0};
+GeneralPurposeTimer* GeneralPurposeTimer_Create(int timer, int CEN, int PSC, int ARR, char DIR, int OPM) {
+	GeneralPurposeTimer *self = malloc(sizeof(GeneralPurposeTimer));
 	int CR1 = CEN; // starts to set up CR1
 	// int CR2 = 0;
 	switch(timer){ // Finds what timer should be initalized and initializes the clock's bus
 		case 2: 
-			  self.TIMX = TIM2; 
+			  self->TIMX = TIM2; 
 				RCC->APB1ENR1 |= RCC_APB1ENR1_TIM2EN;
 			break;
 		case 3: 
-			  self.TIMX = TIM3;
+			  self->TIMX = TIM3;
 				RCC->APB1ENR1 |= RCC_APB1ENR1_TIM3EN;
 			break;
 		case 4: 
-			  self.TIMX = TIM4;
+			  self->TIMX = TIM4;
 				RCC->APB1ENR1 |= RCC_APB1ENR1_TIM4EN;
 			break;
 		case 5: 
-			  self.TIMX = TIM5;
+			  self->TIMX = TIM5;
 				RCC->APB1ENR1 |= RCC_APB1ENR1_TIM5EN;
 			break;
 		default:
@@ -154,13 +155,13 @@ GeneralPurposeTimer GeneralPurposeTimer_Create(int timer, int CEN, int PSC, int 
 	CR1 &= ~(1UL<<3);// Clears the One Pulse Mode Bit in CR1
 	CR1 |= (OPM<<3);// Sets the One Pulse Mode Bit in CR1 to OPM
 	
-	self.TIMX->PSC = PSC;
-	self.PSC = PSC;
-	self.TIMX->ARR = ARR;
-	self.TIMX->CR1 = CR1;
-	self.greedyWait = greedyWait;
-	self.getBits = getBits;
-	self.setBits = setBits;
+	self->TIMX->PSC = PSC;
+	self->PSC = PSC;
+	self->TIMX->ARR = ARR;
+	self->TIMX->CR1 = CR1;
+	self->greedyWait = greedyWait;
+	self->getBits = getBits;
+	self->setBits = setBits;
 	return self;
 }
 
