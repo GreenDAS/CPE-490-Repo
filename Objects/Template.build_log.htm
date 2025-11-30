@@ -27,16 +27,23 @@ Project File Date:  11/29/2025
 <h2>Output:</h2>
 *** Using Compiler 'V6.22', folder: 'C:\ARM\ARMCLANG\Bin'
 Build target 'Target_1'
+_init_.c(107): error: expected expression
+  107 |         ); // Sets up PWM Device
+      |         ^
+_init_.c(178): warning: passing 'volatile uint32_t *' (aka 'volatile unsigned int *') to parameter of type 'uint32_t *' (aka 'unsigned int *') discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
+  178 |         Timer2.setBits(&(Timer2.TIMX->CR1),0,1);
+      |                        ^~~~~~~~~~~~~~~~~~~
+1 warning and 1 error generated.
+compiling _init_.c...
 pwm_lib.c(212): error: expected ';' after expression
   212 |     self->period = (self->pwmClock->TIMX->ARR + 1) // PWM Period in counts
       |                                                   ^
       |                                                   ;
-pwm_lib.c(204): warning: unused parameter 'clkSpeedHz' [-Wunused-parameter]
-  204 | PWMDevice* PWMDevice_Create(struct IODevice* pin_out, struct GeneralPurposeTimer* pwm_clock, float dutyCycle, unsigned int CCR, unsigned int channel, float clkSpeedHz){
-      |                                                                                                                                                             ^
-1 warning and 1 error generated.
+1 error generated.
 compiling pwm_lib.c...
-".\Objects\Template.axf" - 1 Error(s), 1 Warning(s).
+compiling globals.c...
+compiling main.c...
+".\Objects\Template.axf" - 2 Error(s), 1 Warning(s).
 
 <h2>Software Packages used:</h2>
 

@@ -209,7 +209,7 @@ PWMDevice* PWMDevice_Create(struct IODevice* pin_out, struct GeneralPurposeTimer
     self->dutyCycle = dutyCycle;
     self->ccrValue = CCR;
     self->channel = channel;
-    self->period = (self->pwmClock->TIMX->ARR + 1) // PWM Period in counts
+    self->period = (self->pwmClock->TIMX->ARR + 1); // PWM Period in counts
     
     self->updateDutyCycle = &PWMDevice_updateDutyCycle;
     self->setCCRValue = &PWMDevice_setCCR;
