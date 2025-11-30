@@ -104,7 +104,6 @@ void _init_(){
 		0.0,                                 // Initial Duty Cycle
 		0,                                   // Initial CCR Value
 		1,                                   // PWM Channel
-		4000000.0                            // Clock Speed in Hertz
 	); // Sets up PWM Device
 
 	MotorPWM->updateDutyCycle(MotorPWM, 0.5); // Sets Initial Duty Cycle to be 50%
