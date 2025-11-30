@@ -61,6 +61,8 @@ typedef struct PWMDevice{
 	// --- Fn Pointers --- //
 	void (*updateDutyCycle)(struct PWMDevice* self, float dutyCycle);
 	void (*setCCRValue)(struct PWMDevice* self, unsigned int ccrValue);
+	void (*finalizePinOutSetup)(struct PWMDevice* self);
+	void (*finalizePWMClockSetup)(struct PWMDevice* self);
 	
 }PWMDevice;
 
@@ -76,11 +78,13 @@ typedef struct PWMDevice{
  * @param pwm_clock Pointer to the GeneralPurposeTimer used for PWM timing
  * @param dutyCycle Initial duty cycle value (0.0 to 1.0)
  * @param ccrValue Initial CCR value
+ * @param channel PWM Channel
+ * @param clkSpeedHz Clock Speed in Hertz
  * Returns:
  * @return Pointer to the created PWMDevice instance
  *
 */
-PWMDevice* PWMDevice_Create(struct IODevice* pin_out, struct GeneralPurposeTimer* pwm_clock, float dutyCycle, unsigned int ccrValue);
+PWMDevice* PWMDevice_Create(struct IODevice* pin_out, struct GeneralPurposeTimer* pwm_clock, float dutyCycle, unsigned int CCR, unsigned int channel, float clkSpeedHz);
 
 /**
  * @}
