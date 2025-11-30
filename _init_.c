@@ -21,6 +21,7 @@
 #include "string.h"
 #include "string_lib.h"
 #include "lcd_routines.h"
+#include "pwm_lib.h"
 
 //------------------------------------------------------------------------------
 // # defines
@@ -101,9 +102,14 @@ void _init_(){
 		*/
 		GeneralPurposeTimer_Create(3,0,1,199,'U',0), // Sets up Timer3 for PWM Use
 		0.0,                                 // Initial Duty Cycle
-		0                                    // Initial CCR Value
+		0,                                   // Initial CCR Value
+		1,                                   // PWM Channel
+		4000000.0                            // Clock Speed in Hertz
 	); // Sets up PWM Device
 
+	MotorPWM->updateDutyCycle(MotorPWM, 0.5); // Sets Initial Duty Cycle to be 50%
+	MotorPWM->finalizePinOutSetup(MotorPWM); // Finalizes the Pin Out Setup
+	MotorPWM->finalizePWMClockSetup(MotorPWM); // Finalizes the PWM Clock
 
 	Timer4 = *GeneralPurposeTimer_Create(4,0,CountAtMilSecondRate,0,'D',1); // Sets up Timer4 for One Pulse Mode Use
 

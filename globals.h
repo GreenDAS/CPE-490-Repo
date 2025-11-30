@@ -90,6 +90,7 @@ struct IODevice;
 struct GeneralPurposeTimer;
 struct GenevaLCDDevice;
 struct Numpad;
+struct PWMDevice;
 
 /* -------------------------------------------------------------------------
  * Global Variables – extern declarations only

@@ -20,6 +20,7 @@
 #include "string.h"
 #include "string_lib.h"
 #include "globals.h"
+#include "pwm_lib.h"
 
 //------------------------------------------------------------------------------
 // # defines
