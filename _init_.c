@@ -103,7 +103,7 @@ void _init_(){
 		GeneralPurposeTimer_Create(3,0,1,199,'U',0), // Sets up Timer3 for PWM Use
 		0.0,                                 // Initial Duty Cycle
 		0,                                   // Initial CCR Value
-		1                                   // PWM Channel
+		3                                   // PWM Channel
 	); // Sets up PWM Device
 
 	MotorPWM->updateDutyCycle(MotorPWM, 0.5); // Sets Initial Duty Cycle to be 50%
