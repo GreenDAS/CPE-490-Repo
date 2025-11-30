@@ -22,7 +22,7 @@ Dialog DLL:      TCM.DLL V1.56.4.0
  
 <h2>Project:</h2>
 C:\Users\green\Desktop\College\CPE 490\CPE-490-Repo\Template.uvprojx
-Project File Date:  11/22/2025
+Project File Date:  11/29/2025
 
 <h2>Output:</h2>
 *** Using Compiler 'V6.22', folder: 'C:\ARM\ARMCLANG\Bin'
@@ -35,10 +35,28 @@ interupt_handlers.c(89): warning: passing 'volatile uint32_t *' (aka 'volatile u
       |                        ^~~~~~~~~~~~~~~~~
 2 warnings generated.
 compiling interupt_handlers.c...
-linking...
-Program Size: Code=21656 RO-data=1408 RW-data=76 ZI-data=3636  
-FromELF: creating hex file...
-".\Objects\Template.axf" - 0 Error(s), 2 Warning(s).
+compiling lcd_lib.c...
+pid.c(30): warning: '/*' within block comment [-Wcomment]
+   30 | /*---PID Controler---*/
+      | ^
+1 warning generated.
+compiling pid.c...
+compiling gpio_lib.c...
+timer_lib.c(123): error: call to undeclared library function 'malloc' with type 'void *(unsigned int)'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+  123 |         GeneralPurposeTimer *self = malloc(sizeof(GeneralPurposeTimer));
+      |                                     ^
+timer_lib.c(123): note: include the header <stdlib.h> or explicitly provide a declaration for 'malloc'
+1 error generated.
+compiling timer_lib.c...
+compiling pwm_lib.c...
+compiling globals.c...
+_init_.c(179): warning: passing 'volatile uint32_t *' (aka 'volatile unsigned int *') to parameter of type 'uint32_t *' (aka 'unsigned int *') discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
+  179 |         Timer2.setBits(&(Timer2.TIMX->CR1),0,1);
+      |                        ^~~~~~~~~~~~~~~~~~~
+1 warning generated.
+compiling _init_.c...
+compiling main.c...
+".\Objects\Template.axf" - 1 Error(s), 4 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -60,6 +78,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE@6.1.0
+Target not created.
 Build Time Elapsed:  00:00:00
 </pre>
 </body>

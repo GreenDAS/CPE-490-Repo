@@ -14,6 +14,7 @@
 
 #include "stm32l476xx.h"
 #include "interupt_lib.h"
+#include "stdlib.h"
 
 //------------------------------------------------------------------------------
 // # defines
