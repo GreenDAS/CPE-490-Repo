@@ -201,7 +201,7 @@ void PWMDevice_finalizePWMClockSetup(struct PWMDevice* self){
  * 
  */
 
-PWMDevice* PWMDevice_Create(struct IODevice* pin_out, struct GeneralPurposeTimer* pwm_clock, float dutyCycle, unsigned int CCR, unsigned int channel, float clkSpeedHz){
+PWMDevice* PWMDevice_Create(struct IODevice* pin_out, struct GeneralPurposeTimer* pwm_clock, float dutyCycle, unsigned int CCR, unsigned int channel){
     PWMDevice* self = malloc(sizeof(PWMDevice));
     
     self->pinOut = pin_out;
