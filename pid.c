@@ -8,7 +8,7 @@
  **************************************************************************
 
 //------------------------------------------------------------------------------
-// Files to Include 
+// Files to Include
 //------------------------------------------------------------------------------
 
 #include "stm32l476xx.h"
@@ -29,34 +29,43 @@
 
 /*---PID Controler---*/
 
-
 // Class Def
-typedef struct PIDController{
-    //*-Parents-*//
+typedef struct PIDController
+{
+	//*-Parents-*//
 
 	//*-Properties-*//
-	int delta; // (currentPos - previousPos)
+	double error; // target-actual (100/7)
+	int delta;	  // (currentPos - previousPos)
 
-	int pGain;
+	int pGain;	// 1
 	int pError; // targetPos - currentPos
-	int pTerm; // error * pGain
+	int pTerm;	// error * pGain
 
-	int dGain;
-	int dError; // (pTerm - prevPTerm)/ delta : Upon changing the the target, set the prevPTerm to pTerm
-	int dTerm; // dError * dGain
-
-	int iGain;
+	int iGain;	  // 0.73
 	int integral; // pTerm * delta + iTerm : Clamp this value to prevent windup
-	int iTerm; // integral * iGain
+	int iTerm;	  // integral * iGain
 
-	// PID Out = pTerm + dTerm + iTerm : Clamp this value to 100> PID Out > 0
-	
+	// PID Out = pTerm  + iTerm : Clamp this value to 100> PID Out > 0
+
 	//*-Function Pointers-*//
 
-}PIDController;
+} PIDController;
 
 /* Class Constructor
  Arg1 = The timer the object uses
  Arg2 = How many times it should retry commands
  Arg3 = what the onOffRatio should be
 */
+
+
+double UpdatePI(PIDController*this , double targetPos, double currentPos, int delta){
+
+
+
+
+}
+
+
+
+
