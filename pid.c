@@ -31,7 +31,7 @@
 //------------------------------------------------------------------------------
 
 
-double UpdatePI(PIDController*this , double targetPos, double currentPos, int delta){
+double UpdatePI(PIDController* self, double targetPos, double currentPos, int delta){
 
 
 

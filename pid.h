@@ -56,7 +56,6 @@ typedef struct PIDController
 	void (*ResetIntegrator)(struct PIDController* self);
 	double (*PIOutToDutyCycle)(struct PIDController* self);
 
-
 } PIDController;
 
 /* Class Constructor
