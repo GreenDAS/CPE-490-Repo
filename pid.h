@@ -62,11 +62,12 @@ typedef struct PIDController
 	// PID Out = pTerm  + iTerm : Clamp this value to 100> PID Out > 0
 
 	//*-Function Pointers-*//
-	void (*UpdatePI)(struct PIDController* self, double targetPos, double currentPos);
-	void (*ResetIntegrator)(struct PIDController* self);
-	double (*PIOutToDutyCycle)(struct PIDController* self);
-	void (*CurrentPosChnaged)(struct PIDController* self, double newPos);
-	void (*SetPointChanged)(struct PIDController* self, double newPos);
+	void (*CurrentPosChnaged)(struct PIDController* self, double newPos);					// Function Pointer for when Current Position Changes
+	void (*SetPointChanged)(struct PIDController* self, double newPos);						// Function Pointer for when Set Point Changes	
+	void (*ResetIntegrator)(struct PIDController* self);									// Function Pointer to Reset the Integrator						
+	void (*UpdatePI)(struct PIDController* self, double targetPos, double currentPos);		// Function Pointer to Update the PI Output
+	double (*PIOutToDutyCycle)(struct PIDController* self);									// Function Pointer to Convert PI Output to Duty Cycle
+
 
 } PIDController;
 
