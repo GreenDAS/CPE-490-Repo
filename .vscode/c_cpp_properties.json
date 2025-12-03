@@ -10,7 +10,6 @@
                 "C:/Users/cap19/AppData/Local/Keil_v5/ARM/ARMCLANG/lib/clang/19/include"
             ],
             "defines": [
-                "STM32L476xx",
                 "__alignof__(x)=",
                 "__asm(x)=",
                 "__asm__(x)=",
