@@ -3,7 +3,11 @@
         {
             "name": "Target_1",
             "includePath": [
-                "c:\\Users\\green\\Desktop\\College\\CPE 490\\CPE-490-Repo"
+                "${workspaceFolder}/**",
+                "C:/Users/cap19/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include",
+                "C:/Users/cap19/AppData/Local/Keil_v5/ARM",
+                "C:/Users/cap19/AppData/Local/Keil_v5/ARM/ARMCLANG/include",
+                "C:/Users/cap19/AppData/Local/Keil_v5/ARM/ARMCLANG/lib/clang/19/include"
             ],
             "defines": [
                 "__alignof__(x)=",
