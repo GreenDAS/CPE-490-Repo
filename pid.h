@@ -47,12 +47,26 @@ typedef struct PIDController
 	double integral; 	// pTerm * delta + iTerm : Clamp this value to prevent windup
 	double iTerm;	 	// integral * iGain
 
+	double integratorMax; // Max value for integrator windup
+	double integratorMin; // Min value for integrator windup
+
+	double previousPos; // Previous Position
+	double setPoint;    // Target Position
+	double currentPos;  // Current Position
+
+	double pidOut;		// Output of the PID
+	double pidMax;		// Max PID Out
+	double pidMin;		// Min PID Out
+
+
 	// PID Out = pTerm  + iTerm : Clamp this value to 100> PID Out > 0
 
 	//*-Function Pointers-*//
-	double (*UpdatePI)(struct PIDController* self, double targetPos, double currentPos, int delta);
+	void (*UpdatePI)(struct PIDController* self, double targetPos, double currentPos);
 	void (*ResetIntegrator)(struct PIDController* self);
 	double (*PIOutToDutyCycle)(struct PIDController* self);
+	void (*CurrentPosChnaged)(struct PIDController* self, double newPos);
+	void (*SetPointChanged)(struct PIDController* self, double newPos);
 
 } PIDController;
 
