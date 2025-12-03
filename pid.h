@@ -8,7 +8,7 @@
  **************************************************************************/
 
 //------------------------------------------------------------------------------
-// Files to Include 
+// Files to Include
 //------------------------------------------------------------------------------
 
 #include "stm32l476xx.h"
@@ -20,7 +20,6 @@
 // Function Prototypes
 //------------------------------------------------------------------------------
 
-
 //------------------------------------------------------------------------------
 // # defines
 //------------------------------------------------------------------------------
@@ -28,7 +27,6 @@
 //------------------------------------------------------------------------------
 // # Classes
 //------------------------------------------------------------------------------
-
 
 /*---PID Controler---*/
 
@@ -41,31 +39,28 @@ typedef struct PIDController
 	double error; // target-actual (100/7)
 	double delta; // (currentPos - previousPos)
 
-	float pGain;	// 1
+	float pGain;   // 1
 	double pError; // targetPos - currentPos
-	double pTerm;	// error * pGain
+	double pTerm;  // error * pGain
 
-	float iGain;	  // 0.73
+	float iGain;	 // 0.73
 	double integral; // pTerm * delta + iTerm : Clamp this value to prevent windup
-	double iTerm;	  // integral * iGain
+	double iTerm;	 // integral * iGain
 
 	// PID Out = pTerm  + iTerm : Clamp this value to 100> PID Out > 0
 
 	//*-Function Pointers-*//
-	double (*UpdatePI)(struct PIDController* self, double targetPos, double currentPos, int delta);
-	void (*ResetIntegrator)(struct PIDController* self);
-	double (*PIOutToDutyCycle)(struct PIDController* self);
-
+	double (*UpdatePI)(struct PIDController *self, double targetPos, double currentPos, int delta);
+	void (*ResetIntegrator)(struct PIDController *self);
+	double (*PIOutToDutyCycle)(struct PIDController *self);
 
 } PIDController;
 
-/* Class Constructor
+/* Class Constructor*/
 
-*/
-
-PIDController* PIDController_Create(float pGain, float iGain)
+PIDController *PIDController_Create(float pGain, float iGain)
 {
-	PIDController* self = malloc(sizeof(PIDController));
+	PIDController *self = malloc(sizeof(PIDController));
 
 	self->pGain = pGain;
 	self->iGain = iGain;
