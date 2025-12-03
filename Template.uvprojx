@@ -489,6 +489,16 @@
               <FileType>5</FileType>
               <FilePath>.\pid.h</FilePath>
             </File>
+            <File>
+              <FileName>pwm_lib.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\pwm_lib.c</FilePath>
+            </File>
+            <File>
+              <FileName>pwm_lib.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\pwm_lib.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
