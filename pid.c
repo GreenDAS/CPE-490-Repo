@@ -31,11 +31,53 @@
 //------------------------------------------------------------------------------
 
 
-double UpdatePI(PIDController* self, double targetPos, double currentPos, int delta){
 
+// --- Class Methods --- //
 
+double PID_PIOutToDutyCycle(PIDController* self){
+    double pidOut = self->pTerm + self->iTerm;
+    // Clamp the PID output to the range [0, 100]
+    if (pidOut > 100.0) {
+        pidOut = 100.0;
+    } else if (pidOut < 0.0) {
+        pidOut = 0.0;
+    }
+    return pidOut;
+}
 
+void PID_ResetIntegrator(PIDController* self){
+    self->integral = 0.0;
+    self->iTerm = 0.0;
+}
 
+double PID_UpdatePIOut(PIDController* self, double targetPos, double currentPos){
+    // Calculate error
+    self->error = targetPos - currentPos;
+
+    // Proportional term
+    self->pTerm = self->error * self->pGain;
+
+    // Integral term
+    self->integral += self->error;
+    // Clamp integral to prevent windup
+    if (self->integral > 100.0) {
+        self->integral = 100.0;
+    } else if (self->integral < -100.0) {
+        self->integral = -100.0;
+    }
+    self->iTerm = self->integral * self->iGain;
+
+    // Calculate total PID output
+    double pidOut = self->pTerm + self->iTerm;
+
+    // Clamp the PID output to the range [0, 100]
+    if (pidOut > 100.0) {
+        pidOut = 100.0;
+    } else if (pidOut < 0.0) {
+        pidOut = 0.0;
+    }
+
+    return pidOut;
 }
 
 /* Class Constructor
