@@ -119,7 +119,8 @@ extern float        voltage;                    // Calculated voltage
 extern float        torque;                     // Calculated torque
 
 // Frequency Vars
-extern float        frequency;                  // Calculated frequency
+extern double       frequency;                  // Measured frequency
+extern double       prevFrequency;              // Previous frequency value
 extern int          freqCounts;                 // Frequency counts
 extern double       timeElapsed;                // Time elapsed for frequency measurement
 

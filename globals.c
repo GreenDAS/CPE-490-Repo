@@ -52,7 +52,8 @@ float voltage = 0;
 float torque = 0;
 
 // Frequency Vars
-float frequency = 0;
+double frequency = 0;
+double prevFrequency = 0;
 int freqCounts = 0;
 double timeElapsed = 0.0;
 
