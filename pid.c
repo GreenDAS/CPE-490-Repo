@@ -5,13 +5,17 @@
  * Version V1.0
  * PID Controler's header for Semester Project
  *
- **************************************************************************
+ **************************************************************************/
 
 //------------------------------------------------------------------------------
 // Files to Include
 //------------------------------------------------------------------------------
 
 #include "stm32l476xx.h"
+#include "globals.h"
+#include "stdlib.h"
+#include "stdio.h"
+#include "pid.h"
 
 //------------------------------------------------------------------------------
 // Function Prototypes
@@ -27,30 +31,12 @@
 //------------------------------------------------------------------------------
 
 
-/*---PID Controler---*/
+double UpdatePI(PIDController*this , double targetPos, double currentPos, int delta){
 
-// Class Def
-typedef struct PIDController
-{
-	//*-Parents-*//
 
-	//*-Properties-*//
-	double error; // target-actual (100/7)
-	int delta;	  // (currentPos - previousPos)
 
-	int pGain;	// 1
-	int pError; // targetPos - currentPos
-	int pTerm;	// error * pGain
 
-	int iGain;	  // 0.73
-	int integral; // pTerm * delta + iTerm : Clamp this value to prevent windup
-	int iTerm;	  // integral * iGain
-
-	// PID Out = pTerm  + iTerm : Clamp this value to 100> PID Out > 0
-
-	//*-Function Pointers-*//
-
-} PIDController;
+}
 
 /* Class Constructor
  Arg1 = The timer the object uses
@@ -59,12 +45,6 @@ typedef struct PIDController
 */
 
 
-double UpdatePI(PIDController*this , double targetPos, double currentPos, int delta){
-
-
-
-
-}
 
 
 
