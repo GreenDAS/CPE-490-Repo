@@ -36,16 +36,16 @@ typedef struct PIDController
 	//*-Parents-*//
 
 	//*-Properties-*//
-	double error; // target-actual (100/7)
-	double delta; // (currentPos - previousPos)
+	double error; 		// target-actual (100/7)
+	double delta; 		// (currentPos - previousPos)
 
-	float pGain;   // 1
-	double pError; // targetPos - currentPos
-	double pTerm;  // error * pGain
+	float pGain;   		// 1
+	double pError; 		// targetPos - currentPos
+	double pTerm;  		// error * pGain
 
-	float iGain;	 // 0.73
-	double integral; // pTerm * delta + iTerm : Clamp this value to prevent windup
-	double iTerm;	 // integral * iGain
+	float iGain;		// 0.73
+	double integral; 	// pTerm * delta + iTerm : Clamp this value to prevent windup
+	double iTerm;	 	// integral * iGain
 
 	// PID Out = pTerm  + iTerm : Clamp this value to 100> PID Out > 0
 
