@@ -50,9 +50,9 @@ typedef struct PIDController
 	// PID Out = pTerm  + iTerm : Clamp this value to 100> PID Out > 0
 
 	//*-Function Pointers-*//
-	double (*UpdatePI)(struct PIDController *self, double targetPos, double currentPos, int delta);
-	void (*ResetIntegrator)(struct PIDController *self);
-	double (*PIOutToDutyCycle)(struct PIDController *self);
+	double (*UpdatePI)(struct PIDController* self, double targetPos, double currentPos, int delta);
+	void (*ResetIntegrator)(struct PIDController* self);
+	double (*PIOutToDutyCycle)(struct PIDController* self);
 
 } PIDController;
 
