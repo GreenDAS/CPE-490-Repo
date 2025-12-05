@@ -57,7 +57,7 @@ void PID_CurrentPosChanged(PIDController* self, double newPos){
     self->previousPos = self->currentPos;
     self->currentPos = newPos;
     self->error = (self->setPoint - self->currentPos) * 100.0 / 7.0; // Scale error to range [0, 100]
-    self->PID_UpdatePIOut(self);
+    self->UpdatePI(self);
 }
 
 
@@ -80,7 +80,7 @@ void PID_SetPointChanged(PIDController* self, double newPos){
     //self->ResetIntegrator(self);
     self->setPoint = newPos;
     self->error = (self->setPoint - self->currentPos) * 100.0 / 7.0; // Scale error to range [0, 100], 7k is the max position, mul by 100 to get percentage
-    self->PID_UpdatePIOut(self);
+    self->UpdatePI(self);
 }
 
 
@@ -158,7 +158,7 @@ void PID_UpdatePIOut(PIDController* self){
  * @return Pointer to the newly created PIDController instance
  *
  */
-PIDController *PIDController_Create(float[2] piMaxMin, float pGain, float[3] iValues)
+PIDController *PIDController_Create(float piMaxMin[2], float pGain, float iValues[3])
 {
 	PIDController *self = malloc(sizeof(PIDController));
 
