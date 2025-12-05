@@ -69,6 +69,7 @@ void readVoltage()
 
 void calcVoltage()
 {
+	readVoltage();
 	voltage = (voltageAccum / (voltageMeasurements));
 	voltageAccum = 0;
 	voltageMeasurements = 0;
@@ -88,7 +89,7 @@ void calcFrequency()
 
 void handleSW1Press()
 {
-	if (!targetSetFlag)
+	if (targetSetFlag)
 	{
 		tor_rpm_toggle = 0; // Reset to RPM display if a new target RPM was set
 	}
