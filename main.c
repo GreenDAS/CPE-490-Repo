@@ -295,6 +295,20 @@ void handleSW2Press()
 	updateMainMenuFlag = 0; // Reset Main Menu Update Flag
 }
 
+void handleNewRPM()
+{
+	// Update PWM based on new RPM
+	MotorPID->CurrentPosChanged(MotorPID, frequency * 60); // Convert to RPM
+	MotorPWM->updateDutyCycle(MotorPWM, MotorPID->pidOut / 100.0); // Convert from % to decimal
+	newRPMFlag = 0;
+}
+
+void handleNewTarget()
+{
+	MotorPID->SetPointChanged(MotorPID, targetRPM);
+	MotorPWM->updateDutyCycle(MotorPWM, MotorPID->pidOut / 100.0); // Convert from % to decimal
+	targetSetFlag = 0;
+}
 // Ready Fns
 
 int voltCalcReady() { return (tor_rpm_toggle) ? 1 : 0; }																			   // Onlt calc voltage when torque is being displayed
@@ -305,6 +319,8 @@ int dispUpdaReady() { return 1; }																									   // Always ready to 
 int readPadReady() { return gettingUserInputFlag; }																					   // Only read pad when getting user input
 int handlePadPressReady() { return (readFinishedFlag && ((!(NumberPad->state)) && NumberPad->prevState)) ? gettingUserInputFlag : 0; } // Only handle pad press when read is finished and getting user input
 int handleSW2PressReady() { return sw2PressedFlag; }																				   // Only handle SW2 press when SW2 is pressed
+int handleNewRPMReady() { return newRPMFlag && !targetSetFlag; }																	   // Only handle new RPM when newRPMFlag is set and not targetSetFlag
+int handleNewTargetReady() { return targetSetFlag; }																				   // Only handle new target when targetSetFlag is set
 
 // Cooldown Fns
 
@@ -316,6 +332,8 @@ int dispCooldown() { return 0; }				// Run as fast as possible after display upd
 int readPadCooldown() { return 5; }				// 5ms cooldown for reading pad for debouncing and capacitance
 int handlePadPressCooldown() { return 0; }		// Run as fast as possible after read is finished
 int handleSW2PressCooldown() { return 0; }		// Run as fast as possible after SW2 is pressed
+int handleNewRPMCooldown() { return 0; }		// Run as fast as possible after new RPM is measured
+int handleNewTargetCooldown() { return 0; }		// Run as fast as possible after new target is set
 
 //------------------------------------------------------------------------------
 // Main
@@ -327,12 +345,24 @@ int main(void)
 
 	// Set up Scheduler Tasks
 	schedulerTasks = (EDFToDo){
-		.tasks = {calcVoltage, calcFrequency, displayUpdate, handleSW1Press, readPad, handlePadPress, handleSW2Press, updateMainMenu},
-		.deadlines = {VOLTAGE_DEADLINE, FREQ_DEADLINE, DISPLAY_DEADLINE, HANDLE_SW1_PRESS_DEADLINE, READ_NUMPAD_DEADLINE, HANDLE_NUMPAD_PRESS_DEADLINE, HANDLE_SW2_PRESS_DEADLINE, MAIN_MENU_UPDATE_DEADLINE},
-		.cooldowns = {0, 0, 0, 0, 0, 0, 0, 0},
-		.clksWaited = {0, 0, 0, 0, 0, 0, 0, 0},
-		.taskCond = {voltCalcReady, freqCalcReady, dispUpdaReady, handleSW1PressReady, readPadReady, handlePadPressReady, handleSW2PressReady, updateMainMenuReady},
-		.coolDownFn = {voltCooldown, freqCooldown, dispCooldown, handleSW1PressCooldown, readPadCooldown, handlePadPressCooldown, handleSW2PressCooldown, updateMainMenuCooldown},
+		.tasks = {calcVoltage, calcFrequency, displayUpdate, 
+						handleSW1Press, readPad, handlePadPress, 
+						handleSW2Press, updateMainMenu, handleNewRPM, 
+						handleNewTarget},
+		.deadlines = {VOLTAGE_DEADLINE, FREQ_DEADLINE, DISPLAY_DEADLINE, 
+						HANDLE_SW1_PRESS_DEADLINE, READ_NUMPAD_DEADLINE, HANDLE_NUMPAD_PRESS_DEADLINE, 
+						HANDLE_SW2_PRESS_DEADLINE, MAIN_MENU_UPDATE_DEADLINE, NEW_RPM_DEADLINE, 
+						NEW_TARGET_DEADLINE},
+		.cooldowns = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		.clksWaited = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		.taskCond = {voltCalcReady, freqCalcReady, dispUpdaReady, 
+						handleSW1PressReady, readPadReady, handlePadPressReady, 
+						handleSW2PressReady, updateMainMenuReady, handleNewRPMReady, 
+						handleNewTargetReady},
+		.coolDownFn = {voltCooldown, freqCooldown, dispCooldown, 
+						handleSW1PressCooldown, readPadCooldown, handlePadPressCooldown, 
+						handleSW2PressCooldown, updateMainMenuCooldown, handleNewRPMCooldown, 
+						handleNewTargetCooldown},
 	};
 	// End Set up Scheduler Tasks
 	while (TRUE)
