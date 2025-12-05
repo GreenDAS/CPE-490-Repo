@@ -27,131 +27,7 @@ Project File Date:  12/05/2025
 <h2>Output:</h2>
 *** Using Compiler 'V6.22', folder: 'C:\ARM\ARMCLANG\Bin'
 Build target 'Target_1'
-pid.c(18): warning: In file included from...
-.\pid.h(73): error: expected ')'
-   73 | PIDController *PIDController_Create(float[2] piMaxMin, float pGain, float[3] iValues)
-      |                                              ^
-.\pid.h(73): note: to match this '('
-   73 | PIDController *PIDController_Create(float[2] piMaxMin, float pGain, float[3] iValues)
-      |                                    ^
-.\pid.h(73): error: expected ';' after top level declarator
-   73 | PIDController *PIDController_Create(float[2] piMaxMin, float pGain, float[3] iValues)
-      |                                                                                      ^
-      |                                                                                      ;
-pid.c(60): error: no member named 'PID_UpdatePIOut' in 'struct PIDController'
-   60 |     self->PID_UpdatePIOut(self);
-      |     ~~~~  ^
-pid.c(83): error: no member named 'PID_UpdatePIOut' in 'struct PIDController'
-   83 |     self->PID_UpdatePIOut(self);
-      |     ~~~~  ^
-pid.c(161): error: expected ')'
-  161 | PIDController *PIDController_Create(float[2] piMaxMin, float pGain, float[3] iValues)
-      |                                              ^
-pid.c(161): note: to match this '('
-  161 | PIDController *PIDController_Create(float[2] piMaxMin, float pGain, float[3] iValues)
-      |                                    ^
-pid.c(161): warning: omitting the parameter name in a function definition is a C23 extension [-Wc23-extensions]
-  161 | PIDController *PIDController_Create(float[2] piMaxMin, float pGain, float[3] iValues)
-      |                                          ^
-pid.c(165): error: use of undeclared identifier 'piMaxMin'
-  165 |     self->pidMax = piMaxMin[0];
-      |                    ^
-pid.c(166): error: use of undeclared identifier 'piMaxMin'
-  166 |     self->pidMin = piMaxMin[1];
-      |                    ^
-pid.c(168): error: use of undeclared identifier 'pGain'
-  168 |         self->pGain = pGain;
-      |                       ^
-pid.c(170): error: use of undeclared identifier 'iValues'
-  170 |         self->iGain = iValues[0];
-      |                       ^
-pid.c(171): error: use of undeclared identifier 'iValues'
-  171 |     self->integratorMax = iValues[1];
-      |                           ^
-pid.c(172): error: use of undeclared identifier 'iValues'
-  172 |     self->integratorMin = iValues[2];
-      |                           ^
-pid.c(175): error: no member named 'delta' in 'struct PIDController'
-  175 |         self->delta = 0;
-      |         ~~~~  ^
-pid.c(176): error: no member named 'pError' in 'struct PIDController'; did you mean 'error'?
-  176 |         self->pError = 0;
-      |               ^~~~~~
-      |               error
-.\pid.h(39): note: 'error' declared here
-   39 |         double error;           // target-actual (100/7)
-      |                ^
-1 warning and 13 errors generated.
-compiling pid.c...
-globals.c(25): warning: In file included from...
-.\pid.h(73): error: expected ')'
-   73 | PIDController *PIDController_Create(float[2] piMaxMin, float pGain, float[3] iValues)
-      |                                              ^
-.\pid.h(73): note: to match this '('
-   73 | PIDController *PIDController_Create(float[2] piMaxMin, float pGain, float[3] iValues)
-      |                                    ^
-.\pid.h(73): error: expected ';' after top level declarator
-   73 | PIDController *PIDController_Create(float[2] piMaxMin, float pGain, float[3] iValues)
-      |                                                                                      ^
-      |                                                                                      ;
-2 errors generated.
-compiling globals.c...
-_init_.c(109): error: call to undeclared function 'PIDController_Create'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-  109 |         MotorPID = PIDController_Create(
-      |                    ^
-_init_.c(109): error: incompatible integer to pointer conversion assigning to 'struct PIDController *' from 'int' [-Wint-conversion]
-  109 |         MotorPID = PIDController_Create(
-      |                  ^ ~~~~~~~~~~~~~~~~~~~~~
-  110 |                 (float[2]){100.0, 0.0}, // PI Max/Min
-      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  111 |                 1.0,                    // P Gain
-      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  112 |                 (float[3]){0.73, 100.0, -100.0} // I Values: iGain, integratorMax, integratorMin
-      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  113 |         );
-      |         ~
-_init_.c(184): warning: passing 'volatile uint32_t *' (aka 'volatile unsigned int *') to parameter of type 'uint32_t *' (aka 'unsigned int *') discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
-  184 |         Timer2.setBits(&(Timer2.TIMX->CR1),0,1);
-      |                        ^~~~~~~~~~~~~~~~~~~
-1 warning and 2 errors generated.
-compiling _init_.c...
-interupt_handlers.c(58): warning: passing 'volatile uint32_t *' (aka 'volatile unsigned int *') to parameter of type 'uint32_t *' (aka 'unsigned int *') discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
-   58 |         Timer4.setBits(&Timer4.TIMX->CR1, TIM_CR1_CEN_Pos, 1); // Turn on Timer4
-      |                        ^~~~~~~~~~~~~~~~~
-interupt_handlers.c(89): warning: passing 'volatile uint32_t *' (aka 'volatile unsigned int *') to parameter of type 'uint32_t *' (aka 'unsigned int *') discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
-   89 |         Timer4.setBits(&Timer4.TIMX->CR1, TIM_CR1_CEN_Pos, 1); // Turn on Timer4
-      |                        ^~~~~~~~~~~~~~~~~
-2 warnings generated.
-compiling interupt_handlers.c...
-compiling pwm_lib.c...
-compiling lcd_lib.c...
-main.c(301): error: incomplete definition of type 'struct PIDController'
-  301 |         MotorPID->CurrentPosChanged(MotorPID, frequency * 60); // Convert to RPM
-      |         ~~~~~~~~^
-.\globals.h(96): note: forward declaration of 'struct PIDController'
-   96 | struct PIDController;
-      |        ^
-main.c(302): error: incomplete definition of type 'struct PIDController'
-  302 |         MotorPWM->updateDutyCycle(MotorPWM, MotorPID->pidOut / 100.0); // Convert from % to decimal
-      |                                             ~~~~~~~~^
-.\globals.h(96): note: forward declaration of 'struct PIDController'
-   96 | struct PIDController;
-      |        ^
-main.c(308): error: incomplete definition of type 'struct PIDController'
-  308 |         MotorPID->SetPointChanged(MotorPID, targetRPM);
-      |         ~~~~~~~~^
-.\globals.h(96): note: forward declaration of 'struct PIDController'
-   96 | struct PIDController;
-      |        ^
-main.c(309): error: incomplete definition of type 'struct PIDController'
-  309 |         MotorPWM->updateDutyCycle(MotorPWM, MotorPID->pidOut / 100.0); // Convert from % to decimal
-      |                                             ~~~~~~~~^
-.\globals.h(96): note: forward declaration of 'struct PIDController'
-   96 | struct PIDController;
-      |        ^
-4 errors generated.
-compiling main.c...
-".\Objects\Template.axf" - 21 Error(s), 4 Warning(s).
+".\Objects\Template.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -173,8 +49,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE@6.1.0
-Target not created.
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:00
 </pre>
 </body>
 </html>

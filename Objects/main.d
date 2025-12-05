@@ -1,3 +1,4 @@
 ./objects/main.o: main.c _init_.h gpio_lib.h stm32l476xx.h \
   C:\ARM\Packs\ARM\CMSIS\6.1.0\CMSIS\Core\Include\core_cm4.h \
-  interupt_lib.h timer_lib.h lcd_lib.h string_lib.h globals.h pwm_lib.h
+  interupt_lib.h timer_lib.h lcd_lib.h string_lib.h globals.h pwm_lib.h \
+  pid.h
