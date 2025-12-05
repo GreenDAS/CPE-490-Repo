@@ -66,6 +66,10 @@
     #define RPM_LOWER           25              // Lower RPM Limit of 25 RPM
 //
 
+// PID Config
+    #define NO_ROTATION_WAIT_TIME   2450        // How long Timer 5 should wait to check if the motor is off
+//
+
 /* -------------------------------------------------------------------------
  * Type Definitions
  * ------------------------------------------------------------------------- */
