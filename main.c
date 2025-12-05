@@ -329,7 +329,7 @@ int handlePadPressReady() { return (readFinishedFlag && ((!(NumberPad->state)) &
 int handleSW2PressReady() { return sw2PressedFlag; }																				   // Only handle SW2 press when SW2 is pressed
 int handleNewRPMReady() { return newRPMFlag && !targetSetFlag; }																	   // Only handle new RPM when newRPMFlag is set and not targetSetFlag
 int handleNewTargetReady() { return targetSetFlag; }																				   // Only handle new target when targetSetFlag is set
-int handleNoRotationReady() { return (!newRPMFlag && !(Timer5.getBits(&Timer5.TIMX->CR1, TIM_CR1_CEN_Pos, 1)); }					   // Only handle no rotation when Timer 5 has waited NO_ROTATION_WAIT_TIME
+int handleNoRotationReady() { return (!newRPMFlag && !(Timer5.getBits(Timer5.TIMX->CR1, TIM_CR1_CEN_Pos, 1))); }					   // Only handle no rotation when Timer 5 has waited NO_ROTATION_WAIT_TIME
 
 // Cooldown Fns
 
