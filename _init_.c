@@ -108,7 +108,7 @@ void _init_(){
 	); // Sets up PWM Device
 
 	MotorPID = PIDController_Create(
-		(float[2]){100.0, 20.0}, 		// PI Max/Min
+		(float[2]){100.0, 17.5}, 		// PI Max/Min
 		0.06,                      		// P Gain
 		(float[3]){0.0, 100.0, -100.0} 	// I Values: iGain, integratorMax, integratorMin
 	);
