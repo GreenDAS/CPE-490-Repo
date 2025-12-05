@@ -85,7 +85,7 @@ void calcFrequency()
 	timeElapsed = 0.0;
 	calcFreqFlag = 0;
 	updateMainMenuFlag = 1; // Set flag to update main menu
-	handleNewRPM()
+	handleNewRPM();
 }
 
 void handleSW1Press()
