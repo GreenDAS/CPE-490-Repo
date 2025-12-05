@@ -46,7 +46,7 @@
 
 void PWMDevice_updateDutyCycle(struct PWMDevice* self, float dutyCycle){
     self->dutyCycle = dutyCycle;
-    self->ccrValue = (unsigned int)(dutyCycle * self->period) - 1;
+    self->ccrValue = (unsigned int)(dutyCycle * self->period);
     switch(self->channel){
         case 1:
             self->pwmClock->TIMX->CCR1 = self->ccrValue;
