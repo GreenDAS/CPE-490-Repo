@@ -70,4 +70,4 @@ typedef struct PIDController
 
 /* Class Constructor*/
 
-PIDController *PIDController_Create(float pGain, float iGain);
+PIDController *PIDController_Create(float[2] piMaxMin, float pGain, float[3] iValues)
