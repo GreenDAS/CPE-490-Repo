@@ -45,7 +45,7 @@
     //
 
 // Scheduler Config
-    #define MAX_TASKS           10                  // Maximum number of tasks for EDF Scheduler
+    #define MAX_TASKS           11                  // Maximum number of tasks for EDF Scheduler
     #define SYSTICK_MAX         1200                // SysTick max value ( Doesn't need to change unless a deadline is longer than this )
     // Deadlines
         #define VOLTAGE_DEADLINE    400             // 400ms
