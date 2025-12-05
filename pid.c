@@ -172,8 +172,6 @@ PIDController *PIDController_Create(float piMaxMin[2], float pGain, float iValue
     self->integratorMin = iValues[2];
 
 	self->error = 0;
-	self->delta = 0;
-	self->pError = 0;
 	self->pTerm = 0;
 	self->integral = 0;
 	self->iTerm = 0;
