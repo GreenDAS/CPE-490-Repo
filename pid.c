@@ -48,16 +48,17 @@
  * Parameters:
  * @param self Pointer to the PIDController instance
  * @param newPos New Current Position
+ * @param overTime how long will this PID value be applied for?
  * Returns:
  * @return void
  * 
  */
 
-void PID_CurrentPosChanged(PIDController* self, double newPos){
+void PID_CurrentPosChanged(PIDController* self, double newPos, double overTime){
     self->previousPos = self->currentPos;
     self->currentPos = newPos;
     self->error = (self->setPoint - self->currentPos) * 100.0 / 7.0; // Scale error to range [0, 100]
-    self->UpdatePI(self);
+    self->UpdatePI(self, overTime);
 }
 
 
@@ -71,16 +72,17 @@ void PID_CurrentPosChanged(PIDController* self, double newPos){
  * Parameters:
  * @param self Pointer to the PIDController instance
  * @param newPos New Set Point
+ * @param overTime how long will this PID value be applied for?
  * Returns:
  * @return void
  * 
  */
 
-void PID_SetPointChanged(PIDController* self, double newPos){
+void PID_SetPointChanged(PIDController* self, double newPos, double overTime){
     //self->ResetIntegrator(self);
     self->setPoint = newPos;
     self->error = (self->setPoint - self->currentPos) * 100.0 / 7.0; // Scale error to range [0, 100], 7k is the max position, mul by 100 to get percentage
-    self->UpdatePI(self);
+    self->UpdatePI(self, overTime);
 }
 
 
@@ -112,13 +114,14 @@ void PID_ResetIntegrator(PIDController* self){
  *
  * Parameters:
  * @param self Pointer to the PIDController instance
+ * @param overTime how much time in seconds will this PID value applied
  * Returns:
  * @return void
  * 
  */
-void PID_UpdatePIOut(PIDController* self){
+void PID_UpdatePIOut(PIDController* self, double overTime){
     // Proportional term
-    self->pTerm = self->error * self->pGain;
+    self->pTerm = (self->error * self->pGain) / overTime;
 
     // Integral term
     self->integral += self->error;
@@ -128,7 +131,7 @@ void PID_UpdatePIOut(PIDController* self){
     } else if (self->integral < self->integratorMin) {
         self->integral = self->integratorMin;
     }
-    self->iTerm = self->integral * self->iGain;
+    self->iTerm = self->integral * self->iGain * overTime;
 
     // Calculate total PID output
     double pidOut = self->pTerm + self->iTerm;

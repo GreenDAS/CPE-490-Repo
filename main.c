@@ -78,7 +78,7 @@ void calcVoltage()
 
 void calcFrequency()
 {
-	frequency = freqCounts / timeElapsed;
+	frequency = (freqCounts / timeElapsed) / (20*7);
 	newRPMFlag = 1;
 	freqCounts = 0;
 	timeElapsed = 0.0;
@@ -117,7 +117,7 @@ void updateMainMenu()
 	}
 
 	createTargetString(&(Display->wholeMSG[0][0]), &value, FALSE, unitSTR, descriptorSTR); // Top Row
-	createFreqString(&(Display->wholeMSG[1][0]), (frequency * 60));						   // Bot Row
+	createFreqString(&(Display->wholeMSG[1][0]), (frequency * (60.0/(20*7))));			   // Bot Row
 	updateMainMenuFlag = 0;
 }
 
@@ -299,14 +299,14 @@ void handleSW2Press()
 void handleNewRPM()
 {
 	// Update PWM based on new RPM
-	MotorPID->CurrentPosChanged(MotorPID, frequency * 60); // Convert to RPM
+	MotorPID->CurrentPosChanged(MotorPID, frequency * 60.0, 1/frequency); // Convert to RPM
 	MotorPWM->updateDutyCycle(MotorPWM, MotorPID->pidOut / 100.0); // Convert from % to decimal
 	newRPMFlag = 0;
 }
 
 void handleNewTarget()
 {
-	MotorPID->SetPointChanged(MotorPID, targetRPM);
+	MotorPID->SetPointChanged(MotorPID, targetRPM, 1/frequency);
 	MotorPWM->updateDutyCycle(MotorPWM, MotorPID->pidOut / 100.0); // Convert from % to decimal
 	targetSetFlag = 0;
 }
@@ -314,9 +314,11 @@ void handleNewTarget()
 void handleNoRotation()
 {
 	frequency = 0.0;
-	MotorPID->CurrentPosChanged(MotorPID, 0.0); // Convert to RPM
+	MotorPID->ResetIntegrator(MotorPID);
+	MotorPID->CurrentPosChanged(MotorPID, 0.0, 2.4); // Convert to RPM, assume 2.4s (25rpm) time of application, Slow Start
 	MotorPWM->updateDutyCycle(MotorPWM, MotorPID->pidOut); // Set Duty Cycle to 0%
 	Timer5.TIMX->ARR = NO_ROTATION_WAIT_TIME - 1;		   // Set ARR of Timer 5
+	Timer5.TIMX->CNT = NO_ROTATION_WAIT_TIME - 1;
 	Timer5.setBits(&Timer5.TIMX->CR1, TIM_CR1_CEN_Pos, 1); // Turn on Timer5
 }
 // Ready Fns

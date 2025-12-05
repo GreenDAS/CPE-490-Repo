@@ -109,8 +109,8 @@ void _init_(){
 
 	MotorPID = PIDController_Create(
 		(float[2]){100.0, 0.0}, // PI Max/Min
-		1.0,                    // P Gain
-		(float[3]){0.73, 100.0, -100.0} // I Values: iGain, integratorMax, integratorMin
+		0.5,                      // P Gain
+		(float[3]){0.75, 100.0, -100.0} // I Values: iGain, integratorMax, integratorMin
 	);
 
 	MotorPWM->updateDutyCycle(MotorPWM, 0.5); // Sets Initial Duty Cycle to be 50%
@@ -120,6 +120,9 @@ void _init_(){
 	Timer4 = *GeneralPurposeTimer_Create(4,0,CountAtMilSecondRate,0,'D',1); // Sets up Timer4 for One Pulse Mode Use
 
 	Timer5 = *GeneralPurposeTimer_Create(5,1,CountAtMilSecondRate,(TimerPeriod1SecondInMilSeconds - 1)*10,'D',0); // Sets up Timer3 for GP Timer Use & for the Display
+	
+	// Dissables the ARR shadow reg of Timer 5
+	Timer5.TIMX->CR1 &= ~TIM_CR1_ARPE;
 
 	unsigned char msg[GenevaLCDRowSize][(GenevaLCDColSize+1)] = {// The Message to Display
 			//1st Row

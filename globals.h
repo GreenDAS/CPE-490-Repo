@@ -71,6 +71,12 @@
     #define NO_ROTATION_WAIT_TIME   2450        // How long Timer 5 should wait to check if the motor is off
 //
 
+// PWM Config
+    #define PERIOD              199             // How long the pwm period is (X + 1)
+    #define PWM_PSC             1               // PSC + 1   
+    #define DELTA_TIME          (PERIOD + 1) / (clockSpeedHz / (PWM_PSC + 1))   // How long in 
+//
+
 /* -------------------------------------------------------------------------
  * Type Definitions
  * ------------------------------------------------------------------------- */

@@ -3,9 +3,9 @@
 <title>Static Call Graph - [.\Objects\Template.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\Template.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Fri Dec  5 11:08:24 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Fri Dec  5 13:29:46 2025
 <BR><P>
-<H3>Maximum Stack Usage =        724 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =        732 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
 __rt_entry_main &rArr; main &rArr; _init_ &rArr; GenevaLCDDevice_Create &rArr; _initLCD_ &rArr; lcd_Init &rArr; tim6_Del
 <P>
@@ -484,7 +484,7 @@ Global Symbols
 <P><STRONG><a name="[16e]"></a>__rt_entry_postsh_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$00000009))
 
 <P><STRONG><a name="[d1]"></a>__rt_entry_main</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$0000000D))
-<BR><BR>[Stack]<UL><LI>Max Depth = 724 + Unknown Stack Size
+<BR><BR>[Stack]<UL><LI>Max Depth = 732 + Unknown Stack Size
 <LI>Call Chain = __rt_entry_main &rArr; main &rArr; _init_ &rArr; GenevaLCDDevice_Create &rArr; _initLCD_ &rArr; lcd_Init &rArr; tim6_Del
 </UL>
 <BR>[Calls]<UL><LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -1508,8 +1508,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GenevaLCDDevice_Create
 </UL>
 
-<P><STRONG><a name="[11e]"></a>_init_</STRONG> (Thumb, 1308 bytes, Stack size 248 bytes, _init_.o(.text._init_))
-<BR><BR>[Stack]<UL><LI>Max Depth = 396<LI>Call Chain = _init_ &rArr; GenevaLCDDevice_Create &rArr; _initLCD_ &rArr; lcd_Init &rArr; tim6_Del
+<P><STRONG><a name="[11e]"></a>_init_</STRONG> (Thumb, 1308 bytes, Stack size 256 bytes, _init_.o(.text._init_))
+<BR><BR>[Stack]<UL><LI>Max Depth = 404<LI>Call Chain = _init_ &rArr; GenevaLCDDevice_Create &rArr; _initLCD_ &rArr; lcd_Init &rArr; tim6_Del
 </UL>
 <BR>[Calls]<UL><LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
 <LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PeripheralInteruptHandling_Create
@@ -1630,7 +1630,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> lcd_lib.o(.text.GenevaLCDDevice_Create)
 </UL>
-<P><STRONG><a name="[85]"></a>handleNewRPM</STRONG> (Thumb, 152 bytes, Stack size 32 bytes, main.o(.text.handleNewRPM))
+<P><STRONG><a name="[85]"></a>handleNewRPM</STRONG> (Thumb, 176 bytes, Stack size 32 bytes, main.o(.text.handleNewRPM))
 <BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = handleNewRPM &rArr; __aeabi_dmul
 </UL>
 <BR>[Calls]<UL><LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
@@ -1663,7 +1663,7 @@ Global Symbols
 <P><STRONG><a name="[91]"></a>handleNewTargetReady</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, main.o(.text.handleNewTargetReady))
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.rodata..Lconstinit.14)
 </UL>
-<P><STRONG><a name="[87]"></a>handleNoRotation</STRONG> (Thumb, 96 bytes, Stack size 16 bytes, main.o(.text.handleNoRotation))
+<P><STRONG><a name="[87]"></a>handleNoRotation</STRONG> (Thumb, 104 bytes, Stack size 16 bytes, main.o(.text.handleNoRotation))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = handleNoRotation
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.rodata..Lconstinit)
@@ -1768,7 +1768,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[d2]"></a>main</STRONG> (Thumb, 980 bytes, Stack size 328 bytes, main.o(.text.main))
-<BR><BR>[Stack]<UL><LI>Max Depth = 724 + Unknown Stack Size
+<BR><BR>[Stack]<UL><LI>Max Depth = 732 + Unknown Stack Size
 <LI>Call Chain = main &rArr; _init_ &rArr; GenevaLCDDevice_Create &rArr; _initLCD_ &rArr; lcd_Init &rArr; tim6_Del
 </UL>
 <BR>[Calls]<UL><LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
