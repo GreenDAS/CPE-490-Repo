@@ -77,9 +77,9 @@ void PID_CurrentPosChnaged(PIDController* self, double newPos){
  */
 
 void PID_SetPointChanged(PIDController* self, double newPos){
-    self->ResetIntegrator(self);
+    //self->ResetIntegrator(self);
     self->setPoint = newPos;
-    self->error = (self->setPoint - self->currentPos) * 100.0 / 7.0; // Scale error to range [0, 100]
+    self->error = (self->setPoint - self->currentPos) * 100.0 / 7.0; // Scale error to range [0, 100], 7k is the max position, mul by 100 to get percentage
     self->PID_UpdatePIOut(self);
 }
 
