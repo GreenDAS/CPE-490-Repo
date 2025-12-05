@@ -316,6 +316,8 @@ void handleNoRotation()
 	frequency = 0.0;
 	MotorPID->CurrentPosChanged(MotorPID, 0.0); // Convert to RPM
 	MotorPWM->updateDutyCycle(MotorPWM, MotorPID->pidOut); // Set Duty Cycle to 0%
+	Timer5.TIMX->ARR = NO_ROTATION_WAIT_TIME - 1;		   // Set ARR of Timer 5
+	Timer5.setBits(&Timer5.TIMX->CR1, TIM_CR1_CEN_Pos, 1); // Turn on Timer5
 }
 // Ready Fns
 
