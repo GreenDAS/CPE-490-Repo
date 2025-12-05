@@ -58,6 +58,7 @@
         #define MAIN_MENU_UPDATE_DEADLINE 50        // 50ms
         #define NEW_RPM_DEADLINE    25              // 25ms
         #define NEW_TARGET_DEADLINE 25              // 25ms
+        #define HANDLE_NO_ROTATION_DEADLINE 25      // 25ms
     //
 //
 
