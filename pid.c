@@ -53,7 +53,7 @@
  * 
  */
 
-void PID_CurrentPosChnaged(PIDController* self, double newPos){
+void PID_CurrentPosChanged(PIDController* self, double newPos){
     self->previousPos = self->currentPos;
     self->currentPos = newPos;
     self->error = (self->setPoint - self->currentPos) * 100.0 / 7.0; // Scale error to range [0, 100]
@@ -183,7 +183,7 @@ PIDController *PIDController_Create(float[2] piMaxMin, float pGain, float[3] iVa
     self->pidOut = 0;
 
     // Assign Function Pointers
-    self->CurrentPosChnaged = PID_CurrentPosChnaged;
+    self->CurrentPosChanged = PID_CurrentPosChanged;
     self->SetPointChanged = PID_SetPointChanged;
     self->ResetIntegrator = PID_ResetIntegrator;
     self->UpdatePI = PID_UpdatePIOut;
