@@ -22,6 +22,7 @@
 #include "string_lib.h"
 #include "lcd_routines.h"
 #include "pwm_lib.h"
+#include "pid.h"
 
 //------------------------------------------------------------------------------
 // # defines
