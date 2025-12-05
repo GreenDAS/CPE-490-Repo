@@ -3,9 +3,9 @@
 <title>Static Call Graph - [.\Objects\Template.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\Template.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Fri Dec  5 14:47:29 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Fri Dec  5 17:20:56 2025
 <BR><P>
-<H3>Maximum Stack Usage =        732 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =        724 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
 __rt_entry_main &rArr; main &rArr; _init_ &rArr; GenevaLCDDevice_Create &rArr; _initLCD_ &rArr; lcd_Init &rArr; tim6_Del
 <P>
@@ -484,7 +484,7 @@ Global Symbols
 <P><STRONG><a name="[171]"></a>__rt_entry_postsh_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$00000009))
 
 <P><STRONG><a name="[d1]"></a>__rt_entry_main</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$0000000D))
-<BR><BR>[Stack]<UL><LI>Max Depth = 732 + Unknown Stack Size
+<BR><BR>[Stack]<UL><LI>Max Depth = 724 + Unknown Stack Size
 <LI>Call Chain = __rt_entry_main &rArr; main &rArr; _init_ &rArr; GenevaLCDDevice_Create &rArr; _initLCD_ &rArr; lcd_Init &rArr; tim6_Del
 </UL>
 <BR>[Calls]<UL><LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -1391,7 +1391,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CreateNumpad
 </UL>
 
-<P><STRONG><a name="[10f]"></a>PIDController_Create</STRONG> (Thumb, 188 bytes, Stack size 24 bytes, pid.o(.text.PIDController_Create))
+<P><STRONG><a name="[10f]"></a>PIDController_Create</STRONG> (Thumb, 208 bytes, Stack size 24 bytes, pid.o(.text.PIDController_Create))
 <BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = PIDController_Create &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
 </UL>
 <BR>[Calls]<UL><LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
@@ -1400,8 +1400,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_init_
 </UL>
 
-<P><STRONG><a name="[71]"></a>PID_CurrentPosChanged</STRONG> (Thumb, 136 bytes, Stack size 40 bytes, pid.o(.text.PID_CurrentPosChanged))
-<BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = PID_CurrentPosChanged &rArr; __aeabi_dmul
+<P><STRONG><a name="[71]"></a>PID_CurrentPosChanged</STRONG> (Thumb, 136 bytes, Stack size 48 bytes, pid.o(.text.PID_CurrentPosChanged))
+<BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = PID_CurrentPosChanged &rArr; __aeabi_dmul
 </UL>
 <BR>[Calls]<UL><LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
 <LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
@@ -1414,8 +1414,8 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> pid.o(.text.PIDController_Create)
 </UL>
-<P><STRONG><a name="[72]"></a>PID_SetPointChanged</STRONG> (Thumb, 120 bytes, Stack size 40 bytes, pid.o(.text.PID_SetPointChanged))
-<BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = PID_SetPointChanged &rArr; __aeabi_dmul
+<P><STRONG><a name="[72]"></a>PID_SetPointChanged</STRONG> (Thumb, 120 bytes, Stack size 48 bytes, pid.o(.text.PID_SetPointChanged))
+<BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = PID_SetPointChanged &rArr; __aeabi_dmul
 </UL>
 <BR>[Calls]<UL><LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
 <LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
@@ -1423,12 +1423,11 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> pid.o(.text.PIDController_Create)
 </UL>
-<P><STRONG><a name="[74]"></a>PID_UpdatePIOut</STRONG> (Thumb, 450 bytes, Stack size 88 bytes, pid.o(.text.PID_UpdatePIOut))
-<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = PID_UpdatePIOut &rArr; __aeabi_dmul
+<P><STRONG><a name="[74]"></a>PID_UpdatePIOut</STRONG> (Thumb, 632 bytes, Stack size 136 bytes, pid.o(.text.PID_UpdatePIOut))
+<BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = PID_UpdatePIOut &rArr; __aeabi_dmul
 </UL>
 <BR>[Calls]<UL><LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 <LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
-<LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
 <LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dcmple
 <LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dcmpge
 <LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
@@ -1482,10 +1481,11 @@ Global Symbols
 <P><STRONG><a name="[9]"></a>SysTick_Handler</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, interupt_handlers.o(.text.SysTick_Handler))
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32l476xx.o(RESET)
 </UL>
-<P><STRONG><a name="[26]"></a>TIM2_IRQHandler</STRONG> (Thumb, 680 bytes, Stack size 80 bytes, interupt_handlers.o(.text.TIM2_IRQHandler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = TIM2_IRQHandler &rArr; __aeabi_dmul
+<P><STRONG><a name="[26]"></a>TIM2_IRQHandler</STRONG> (Thumb, 720 bytes, Stack size 88 bytes, interupt_handlers.o(.text.TIM2_IRQHandler))
+<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = TIM2_IRQHandler &rArr; __aeabi_dmul
 </UL>
-<BR>[Calls]<UL><LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
+<BR>[Calls]<UL><LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
+<LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
 <LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2d
 <LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2d
 <LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2uiz
@@ -1512,8 +1512,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GenevaLCDDevice_Create
 </UL>
 
-<P><STRONG><a name="[120]"></a>_init_</STRONG> (Thumb, 1324 bytes, Stack size 256 bytes, _init_.o(.text._init_))
-<BR><BR>[Stack]<UL><LI>Max Depth = 404<LI>Call Chain = _init_ &rArr; GenevaLCDDevice_Create &rArr; _initLCD_ &rArr; lcd_Init &rArr; tim6_Del
+<P><STRONG><a name="[120]"></a>_init_</STRONG> (Thumb, 1316 bytes, Stack size 248 bytes, _init_.o(.text._init_))
+<BR><BR>[Stack]<UL><LI>Max Depth = 396<LI>Call Chain = _init_ &rArr; GenevaLCDDevice_Create &rArr; _initLCD_ &rArr; lcd_Init &rArr; tim6_Del
 </UL>
 <BR>[Calls]<UL><LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
 <LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PeripheralInteruptHandling_Create
@@ -1644,12 +1644,10 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.rodata..Lconstinit)
 </UL>
-<P><STRONG><a name="[9b]"></a>handleNewRPMCooldown</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, main.o(.text.handleNewRPMCooldown))
+<P><STRONG><a name="[9b]"></a>handleNewRPMCooldown</STRONG> (Thumb, 48 bytes, Stack size 0 bytes, main.o(.text.handleNewRPMCooldown))
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.rodata..Lconstinit.15)
 </UL>
-<P><STRONG><a name="[90]"></a>handleNewRPMReady</STRONG> (Thumb, 50 bytes, Stack size 4 bytes, main.o(.text.handleNewRPMReady))
-<BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = handleNewRPMReady
-</UL>
+<P><STRONG><a name="[90]"></a>handleNewRPMReady</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, main.o(.text.handleNewRPMReady))
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.rodata..Lconstinit.14)
 </UL>
 <P><STRONG><a name="[86]"></a>handleNewTarget</STRONG> (Thumb, 176 bytes, Stack size 40 bytes, main.o(.text.handleNewTarget))
@@ -1661,7 +1659,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.rodata..Lconstinit)
 </UL>
-<P><STRONG><a name="[9c]"></a>handleNewTargetCooldown</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, main.o(.text.handleNewTargetCooldown))
+<P><STRONG><a name="[9c]"></a>handleNewTargetCooldown</STRONG> (Thumb, 48 bytes, Stack size 0 bytes, main.o(.text.handleNewTargetCooldown))
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.rodata..Lconstinit.15)
 </UL>
 <P><STRONG><a name="[91]"></a>handleNewTargetReady</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, main.o(.text.handleNewTargetReady))
@@ -1776,7 +1774,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[d2]"></a>main</STRONG> (Thumb, 980 bytes, Stack size 328 bytes, main.o(.text.main))
-<BR><BR>[Stack]<UL><LI>Max Depth = 732 + Unknown Stack Size
+<BR><BR>[Stack]<UL><LI>Max Depth = 724 + Unknown Stack Size
 <LI>Call Chain = main &rArr; _init_ &rArr; GenevaLCDDevice_Create &rArr; _initLCD_ &rArr; lcd_Init &rArr; tim6_Del
 </UL>
 <BR>[Calls]<UL><LI><a href="#[12a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
@@ -2032,8 +2030,7 @@ Global Symbols
 <P><STRONG><a name="[113]"></a>__aeabi_ddiv</STRONG> (Thumb, 0 bytes, Stack size 32 bytes, ddiv.o(x$fpl$ddiv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = __aeabi_ddiv
 </UL>
-<BR>[Called By]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PID_UpdatePIOut
-<LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PID_SetPointChanged
+<BR>[Called By]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PID_SetPointChanged
 <LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PID_CurrentPosChanged
 <LI><a href="#[26]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM2_IRQHandler
 <LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;handleNoRotation
@@ -2157,6 +2154,7 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = __aeabi_f2d
 </UL>
 <BR>[Called By]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PID_UpdatePIOut
+<LI><a href="#[26]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM2_IRQHandler
 <LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIDController_Create
 <LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;handleNewTarget
 <LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;handleNewRPM

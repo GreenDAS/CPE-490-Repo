@@ -38,10 +38,10 @@ typedef struct PIDController
 	//*-Properties-*//
 	double error; 		// target-actual (100/7)
 
-	float pGain;   		// 1
+	double pGain;   		// 1
 	double pTerm;  		// error * pGain
 
-	float iGain;		// 0.73
+	double iGain;		// 0.73
 	double integral; 	// error + integral: Clamp this value to prevent windup
 	double iTerm;	 	// integral * iGain
 

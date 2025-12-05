@@ -331,9 +331,9 @@ int dispUpdaReady() { return 1; }																									   // Always ready to 
 int readPadReady() { return gettingUserInputFlag; }																					   // Only read pad when getting user input
 int handlePadPressReady() { return (readFinishedFlag && ((!(NumberPad->state)) && NumberPad->prevState)) ? gettingUserInputFlag : 0; } // Only handle pad press when read is finished and getting user input
 int handleSW2PressReady() { return sw2PressedFlag; }																				   // Only handle SW2 press when SW2 is pressed
-int handleNewRPMReady() { return newRPMFlag && !targetSetFlag; }																	   // Only handle new RPM when newRPMFlag is set and not targetSetFlag
+int handleNewRPMReady() { return 1; }																	   // Only handle new RPM when newRPMFlag is set and not targetSetFlag
 int handleNewTargetReady() { return targetSetFlag; }																				   // Only handle new target when targetSetFlag is set
-int handleNoRotationReady() { return 0 && (!newRPMFlag && !(Timer5.getBits(Timer5.TIMX->CR1, TIM_CR1_CEN_Pos, 1))); }					   // Only handle no rotation when Timer 5 has waited NO_ROTATION_WAIT_TIME
+int handleNoRotationReady() { return 0 && (!newRPMFlag && !(Timer5.getBits(Timer5.TIMX->CR1, TIM_CR1_CEN_Pos, 1))); }					// Only handle no rotation when Timer 5 has waited NO_ROTATION_WAIT_TIME
 
 // Cooldown Fns
 
@@ -345,8 +345,8 @@ int dispCooldown() { return 0; }				// Run as fast as possible after display upd
 int readPadCooldown() { return 5; }				// 5ms cooldown for reading pad for debouncing and capacitance
 int handlePadPressCooldown() { return 0; }		// Run as fast as possible after read is finished
 int handleSW2PressCooldown() { return 0; }		// Run as fast as possible after SW2 is pressed
-int handleNewRPMCooldown() { return 0; }		// Run as fast as possible after new RPM is measured
-int handleNewTargetCooldown() { return 0; }		// Run as fast as possible after new target is set
+int handleNewRPMCooldown() { return (int)((30/(targetRPM * 7)) * 1000); }		// Run as fast as possible after new RPM is measured
+int handleNewTargetCooldown() { return (int)((30/(targetRPM * 7)) * 1000); }		// Run as fast as possible after new target is set
 int handleNoRotationCooldown() { return 0; }    // Run as fast as possible after no RPM was measured
 
 //------------------------------------------------------------------------------

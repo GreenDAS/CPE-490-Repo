@@ -185,6 +185,26 @@
           <WinNumber>1</WinNumber>
           <ItemText>displayState</ItemText>
         </Ww>
+        <Ww>
+          <count>7</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>freqCounts</ItemText>
+        </Ww>
+        <Ww>
+          <count>8</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>timeElapsed</ItemText>
+        </Ww>
+        <Ww>
+          <count>9</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>dutyCycle</ItemText>
+        </Ww>
+        <Ww>
+          <count>10</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>targetRPM</ItemText>
+        </Ww>
       </WatchWindow1>
       <WatchWindow2>
         <Ww>

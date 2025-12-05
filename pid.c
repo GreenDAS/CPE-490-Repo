@@ -57,7 +57,7 @@
 void PID_CurrentPosChanged(PIDController* self, double newPos, double overTime){
     self->previousPos = self->currentPos;
     self->currentPos = newPos;
-    self->error = (self->setPoint - self->currentPos) * 100.0 / 7.0; // Scale error to range [0, 100]
+    self->error = ((self->setPoint - self->currentPos) * 100) / (self->setPoint); // Scale error to range [0, 100]
     self->UpdatePI(self, overTime);
 }
 
@@ -81,7 +81,7 @@ void PID_CurrentPosChanged(PIDController* self, double newPos, double overTime){
 void PID_SetPointChanged(PIDController* self, double newPos, double overTime){
     //self->ResetIntegrator(self);
     self->setPoint = newPos;
-    self->error = (self->setPoint - self->currentPos) * 100.0 / 7.0; // Scale error to range [0, 100], 7k is the max position, mul by 100 to get percentage
+    self->error = ((self->setPoint - self->currentPos) * 100) / (self->setPoint); // Scale error to range [0, 100], 7k is the max position, mul by 100 to get percentage
     self->UpdatePI(self, overTime);
 }
 
@@ -121,17 +121,17 @@ void PID_ResetIntegrator(PIDController* self){
  */
 void PID_UpdatePIOut(PIDController* self, double overTime){
     // Proportional term
-    self->pTerm = (self->error * self->pGain) / overTime;
+    self->pTerm = (self->error * self->pGain);
 
     // Integral term
-    self->integral += self->error;
+    self->integral += self->error * self->iGain * overTime;
     // Clamp integral to prevent windup
-    if (self->integral > self->integratorMax) {
-        self->integral = self->integratorMax;
-    } else if (self->integral < self->integratorMin) {
-        self->integral = self->integratorMin;
+    if (self->integral > (self->integratorMax * (1 + self->iGain))) {
+        self->integral = (self->integratorMax * (1 + self->iGain));
+    } else if (self->integral < (self->integratorMin * (1 + self->iGain))) {
+        self->integral = (self->integratorMin * (1 + self->iGain));
     }
-    self->iTerm = self->integral * self->iGain * overTime;
+    self->iTerm = self->integral;
 
     // Calculate total PID output
     double pidOut = self->pTerm + self->iTerm;
