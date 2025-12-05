@@ -119,7 +119,7 @@ void _init_(){
 
 	Timer4 = *GeneralPurposeTimer_Create(4,0,CountAtMilSecondRate,0,'D',1); // Sets up Timer4 for One Pulse Mode Use
 
-	Timer5 = *GeneralPurposeTimer_Create(5,1,CountAtMilSecondRate,(TimerPeriod1SecondInMilSeconds - 1)*10,'D',0); // Sets up Timer3 for GP Timer Use & for the Display
+	Timer5 = *GeneralPurposeTimer_Create(5,0,CountAtMilSecondRate,0,'D',1); // Sets up Timer3 for GP Timer Use, Passed to the display however the display does not use with the EDF scheduler
 
 	unsigned char msg[GenevaLCDRowSize][(GenevaLCDColSize+1)] = {// The Message to Display
 			//1st Row
