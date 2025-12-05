@@ -85,6 +85,7 @@ void calcFrequency()
 	timeElapsed = 0.0;
 	calcFreqFlag = 0;
 	updateMainMenuFlag = 1; // Set flag to update main menu
+	handleNewRPM()
 }
 
 void handleSW1Press()
@@ -111,7 +112,7 @@ void updateMainMenu()
 	{
 
 		torque = 17.29 * (voltage / (22.0 / 3.0));
-		snprintf(unitSTR, sizeof(unitSTR), "Nm ");
+		snprintf(unitSTR, sizeof(unitSTR), "mNm");
 		snprintf(descriptorSTR, sizeof(descriptorSTR), "TORQUE:");
 		// also V/7.3 is apparently current
 		value = torque;
@@ -299,29 +300,21 @@ void handleSW2Press()
 
 void handleNewRPM()
 {
-	// Update PWM based on new RPM
-	MotorPID->CurrentPosChanged(MotorPID, frequency * 60.0, 1/frequency); // Convert to RPM
-	MotorPWM->updateDutyCycle(MotorPWM, MotorPID->pidOut / 100.0); // Convert from % to decimal
-	newRPMFlag = 0;
+	if(targetSetFlag){
+		MotorPID->SetPointChanged(MotorPID, targetRPM, 1/frequency);
+		MotorPWM->updateDutyCycle(MotorPWM, MotorPID->pidOut / 100.0); // Convert from % to decimal
+		targetSetFlag = 0;
+	}
+	else{
+		// Update PWM based on new RPM
+		MotorPID->CurrentPosChanged(MotorPID, frequency * 60.0, 1/frequency); // Convert to RPM
+		MotorPWM->updateDutyCycle(MotorPWM, MotorPID->pidOut / 100.0); // Convert from % to decimal
+		newRPMFlag = 0;
+	}
+
 }
 
-void handleNewTarget()
-{
-	MotorPID->SetPointChanged(MotorPID, targetRPM, 1/frequency);
-	MotorPWM->updateDutyCycle(MotorPWM, MotorPID->pidOut / 100.0); // Convert from % to decimal
-	targetSetFlag = 0;
-}
 
-void handleNoRotation()
-{
-	frequency = 0.0;
-	//MotorPID->ResetIntegrator(MotorPID);
-	MotorPID->CurrentPosChanged(MotorPID, 0.0, 1/frequency); // Convert to RPM, assume 2.4s (25rpm) time of application, Slow Start
-	MotorPWM->updateDutyCycle(MotorPWM, MotorPID->pidOut); // Set Duty Cycle to 0%
-	Timer5.TIMX->ARR = ((1/frequency) * (clockSpeedHz / Timer5.TIMX->PSC + 1));		   // Set ARR of Timer 5
-	Timer5.TIMX->CNT = ((1/frequency) * (clockSpeedHz / Timer5.TIMX->PSC + 1));
-	Timer5.setBits(&Timer5.TIMX->CR1, TIM_CR1_CEN_Pos, 1); // Turn on Timer5
-}
 // Ready Fns
 
 int voltCalcReady() { return (tor_rpm_toggle) ? 1 : 0; }																			   // Onlt calc voltage when torque is being displayed
@@ -332,9 +325,7 @@ int dispUpdaReady() { return 1; }																									   // Always ready to 
 int readPadReady() { return gettingUserInputFlag; }																					   // Only read pad when getting user input
 int handlePadPressReady() { return (readFinishedFlag && ((!(NumberPad->state)) && NumberPad->prevState)) ? gettingUserInputFlag : 0; } // Only handle pad press when read is finished and getting user input
 int handleSW2PressReady() { return sw2PressedFlag; }																				   // Only handle SW2 press when SW2 is pressed
-int handleNewRPMReady() { return 1; }																	   // Only handle new RPM when newRPMFlag is set and not targetSetFlag
-int handleNewTargetReady() { return targetSetFlag; }																				   // Only handle new target when targetSetFlag is set
-int handleNoRotationReady() { return 0 && (!newRPMFlag && !(Timer5.getBits(Timer5.TIMX->CR1, TIM_CR1_CEN_Pos, 1))); }					// Only handle no rotation when Timer 5 has waited NO_ROTATION_WAIT_TIME
+int handleNewRPMReady() { return newRPMFlag; }																	   								// Only handle new RPM when newRPMFlag is set and not targetSetFlag
 
 // Cooldown Fns
 
@@ -347,9 +338,7 @@ int readPadCooldown() { return 5; }				// 5ms cooldown for reading pad for debou
 int handlePadPressCooldown() { return 0; }		// Run as fast as possible after read is finished
 int handleSW2PressCooldown() { return 0; }		// Run as fast as possible after SW2 is pressed
 int handleNewRPMCooldown() { return (int)((30/(targetRPM * 7)) * 1000); }		// Run as fast as possible after new RPM is measured
-int handleNewTargetCooldown() { return (int)((30/(targetRPM * 7)) * 1000); }		// Run as fast as possible after new target is set
-int handleNoRotationCooldown() { return 0; }    // Run as fast as possible after no RPM was measured
-
+// Colleen was here :)
 //------------------------------------------------------------------------------
 // Main
 //------------------------------------------------------------------------------
@@ -362,22 +351,18 @@ int main(void)
 	schedulerTasks = (EDFToDo){
 		.tasks = {calcVoltage, calcFrequency, displayUpdate, 
 						handleSW1Press, readPad, handlePadPress, 
-						handleSW2Press, updateMainMenu, handleNewRPM, 
-						handleNewTarget, handleNoRotation},
+						handleSW2Press, updateMainMenu, handleNewRPM},
 		.deadlines = {VOLTAGE_DEADLINE, FREQ_DEADLINE, DISPLAY_DEADLINE, 
 						HANDLE_SW1_PRESS_DEADLINE, READ_NUMPAD_DEADLINE, HANDLE_NUMPAD_PRESS_DEADLINE, 
-						HANDLE_SW2_PRESS_DEADLINE, MAIN_MENU_UPDATE_DEADLINE, NEW_RPM_DEADLINE, 
-						NEW_TARGET_DEADLINE, HANDLE_NO_ROTATION_DEADLINE},
-		.cooldowns = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		.clksWaited = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+						HANDLE_SW2_PRESS_DEADLINE, MAIN_MENU_UPDATE_DEADLINE, NEW_RPM_DEADLINE},
+		.cooldowns = {0, 0, 0, 0, 0, 0, 0, 0, 0},
+		.clksWaited = {0, 0, 0, 0, 0, 0, 0, 0, 0},
 		.taskCond = {voltCalcReady, freqCalcReady, dispUpdaReady, 
 						handleSW1PressReady, readPadReady, handlePadPressReady, 
-						handleSW2PressReady, updateMainMenuReady, handleNewRPMReady, 
-						handleNewTargetReady, handleNoRotationReady},
+						handleSW2PressReady, updateMainMenuReady, handleNewRPMReady},
 		.coolDownFn = {voltCooldown, freqCooldown, dispCooldown, 
 						handleSW1PressCooldown, readPadCooldown, handlePadPressCooldown, 
-						handleSW2PressCooldown, updateMainMenuCooldown, handleNewRPMCooldown, 
-						handleNewTargetCooldown, handleNoRotationCooldown},
+						handleSW2PressCooldown, updateMainMenuCooldown, handleNewRPMCooldown},
 	};
 	// End Set up Scheduler Tasks
 	while (TRUE)
