@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\Template.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\Template.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Fri Dec  5 13:29:46 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Fri Dec  5 14:11:13 2025
 <BR><P>
 <H3>Maximum Stack Usage =        732 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1400,8 +1400,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_init_
 </UL>
 
-<P><STRONG><a name="[71]"></a>PID_CurrentPosChanged</STRONG> (Thumb, 128 bytes, Stack size 32 bytes, pid.o(.text.PID_CurrentPosChanged))
-<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = PID_CurrentPosChanged &rArr; __aeabi_dmul
+<P><STRONG><a name="[71]"></a>PID_CurrentPosChanged</STRONG> (Thumb, 136 bytes, Stack size 40 bytes, pid.o(.text.PID_CurrentPosChanged))
+<BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = PID_CurrentPosChanged &rArr; __aeabi_dmul
 </UL>
 <BR>[Calls]<UL><LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
 <LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
@@ -1414,8 +1414,8 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> pid.o(.text.PIDController_Create)
 </UL>
-<P><STRONG><a name="[72]"></a>PID_SetPointChanged</STRONG> (Thumb, 112 bytes, Stack size 32 bytes, pid.o(.text.PID_SetPointChanged))
-<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = PID_SetPointChanged &rArr; __aeabi_dmul
+<P><STRONG><a name="[72]"></a>PID_SetPointChanged</STRONG> (Thumb, 120 bytes, Stack size 40 bytes, pid.o(.text.PID_SetPointChanged))
+<BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = PID_SetPointChanged &rArr; __aeabi_dmul
 </UL>
 <BR>[Calls]<UL><LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
 <LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
@@ -1423,11 +1423,12 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> pid.o(.text.PIDController_Create)
 </UL>
-<P><STRONG><a name="[74]"></a>PID_UpdatePIOut</STRONG> (Thumb, 406 bytes, Stack size 80 bytes, pid.o(.text.PID_UpdatePIOut))
-<BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = PID_UpdatePIOut &rArr; __aeabi_dmul
+<P><STRONG><a name="[74]"></a>PID_UpdatePIOut</STRONG> (Thumb, 450 bytes, Stack size 88 bytes, pid.o(.text.PID_UpdatePIOut))
+<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = PID_UpdatePIOut &rArr; __aeabi_dmul
 </UL>
 <BR>[Calls]<UL><LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 <LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
+<LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
 <LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dcmple
 <LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dcmpge
 <LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
@@ -1508,7 +1509,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GenevaLCDDevice_Create
 </UL>
 
-<P><STRONG><a name="[11e]"></a>_init_</STRONG> (Thumb, 1308 bytes, Stack size 256 bytes, _init_.o(.text._init_))
+<P><STRONG><a name="[11e]"></a>_init_</STRONG> (Thumb, 1316 bytes, Stack size 256 bytes, _init_.o(.text._init_))
 <BR><BR>[Stack]<UL><LI>Max Depth = 404<LI>Call Chain = _init_ &rArr; GenevaLCDDevice_Create &rArr; _initLCD_ &rArr; lcd_Init &rArr; tim6_Del
 </UL>
 <BR>[Calls]<UL><LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
@@ -1532,7 +1533,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> gpio_lib.o(.text.IODevice_Create)
 </UL>
-<P><STRONG><a name="[7e]"></a>calcFrequency</STRONG> (Thumb, 114 bytes, Stack size 16 bytes, main.o(.text.calcFrequency))
+<P><STRONG><a name="[7e]"></a>calcFrequency</STRONG> (Thumb, 136 bytes, Stack size 16 bytes, main.o(.text.calcFrequency))
 <BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = calcFrequency &rArr; __aeabi_ddiv
 </UL>
 <BR>[Calls]<UL><LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2d
@@ -1630,8 +1631,8 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> lcd_lib.o(.text.GenevaLCDDevice_Create)
 </UL>
-<P><STRONG><a name="[85]"></a>handleNewRPM</STRONG> (Thumb, 176 bytes, Stack size 32 bytes, main.o(.text.handleNewRPM))
-<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = handleNewRPM &rArr; __aeabi_dmul
+<P><STRONG><a name="[85]"></a>handleNewRPM</STRONG> (Thumb, 184 bytes, Stack size 48 bytes, main.o(.text.handleNewRPM))
+<BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = handleNewRPM &rArr; __aeabi_dmul
 </UL>
 <BR>[Calls]<UL><LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 <LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
@@ -1648,8 +1649,8 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.rodata..Lconstinit.14)
 </UL>
-<P><STRONG><a name="[86]"></a>handleNewTarget</STRONG> (Thumb, 136 bytes, Stack size 32 bytes, main.o(.text.handleNewTarget))
-<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = handleNewTarget &rArr; __aeabi_ddiv
+<P><STRONG><a name="[86]"></a>handleNewTarget</STRONG> (Thumb, 176 bytes, Stack size 40 bytes, main.o(.text.handleNewTarget))
+<BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = handleNewTarget &rArr; __aeabi_ddiv
 </UL>
 <BR>[Calls]<UL><LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 <LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
@@ -1663,7 +1664,7 @@ Global Symbols
 <P><STRONG><a name="[91]"></a>handleNewTargetReady</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, main.o(.text.handleNewTargetReady))
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.rodata..Lconstinit.14)
 </UL>
-<P><STRONG><a name="[87]"></a>handleNoRotation</STRONG> (Thumb, 104 bytes, Stack size 16 bytes, main.o(.text.handleNoRotation))
+<P><STRONG><a name="[87]"></a>handleNoRotation</STRONG> (Thumb, 112 bytes, Stack size 16 bytes, main.o(.text.handleNoRotation))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = handleNoRotation
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.rodata..Lconstinit)
@@ -2023,7 +2024,8 @@ Global Symbols
 <P><STRONG><a name="[113]"></a>__aeabi_ddiv</STRONG> (Thumb, 0 bytes, Stack size 32 bytes, ddiv.o(x$fpl$ddiv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = __aeabi_ddiv
 </UL>
-<BR>[Called By]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PID_SetPointChanged
+<BR>[Called By]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PID_UpdatePIOut
+<LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PID_SetPointChanged
 <LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PID_CurrentPosChanged
 <LI><a href="#[26]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM2_IRQHandler
 <LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;handleNewTarget

@@ -117,7 +117,7 @@ void updateMainMenu()
 	}
 
 	createTargetString(&(Display->wholeMSG[0][0]), &value, FALSE, unitSTR, descriptorSTR); // Top Row
-	createFreqString(&(Display->wholeMSG[1][0]), (frequency * (60.0/(20*7))));			   // Bot Row
+	createFreqString(&(Display->wholeMSG[1][0]), (frequency * (60.0)));			   // Bot Row
 	updateMainMenuFlag = 0;
 }
 
