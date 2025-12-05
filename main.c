@@ -78,7 +78,7 @@ void calcVoltage()
 
 void calcFrequency()
 {
-	frequency = (freqCounts / timeElapsed) / (20*7);
+	frequency = (freqCounts / timeElapsed) / (20*7); // 140 is from gear ratio and pulses/rotation
 	newRPMFlag = 1;
 	freqCounts = 0;
 	timeElapsed = 0.0;
@@ -314,11 +314,11 @@ void handleNewTarget()
 void handleNoRotation()
 {
 	frequency = 0.0;
-	MotorPID->ResetIntegrator(MotorPID);
-	MotorPID->CurrentPosChanged(MotorPID, 0.0, 2.4); // Convert to RPM, assume 2.4s (25rpm) time of application, Slow Start
+	//MotorPID->ResetIntegrator(MotorPID);
+	MotorPID->CurrentPosChanged(MotorPID, 0.0, 1/frequency); // Convert to RPM, assume 2.4s (25rpm) time of application, Slow Start
 	MotorPWM->updateDutyCycle(MotorPWM, MotorPID->pidOut); // Set Duty Cycle to 0%
-	Timer5.TIMX->ARR = NO_ROTATION_WAIT_TIME - 1;		   // Set ARR of Timer 5
-	Timer5.TIMX->CNT = NO_ROTATION_WAIT_TIME - 1;
+	Timer5.TIMX->ARR = ((1/frequency) * (clockSpeedHz / Timer5.TIMX->PSC + 1));		   // Set ARR of Timer 5
+	Timer5.TIMX->CNT = ((1/frequency) * (clockSpeedHz / Timer5.TIMX->PSC + 1));
 	Timer5.setBits(&Timer5.TIMX->CR1, TIM_CR1_CEN_Pos, 1); // Turn on Timer5
 }
 // Ready Fns
@@ -333,7 +333,7 @@ int handlePadPressReady() { return (readFinishedFlag && ((!(NumberPad->state)) &
 int handleSW2PressReady() { return sw2PressedFlag; }																				   // Only handle SW2 press when SW2 is pressed
 int handleNewRPMReady() { return newRPMFlag && !targetSetFlag; }																	   // Only handle new RPM when newRPMFlag is set and not targetSetFlag
 int handleNewTargetReady() { return targetSetFlag; }																				   // Only handle new target when targetSetFlag is set
-int handleNoRotationReady() { return (!newRPMFlag && !(Timer5.getBits(Timer5.TIMX->CR1, TIM_CR1_CEN_Pos, 1))); }					   // Only handle no rotation when Timer 5 has waited NO_ROTATION_WAIT_TIME
+int handleNoRotationReady() { return 0 && (!newRPMFlag && !(Timer5.getBits(Timer5.TIMX->CR1, TIM_CR1_CEN_Pos, 1))); }					   // Only handle no rotation when Timer 5 has waited NO_ROTATION_WAIT_TIME
 
 // Cooldown Fns
 
