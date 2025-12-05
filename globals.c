@@ -22,6 +22,7 @@
 #include "string.h"
 #include "string_lib.h"
 #include "pwm_lib.h"
+#include "pid.h"
 
 //------------------------------------------------------------------------------
 // Function Prototypes
@@ -35,6 +36,7 @@ struct GeneralPurposeTimer Timer4;
 struct GeneralPurposeTimer Timer5;
 struct GenevaLCDDevice *Display;
 struct Numpad *NumberPad;
+struct PIDController* MotorPID;
 
 struct IODevice* Switch1; // Sets up SW1 
 struct IODevice* Switch2; // Sets up SW2 

@@ -102,6 +102,7 @@ extern struct GeneralPurposeTimer Timer4;       // Timer4 for general purpose us
 extern struct GeneralPurposeTimer Timer5;       // Timer5 for Display use
 extern struct GenevaLCDDevice  *Display;        // LCD Display
 extern struct Numpad           *NumberPad;      // Numpad Device
+extern struct PIDController    *MotorPID;       // PID Controller for motor control
 
 extern struct IODevice*        Switch1;         // Sets up SW1 
 extern struct IODevice*        Switch2;         // Sets up SW2 
