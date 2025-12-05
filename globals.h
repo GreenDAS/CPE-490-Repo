@@ -49,7 +49,7 @@
     #define SYSTICK_MAX         1200                // SysTick max value ( Doesn't need to change unless a deadline is longer than this )
     // Deadlines
         #define VOLTAGE_DEADLINE    400             // 400ms
-        #define FREQ_DEADLINE       500             // 500ms
+        #define FREQ_DEADLINE       15              // 15ms
         #define DISPLAY_DEADLINE    600             // 600ms
         #define READ_NUMPAD_DEADLINE 25             // 25ms
         #define HANDLE_NUMPAD_PRESS_DEADLINE 100    // 100ms
