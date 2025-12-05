@@ -157,7 +157,7 @@ void _init_(){
 	ADC1->CR |= ADC_CR_ADVREGEN; // Enable ADC Voltage Regulator
 	Timer5.greedyWait(&Timer5, 1, MilSecondsScalar); // Wait for ADC Voltage Regulator to start up (min 10us)
 
-	VoltReader = *IODevice_Create('A', 0, 1, 0, 'A'); // Sets up VoltReader ADC Pin (PA0)
+	VoltReader = *IODevice_Create('A', VOLTAGE_IN, 1, 0, 'A'); // Sets up VoltReader ADC Pin (PA0)
 	VoltReader.GPIOX->ASCR |= (1UL); // Enable Analog Switch for PA0
 
 	ADC1->SQR1 |= 0x140UL; // Set ADC to use channel 0 (PA0) as 1st conversion
@@ -174,7 +174,7 @@ void _init_(){
 	ADC1->CR |= ADC_CR_ADSTART; // Start ADC Conversion
 
 	// Sets up Frequency Reader need to use a different pin than Volt Reader (PA0)
-	FreqReader = *IODevice_Create('A',5,0,1,'F');
+	FreqReader = *IODevice_Create('A',FREQ_IN,0,1,'F');
 	FreqReader.initInterupt(FreqReader.pin,FreqReader.GPIOchar,EXTI9_5_IRQn,1,4);
 
 	Timer2 = *GeneralPurposeTimer_Create(2,1,1,0xFFFFFFFF - 1,'D',0); // Sets up Timer2 to run as fast as possible for CC Interrupt

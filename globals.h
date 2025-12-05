@@ -20,6 +20,8 @@
 
 /* Pin assignments*/
     // GPIOA
+        #define VOLTAGE_IN          0   // Voltage Input Pin (ADC1_IN5)
+        #define FREQ_IN             5   // Frequency Input Pin (TIM2_CH2)
         #define ROW1                8   // Numpad Row 1
         #define ROW2                9   // Numpad Row 2
         #define ROW3                10  // Numpad Row 3
