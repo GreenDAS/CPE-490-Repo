@@ -1403,13 +1403,13 @@ Image Symbol Table
     [Anonymous Symbol]                       0x08003488   Section        0  main.o(.text.displayUpdate)
     [Anonymous Symbol]                       0x080035f4   Section        0  main.o(.text.freqCalcReady)
     [Anonymous Symbol]                       0x08003600   Section        0  main.o(.text.freqCooldown)
-    [Anonymous Symbol]                       0x08003608   Section        0  timer_lib.o(.text.getBits)
-    [Anonymous Symbol]                       0x08003620   Section        0  gpio_lib.o(.text.getState)
-    [Anonymous Symbol]                       0x08003650   Section        0  lcd_lib.o(.text.greedyClearDisplay)
-    [Anonymous Symbol]                       0x0800368c   Section        0  lcd_lib.o(.text.greedyMoveCursor)
-    [Anonymous Symbol]                       0x080036bc   Section        0  lcd_lib.o(.text.greedyRunCommand)
-    [Anonymous Symbol]                       0x080036d4   Section        0  timer_lib.o(.text.greedyWait)
-    [Anonymous Symbol]                       0x080037d8   Section        0  lcd_lib.o(.text.greedyWriteString)
+    [Anonymous Symbol]                       0x08003604   Section        0  timer_lib.o(.text.getBits)
+    [Anonymous Symbol]                       0x0800361c   Section        0  gpio_lib.o(.text.getState)
+    [Anonymous Symbol]                       0x0800364c   Section        0  lcd_lib.o(.text.greedyClearDisplay)
+    [Anonymous Symbol]                       0x08003688   Section        0  lcd_lib.o(.text.greedyMoveCursor)
+    [Anonymous Symbol]                       0x080036b8   Section        0  lcd_lib.o(.text.greedyRunCommand)
+    [Anonymous Symbol]                       0x080036d0   Section        0  timer_lib.o(.text.greedyWait)
+    [Anonymous Symbol]                       0x080037d4   Section        0  lcd_lib.o(.text.greedyWriteString)
     [Anonymous Symbol]                       0x08003868   Section        0  main.o(.text.handleNewRPM)
     [Anonymous Symbol]                       0x08003938   Section        0  main.o(.text.handleNewRPMCooldown)
     [Anonymous Symbol]                       0x0800396c   Section        0  main.o(.text.handleNewRPMReady)
@@ -1904,14 +1904,14 @@ Image Symbol Table
     dispUpdaReady                            0x08003485   Thumb Code     4  main.o(.text.dispUpdaReady)
     displayUpdate                            0x08003489   Thumb Code   362  main.o(.text.displayUpdate)
     freqCalcReady                            0x080035f5   Thumb Code    12  main.o(.text.freqCalcReady)
-    freqCooldown                             0x08003601   Thumb Code     6  main.o(.text.freqCooldown)
-    getBits                                  0x08003609   Thumb Code    22  timer_lib.o(.text.getBits)
-    getState                                 0x08003621   Thumb Code    46  gpio_lib.o(.text.getState)
-    greedyClearDisplay                       0x08003651   Thumb Code    56  lcd_lib.o(.text.greedyClearDisplay)
-    greedyMoveCursor                         0x0800368d   Thumb Code    48  lcd_lib.o(.text.greedyMoveCursor)
-    greedyRunCommand                         0x080036bd   Thumb Code    22  lcd_lib.o(.text.greedyRunCommand)
-    greedyWait                               0x080036d5   Thumb Code   258  timer_lib.o(.text.greedyWait)
-    greedyWriteString                        0x080037d9   Thumb Code   144  lcd_lib.o(.text.greedyWriteString)
+    freqCooldown                             0x08003601   Thumb Code     4  main.o(.text.freqCooldown)
+    getBits                                  0x08003605   Thumb Code    22  timer_lib.o(.text.getBits)
+    getState                                 0x0800361d   Thumb Code    46  gpio_lib.o(.text.getState)
+    greedyClearDisplay                       0x0800364d   Thumb Code    56  lcd_lib.o(.text.greedyClearDisplay)
+    greedyMoveCursor                         0x08003689   Thumb Code    48  lcd_lib.o(.text.greedyMoveCursor)
+    greedyRunCommand                         0x080036b9   Thumb Code    22  lcd_lib.o(.text.greedyRunCommand)
+    greedyWait                               0x080036d1   Thumb Code   258  timer_lib.o(.text.greedyWait)
+    greedyWriteString                        0x080037d5   Thumb Code   144  lcd_lib.o(.text.greedyWriteString)
     handleNewRPM                             0x08003869   Thumb Code   184  main.o(.text.handleNewRPM)
     handleNewRPMCooldown                     0x08003939   Thumb Code    48  main.o(.text.handleNewRPMCooldown)
     handleNewRPMReady                        0x0800396d   Thumb Code     4  main.o(.text.handleNewRPMReady)
@@ -2285,19 +2285,19 @@ Memory Map of the image
     0x08003488   0x08003488   0x0000016a   Code   RO           18    .text.displayUpdate  main.o
     0x080035f2   0x080035f2   0x00000002   PAD
     0x080035f4   0x080035f4   0x0000000c   Code   RO           34    .text.freqCalcReady  main.o
-    0x08003600   0x08003600   0x00000006   Code   RO           56    .text.freqCooldown  main.o
-    0x08003606   0x08003606   0x00000002   PAD
-    0x08003608   0x08003608   0x00000016   Code   RO          150    .text.getBits       timer_lib.o
-    0x0800361e   0x0800361e   0x00000002   PAD
-    0x08003620   0x08003620   0x0000002e   Code   RO          127    .text.getState      gpio_lib.o
-    0x0800364e   0x0800364e   0x00000002   PAD
-    0x08003650   0x08003650   0x0000003c   Code   RO          219    .text.greedyClearDisplay  lcd_lib.o
-    0x0800368c   0x0800368c   0x00000030   Code   RO          215    .text.greedyMoveCursor  lcd_lib.o
-    0x080036bc   0x080036bc   0x00000016   Code   RO          221    .text.greedyRunCommand  lcd_lib.o
-    0x080036d2   0x080036d2   0x00000002   PAD
-    0x080036d4   0x080036d4   0x00000102   Code   RO          148    .text.greedyWait    timer_lib.o
-    0x080037d6   0x080037d6   0x00000002   PAD
-    0x080037d8   0x080037d8   0x00000090   Code   RO          217    .text.greedyWriteString  lcd_lib.o
+    0x08003600   0x08003600   0x00000004   Code   RO           56    .text.freqCooldown  main.o
+    0x08003604   0x08003604   0x00000016   Code   RO          150    .text.getBits       timer_lib.o
+    0x0800361a   0x0800361a   0x00000002   PAD
+    0x0800361c   0x0800361c   0x0000002e   Code   RO          127    .text.getState      gpio_lib.o
+    0x0800364a   0x0800364a   0x00000002   PAD
+    0x0800364c   0x0800364c   0x0000003c   Code   RO          219    .text.greedyClearDisplay  lcd_lib.o
+    0x08003688   0x08003688   0x00000030   Code   RO          215    .text.greedyMoveCursor  lcd_lib.o
+    0x080036b8   0x080036b8   0x00000016   Code   RO          221    .text.greedyRunCommand  lcd_lib.o
+    0x080036ce   0x080036ce   0x00000002   PAD
+    0x080036d0   0x080036d0   0x00000102   Code   RO          148    .text.greedyWait    timer_lib.o
+    0x080037d2   0x080037d2   0x00000002   PAD
+    0x080037d4   0x080037d4   0x00000090   Code   RO          217    .text.greedyWriteString  lcd_lib.o
+    0x08003864   0x08003864   0x00000004   PAD
     0x08003868   0x08003868   0x000000d0   Code   RO           26    .text.handleNewRPM  main.o
     0x08003938   0x08003938   0x00000034   Code   RO           70    .text.handleNewRPMCooldown  main.o
     0x0800396c   0x0800396c   0x00000004   Code   RO           48    .text.handleNewRPMReady  main.o
@@ -2486,7 +2486,7 @@ Image component sizes
       1004          8          0          0          0       8054   interupt_lib.o
        730          4          0          0          0       6167   lcd_lib.o
       1212          0         48          0          0       4284   lcd_routines.o
-      4604        128        374          7          4       7333   main.o
+      4602        128        374          7          4       7333   main.o
       1142         24          0          0          0       2198   pid.o
        790         12          0          0          0       5888   pwm_lib.o
        140         48        392          0       3072        876   startup_stm32l476xx.o
@@ -2495,7 +2495,7 @@ Image component sizes
     ----------------------------------------------------------------------
      14922        276        928         76       3620      68086   Object Totals
          0          0         32          0          0          0   (incl. Generated)
-        82          0          2          4          4          0   (incl. Padding)
+        84          0          2          4          4          0   (incl. Padding)
 
     ----------------------------------------------------------------------
 
