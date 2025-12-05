@@ -310,6 +310,13 @@ void handleNewTarget()
 	MotorPWM->updateDutyCycle(MotorPWM, MotorPID->pidOut / 100.0); // Convert from % to decimal
 	targetSetFlag = 0;
 }
+
+void handleNoRotation()
+{
+	frequency = 0.0;
+	MotorPID->CurrentPosChanged(MotorPID, 0.0); // Convert to RPM
+	MotorPWM->updateDutyCycle(MotorPWM, MotorPID->pidOut); // Set Duty Cycle to 0%
+}
 // Ready Fns
 
 int voltCalcReady() { return (tor_rpm_toggle) ? 1 : 0; }																			   // Onlt calc voltage when torque is being displayed
@@ -322,6 +329,7 @@ int handlePadPressReady() { return (readFinishedFlag && ((!(NumberPad->state)) &
 int handleSW2PressReady() { return sw2PressedFlag; }																				   // Only handle SW2 press when SW2 is pressed
 int handleNewRPMReady() { return newRPMFlag && !targetSetFlag; }																	   // Only handle new RPM when newRPMFlag is set and not targetSetFlag
 int handleNewTargetReady() { return targetSetFlag; }																				   // Only handle new target when targetSetFlag is set
+int handleNoRotationReady() { return (!newRPMFlag && !(Timer5.getBits(&Timer5.TIMX->CR1, TIM_CR1_CEN_Pos, 1)); }					   // Only handle no rotation when Timer 5 has waited NO_ROTATION_WAIT_TIME
 
 // Cooldown Fns
 
@@ -335,6 +343,7 @@ int handlePadPressCooldown() { return 0; }		// Run as fast as possible after rea
 int handleSW2PressCooldown() { return 0; }		// Run as fast as possible after SW2 is pressed
 int handleNewRPMCooldown() { return 0; }		// Run as fast as possible after new RPM is measured
 int handleNewTargetCooldown() { return 0; }		// Run as fast as possible after new target is set
+int handleNoRotationCooldown() { return 0; }    // Run as fast as possible after no RPM was measured
 
 //------------------------------------------------------------------------------
 // Main
