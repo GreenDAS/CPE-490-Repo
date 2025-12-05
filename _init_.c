@@ -108,8 +108,8 @@ void _init_(){
 
 	MotorPID = PIDController_Create(
 		(float[2]){100.0, 0.0}, // PI Max/Min
-		2.0,                    // P Gain
-		(float[3]){0.5, 100.0, -100.0} // I Values: iGain, integratorMax, integratorMin
+		1.0,                    // P Gain
+		(float[3]){0.73, 100.0, -100.0} // I Values: iGain, integratorMax, integratorMin
 	);
 
 	MotorPWM->updateDutyCycle(MotorPWM, 0.5); // Sets Initial Duty Cycle to be 50%
