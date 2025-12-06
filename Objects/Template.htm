@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\Template.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\Template.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Fri Dec  5 18:52:24 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Fri Dec  5 19:06:00 2025
 <BR><P>
 <H3>Maximum Stack Usage =        676 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -831,8 +831,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;handleSW2Press
 <LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;handlePadPress
 <LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updateMainMenu
-<LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;createFreqString
-<LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;createTargetString
+<LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;createFreqString
+<LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;createTargetString
 </UL>
 
 <P><STRONG><a name="[11b]"></a>__aeabi_memcpy</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, rt_memcpy_v6.o(.text))
@@ -858,7 +858,7 @@ Global Symbols
 
 <P><STRONG><a name="[172]"></a>_memcpy_lastbytes_aligned</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rt_memcpy_w.o(.text), UNUSED)
 
-<P><STRONG><a name="[125]"></a>__aeabi_memclr4</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rt_memclr_w.o(.text))
+<P><STRONG><a name="[124]"></a>__aeabi_memclr4</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rt_memclr_w.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
@@ -1354,7 +1354,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_init_
 </UL>
 
-<P><STRONG><a name="[11f]"></a>GetGPIO</STRONG> (Thumb, 38 bytes, Stack size 12 bytes, gpio_lib.o(.text.GetGPIO))
+<P><STRONG><a name="[11e]"></a>GetGPIO</STRONG> (Thumb, 38 bytes, Stack size 12 bytes, gpio_lib.o(.text.GetGPIO))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = GetGPIO
 </UL>
 <BR>[Called By]<UL><LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getState
@@ -1538,11 +1538,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.rodata..Lconstinit)
 </UL>
-<P><STRONG><a name="[7d]"></a>calcVoltage</STRONG> (Thumb, 80 bytes, Stack size 8 bytes, main.o(.text.calcVoltage))
-<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = calcVoltage &rArr; readVoltage &rArr; __aeabi_dmul
-</UL>
-<BR>[Calls]<UL><LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;readVoltage
-</UL>
+<P><STRONG><a name="[7d]"></a>calcVoltage</STRONG> (Thumb, 74 bytes, Stack size 0 bytes, main.o(.text.calcVoltage))
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.rodata..Lconstinit)
 </UL>
 <P><STRONG><a name="[6f]"></a>changeDimMODER</STRONG> (Thumb, 160 bytes, Stack size 32 bytes, gpio_lib.o(.text.changeDimMODER))
@@ -1550,7 +1546,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> gpio_lib.o(.text.Numpad_Create)
 </UL>
-<P><STRONG><a name="[11d]"></a>createFreqString</STRONG> (Thumb, 40 bytes, Stack size 32 bytes, main.o(.text.createFreqString))
+<P><STRONG><a name="[11c]"></a>createFreqString</STRONG> (Thumb, 40 bytes, Stack size 32 bytes, main.o(.text.createFreqString))
 <BR><BR>[Stack]<UL><LI>Max Depth = 168 + Unknown Stack Size
 <LI>Call Chain = createFreqString &rArr; snprintf &rArr; _printf_char_common &rArr; __printf
 </UL>
@@ -1559,7 +1555,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updateMainMenu
 </UL>
 
-<P><STRONG><a name="[11e]"></a>createTargetString</STRONG> (Thumb, 118 bytes, Stack size 48 bytes, main.o(.text.createTargetString))
+<P><STRONG><a name="[11d]"></a>createTargetString</STRONG> (Thumb, 118 bytes, Stack size 48 bytes, main.o(.text.createTargetString))
 <BR><BR>[Stack]<UL><LI>Max Depth = 184 + Unknown Stack Size
 <LI>Call Chain = createTargetString &rArr; snprintf &rArr; _printf_char_common &rArr; __printf
 </UL>
@@ -1595,7 +1591,7 @@ Global Symbols
 <P><STRONG><a name="[6b]"></a>getState</STRONG> (Thumb, 46 bytes, Stack size 16 bytes, gpio_lib.o(.text.getState))
 <BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = getState &rArr; GetGPIO
 </UL>
-<BR>[Calls]<UL><LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetGPIO
+<BR>[Calls]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetGPIO
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> gpio_lib.o(.text.IODevice_Create)
 </UL>
@@ -1628,7 +1624,7 @@ Global Symbols
 <P><STRONG><a name="[63]"></a>greedyWriteString</STRONG> (Thumb, 144 bytes, Stack size 32 bytes, lcd_lib.o(.text.greedyWriteString))
 <BR><BR>[Stack]<UL><LI>Max Depth = 84<LI>Call Chain = greedyWriteString &rArr; lcd_Write &rArr; tim6_Del
 </UL>
-<BR>[Calls]<UL><LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_Write
+<BR>[Calls]<UL><LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_Write
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> lcd_lib.o(.text.GenevaLCDDevice_Create)
 </UL>
@@ -1653,7 +1649,7 @@ Global Symbols
 <LI>Call Chain = handlePadPress &rArr; createTargetString &rArr; snprintf &rArr; _printf_char_common &rArr; __printf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;snprintf
-<LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;createTargetString
+<LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;createTargetString
 </UL>
 <BR>[Called By]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;handleSW2Press
 </UL>
@@ -1693,11 +1689,11 @@ Global Symbols
 <P><STRONG><a name="[8c]"></a>handleSW2PressReady</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, main.o(.text.handleSW2PressReady))
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.rodata..Lconstinit.14)
 </UL>
-<P><STRONG><a name="[124]"></a>i2c1_Init</STRONG> (Thumb, 68 bytes, Stack size 0 bytes, lcd_routines.o(.text.i2c1_Init))
+<P><STRONG><a name="[123]"></a>i2c1_Init</STRONG> (Thumb, 68 bytes, Stack size 0 bytes, lcd_routines.o(.text.i2c1_Init))
 <BR><BR>[Called By]<UL><LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_Init
 </UL>
 
-<P><STRONG><a name="[123]"></a>i2c1_Pinmode_PB67</STRONG> (Thumb, 82 bytes, Stack size 0 bytes, lcd_routines.o(.text.i2c1_Pinmode_PB67))
+<P><STRONG><a name="[122]"></a>i2c1_Pinmode_PB67</STRONG> (Thumb, 82 bytes, Stack size 0 bytes, lcd_routines.o(.text.i2c1_Pinmode_PB67))
 <BR><BR>[Called By]<UL><LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_Init
 </UL>
 
@@ -1709,7 +1705,7 @@ Global Symbols
 <P><STRONG><a name="[119]"></a>lcd_Command</STRONG> (Thumb, 272 bytes, Stack size 48 bytes, lcd_routines.o(.text.lcd_Command))
 <BR><BR>[Stack]<UL><LI>Max Depth = 52<LI>Call Chain = lcd_Command &rArr; tim6_Del
 </UL>
-<BR>[Calls]<UL><LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tim6_Del
+<BR>[Calls]<UL><LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tim6_Del
 </UL>
 <BR>[Called By]<UL><LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;greedyRunCommand
 <LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;greedyClearDisplay
@@ -1720,10 +1716,10 @@ Global Symbols
 <P><STRONG><a name="[118]"></a>lcd_Init</STRONG> (Thumb, 382 bytes, Stack size 88 bytes, lcd_routines.o(.text.lcd_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 92<LI>Call Chain = lcd_Init &rArr; tim6_Del
 </UL>
-<BR>[Calls]<UL><LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2c1_Pinmode_PB67
-<LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2c1_Init
-<LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tim6_Init
-<LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tim6_Del
+<BR>[Calls]<UL><LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2c1_Pinmode_PB67
+<LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2c1_Init
+<LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tim6_Init
+<LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tim6_Del
 </UL>
 <BR>[Called By]<UL><LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_initLCD_
 </UL>
@@ -1731,21 +1727,22 @@ Global Symbols
 <P><STRONG><a name="[67]"></a>lcd_Nack</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, lcd_lib.o(.text.lcd_Nack))
 <BR>[Address Reference Count : 1]<UL><LI> lcd_lib.o(.text.GenevaLCDDevice_Create)
 </UL>
-<P><STRONG><a name="[120]"></a>lcd_Write</STRONG> (Thumb, 272 bytes, Stack size 48 bytes, lcd_routines.o(.text.lcd_Write))
+<P><STRONG><a name="[11f]"></a>lcd_Write</STRONG> (Thumb, 272 bytes, Stack size 48 bytes, lcd_routines.o(.text.lcd_Write))
 <BR><BR>[Stack]<UL><LI>Max Depth = 52<LI>Call Chain = lcd_Write &rArr; tim6_Del
 </UL>
-<BR>[Calls]<UL><LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tim6_Del
+<BR>[Calls]<UL><LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tim6_Del
 </UL>
 <BR>[Called By]<UL><LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;greedyWriteString
 </UL>
 
-<P><STRONG><a name="[cc]"></a>main</STRONG> (Thumb, 814 bytes, Stack size 280 bytes, main.o(.text.main))
+<P><STRONG><a name="[cc]"></a>main</STRONG> (Thumb, 818 bytes, Stack size 280 bytes, main.o(.text.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 676 + Unknown Stack Size
 <LI>Call Chain = main &rArr; _init_ &rArr; GenevaLCDDevice_Create &rArr; _initLCD_ &rArr; lcd_Init &rArr; tim6_Del
 </UL>
-<BR>[Calls]<UL><LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+<BR>[Calls]<UL><LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
 <LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy4
 <LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_init_
+<LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;readVoltage
 </UL>
 <BR>[Called By]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_main
 </UL>
@@ -1761,19 +1758,6 @@ Global Symbols
 <P><STRONG><a name="[8a]"></a>readPadReady</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, main.o(.text.readPadReady))
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.rodata..Lconstinit.14)
 </UL>
-<P><STRONG><a name="[11c]"></a>readVoltage</STRONG> (Thumb, 168 bytes, Stack size 24 bytes, main.o(.text.readVoltage))
-<BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = readVoltage &rArr; __aeabi_dmul
-</UL>
-<BR>[Calls]<UL><LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
-<LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
-<LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2d
-<LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
-<LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
-<LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
-</UL>
-<BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calcVoltage
-</UL>
-
 <P><STRONG><a name="[69]"></a>sendBits</STRONG> (Thumb, 20 bytes, Stack size 4 bytes, lcd_lib.o(.text.sendBits))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = sendBits
 </UL>
@@ -1842,15 +1826,15 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> gpio_lib.o(.text.Numpad_Create)
 </UL>
-<P><STRONG><a name="[121]"></a>tim6_Del</STRONG> (Thumb, 66 bytes, Stack size 4 bytes, lcd_routines.o(.text.tim6_Del))
+<P><STRONG><a name="[120]"></a>tim6_Del</STRONG> (Thumb, 66 bytes, Stack size 4 bytes, lcd_routines.o(.text.tim6_Del))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = tim6_Del
 </UL>
-<BR>[Called By]<UL><LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_Write
+<BR>[Called By]<UL><LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_Write
 <LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_Init
 <LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_Command
 </UL>
 
-<P><STRONG><a name="[122]"></a>tim6_Init</STRONG> (Thumb, 70 bytes, Stack size 0 bytes, lcd_routines.o(.text.tim6_Init))
+<P><STRONG><a name="[121]"></a>tim6_Init</STRONG> (Thumb, 70 bytes, Stack size 0 bytes, lcd_routines.o(.text.tim6_Init))
 <BR><BR>[Called By]<UL><LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_Init
 </UL>
 
@@ -1870,8 +1854,8 @@ Global Symbols
 <LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
 <LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
 <LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;snprintf
-<LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;createFreqString
-<LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;createTargetString
+<LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;createFreqString
+<LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;createTargetString
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.rodata..Lconstinit)
 </UL>
@@ -1978,7 +1962,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PID_UpdatePIOut
 <LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;handleNewRPM
 <LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updateMainMenu
-<LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;readVoltage
+<LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;readVoltage
 </UL>
 
 <P><STRONG><a name="[131]"></a>_d2f</STRONG> (Thumb, 98 bytes, Stack size 32 bytes, d2f.o(x$fpl$d2f), UNUSED)
@@ -1991,7 +1975,7 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PID_UpdatePIOut
 <LI><a href="#[26]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM2_IRQHandler
-<LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;readVoltage
+<LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;readVoltage
 </UL>
 
 <P><STRONG><a name="[134]"></a>_dadd</STRONG> (Thumb, 332 bytes, Stack size 16 bytes, daddsub_clz.o(x$fpl$dadd), UNUSED)
@@ -2015,7 +1999,7 @@ Global Symbols
 <LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;handleNewRPM
 <LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updateMainMenu
 <LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calcFrequency
-<LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;readVoltage
+<LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;readVoltage
 </UL>
 
 <P><STRONG><a name="[137]"></a>_ddiv</STRONG> (Thumb, 560 bytes, Stack size 32 bytes, ddiv.o(x$fpl$ddiv), UNUSED)
@@ -2052,7 +2036,7 @@ Global Symbols
 
 <P><STRONG><a name="[116]"></a>__aeabi_ui2d</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, dflt_clz.o(x$fpl$dfltu))
 <BR><BR>[Called By]<UL><LI><a href="#[26]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM2_IRQHandler
-<LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;readVoltage
+<LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;readVoltage
 </UL>
 
 <P><STRONG><a name="[186]"></a>_dfltu</STRONG> (Thumb, 38 bytes, Stack size 0 bytes, dflt_clz.o(x$fpl$dfltu), UNUSED)
@@ -2088,7 +2072,7 @@ Global Symbols
 <LI><a href="#[26]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM2_IRQHandler
 <LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;handleNewRPM
 <LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updateMainMenu
-<LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;readVoltage
+<LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;readVoltage
 </UL>
 
 <P><STRONG><a name="[13d]"></a>_dmul</STRONG> (Thumb, 332 bytes, Stack size 32 bytes, dmul.o(x$fpl$dmul), UNUSED)
@@ -2135,8 +2119,8 @@ Global Symbols
 <LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIDController_Create
 <LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;handleNewRPM
 <LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updateMainMenu
-<LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;readVoltage
-<LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;createTargetString
+<LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;createTargetString
+<LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;readVoltage
 </UL>
 
 <P><STRONG><a name="[140]"></a>_f2d</STRONG> (Thumb, 86 bytes, Stack size 16 bytes, f2d.o(x$fpl$f2d), UNUSED)
@@ -2227,6 +2211,19 @@ Global Symbols
 <H3>
 Local Symbols
 </H3>
+<P><STRONG><a name="[125]"></a>readVoltage</STRONG> (Thumb, 168 bytes, Stack size 24 bytes, main.o(.text.readVoltage))
+<BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = readVoltage &rArr; __aeabi_dmul
+</UL>
+<BR>[Calls]<UL><LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
+<LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
+<LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2d
+<LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
+<LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
+<LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
+</UL>
+<BR>[Called By]<UL><LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
 <P><STRONG><a name="[108]"></a>__NVIC_SetPriority</STRONG> (Thumb, 66 bytes, Stack size 8 bytes, _init_.o(.text.__NVIC_SetPriority))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = __NVIC_SetPriority
 </UL>
