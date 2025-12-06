@@ -55,7 +55,7 @@ void createVoltString(unsigned char msg[GenevaLCDColSize], double volt)
 
 // Tasks
 
-void readVoltage()
+static inline void readVoltage()
 {
 
 	// Read Voltage
@@ -69,7 +69,6 @@ void readVoltage()
 
 void calcVoltage()
 {
-	readVoltage();
 	voltage = (voltageAccum / (voltageMeasurements));
 	voltageAccum = 0;
 	voltageMeasurements = 0;
@@ -369,6 +368,8 @@ int main(void)
 		while (!systickFlag)
 		{
 		} // Wait for SysTick
+
+		readVoltage();
 
 		uint32_t taskToRun = 0;
 		// Picks the Best Task To Run (BTTR)
