@@ -120,9 +120,6 @@ void _init_(){
 	Timer4 = *GeneralPurposeTimer_Create(4,0,CountAtMilSecondRate,0,'D',1); // Sets up Timer4 for One Pulse Mode Use
 
 	Timer5 = *GeneralPurposeTimer_Create(5,1,CountAtMilSecondRate,(TimerPeriod1SecondInMilSeconds - 1)*10,'D',0); // Sets up Timer3 for GP Timer Use & for the Display
-	
-	// Dissables the ARR shadow reg of Timer 5
-	Timer5.TIMX->CR1 &= ~TIM_CR1_ARPE;
 
 	unsigned char msg[GenevaLCDRowSize][(GenevaLCDColSize+1)] = {// The Message to Display
 			//1st Row
@@ -186,10 +183,6 @@ void _init_(){
 	Timer2.InteruptHandler->setIXER(Timer2.InteruptHandler,'S'); // Enables the interupt in the NVIC
 	Timer2.InteruptHandler->initCCInterupt(Timer2.TIMX);
 	Timer2.setBits(&(Timer2.TIMX->CR1),0,1);
-
-	
-	// Reacreate Timer 5, does not free old timer 5 so the object is still taking up memory
-	Timer5 = *GeneralPurposeTimer_Create(5,0,CountAtMilSecondRate,0,'D',1); // Sets up Timer3 for GP Timer Use, Passed to the display however the display does not use with the EDF scheduler
 
 	InitSysTick(3999, 1); // Sets up SysTick for 1ms interrupts with interrupt enabled
 

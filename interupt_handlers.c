@@ -148,9 +148,6 @@ void TIM2_IRQHandler(void)
 				calcFreqFlag = 1;
 			}
 		}
-		Timer5.TIMX->ARR = ((1/frequency) * (clockSpeedHz / Timer5.TIMX->PSC + 1));		   // Set ARR of Timer 5
-		Timer5.TIMX->CNT = ((1/frequency) * (clockSpeedHz / Timer5.TIMX->PSC + 1));
-		Timer5.setBits(&Timer5.TIMX->CR1, TIM_CR1_CEN_Pos, 1); // Turn on Timer5
 		TIM2->SR &= ~TIM_SR_CC1IF; // Clear interrupt flag
 	}
 	else if (TIM2->SR & TIM_SR_CC2IF)
