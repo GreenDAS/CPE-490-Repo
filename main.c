@@ -280,8 +280,8 @@ void handleSW2Press()
 {
 	if (gettingUserInputFlag)
 	{
-		snprintf((char *)(&(Display->wholeMSG[0][0])), GenevaLCDColSize, "Enter Target RPM"); // Update Top Row's Message
-		snprintf((char *)(&(Display->wholeMSG[1][0])), GenevaLCDColSize, "Target:___.__RPM"); // Update Bot Row's Message
+		snprintf((char *)(&(Display->wholeMSG[0][0])), GenevaLCDColSize, "ENTER TARGET RPM"); // Update Top Row's Message
+		snprintf((char *)(&(Display->wholeMSG[1][0])), GenevaLCDColSize, "TARGET:___.__RPM"); // Update Bot Row's Message
 		SW2LED->setState(SW2LED, 0);														  // Dissable LED2
 		sw2PressedFlag = 0;
 	}
