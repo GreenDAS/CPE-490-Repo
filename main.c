@@ -386,12 +386,12 @@ typedef struct {
 static GatedTask freqCalcTask		= {calcFrequency,	freqCalcReady,			freqCooldown,			0,	TASK_PRIORITY_1};
 static GatedTask newRPMTask			= {handleNewRPM,	handleNewRPMReady,		handleNewRPMCooldown,	0,	TASK_PRIORITY_2};
 static GatedTask voltCalcTask		= {calcVoltage,		voltCalcReady,			voltCooldown,			0,	TASK_PRIORITY_3};
-static GatedTask sw1PressTask		= {handleSW1Press,	handleSW1PressReady,	handleSW1PressCooldown,	0,	TASK_PRIORITY_4};
-static GatedTask sw2PressTask		= {handleSW2Press,	handleSW2PressReady,	handleSW2PressCooldown,	0,	TASK_PRIORITY_5};
-static GatedTask readPadTask		= {readPad,			readPadReady,			readPadCooldown,		0,	TASK_PRIORITY_6};
-static GatedTask mainMenuTask		= {updateMainMenu,	updateMainMenuReady,	updateMainMenuCooldown,	0,	TASK_PRIORITY_7};
-static GatedTask padPressTask		= {handlePadPress,	handlePadPressReady,	handlePadPressCooldown,	0,	TASK_PRIORITY_8};
-static GatedTask dispUpdaTask		= {displayUpdate,	dispUpdaReady,			dispCooldown,			0,	TASK_PRIORITY_9};
+static GatedTask dispUpdaTask		= {displayUpdate,	dispUpdaReady,			dispCooldown,			0,	TASK_PRIORITY_4};
+static GatedTask sw1PressTask		= {handleSW1Press,	handleSW1PressReady,	handleSW1PressCooldown,	0,	TASK_PRIORITY_5};
+static GatedTask sw2PressTask		= {handleSW2Press,	handleSW2PressReady,	handleSW2PressCooldown,	0,	TASK_PRIORITY_6};
+static GatedTask readPadTask		= {readPad,			readPadReady,			readPadCooldown,		0,	TASK_PRIORITY_7};
+static GatedTask mainMenuTask		= {updateMainMenu,	updateMainMenuReady,	updateMainMenuCooldown,	0,	TASK_PRIORITY_8};
+static GatedTask padPressTask		= {handlePadPress,	handlePadPressReady,	handlePadPressCooldown,	0,	TASK_PRIORITY_9};
 
 // Called by the RTOS once per tick for each gated task
 // The cooldown is timed against the RTOS tick count (1 tick = 1 ms), not counted down per call, so it stays
@@ -459,12 +459,12 @@ int main(void)
 	RTOS_Add_Task(2,	RunGatedTask,		&newRPMTask,	1,		0,		"New RPM");			// NEW_RPM_DEADLINE				25ms (PID)
 	RTOS_Add_Task(3,	RunGatedTask,		&voltCalcTask,	1,		0,		"Calc Volt");		// VOLTAGE_DEADLINE				400ms
 	// Human Machine Interface
-	RTOS_Add_Task(4,	RunGatedTask,		&sw1PressTask,	1,		0,		"SW1 Press");		// HANDLE_SW1_PRESS_DEADLINE	10ms
-	RTOS_Add_Task(5,	RunGatedTask,		&sw2PressTask,	1,		0,		"SW2 Press");		// HANDLE_SW2_PRESS_DEADLINE	10ms
-	RTOS_Add_Task(6,	RunGatedTask,		&readPadTask,	1,		0,		"Read Pad");		// READ_NUMPAD_DEADLINE			25ms
-	RTOS_Add_Task(7,	RunGatedTask,		&mainMenuTask,	1,		0,		"Main Menu");		// MAIN_MENU_UPDATE_DEADLINE	50ms
-	RTOS_Add_Task(8,	RunGatedTask,		&padPressTask,	1,		0,		"Pad Press");		// HANDLE_NUMPAD_PRESS_DEADLINE	100ms
-	RTOS_Add_Task(9,	RunGatedTask,		&dispUpdaTask,	1,		0,		"Display");			// DISPLAY_DEADLINE				600ms
+	RTOS_Add_Task(4,	RunGatedTask,		&dispUpdaTask,	1,		0,		"Display");			// DISPLAY_DEADLINE				4ms per step
+	RTOS_Add_Task(5,	RunGatedTask,		&sw1PressTask,	1,		0,		"SW1 Press");		// HANDLE_SW1_PRESS_DEADLINE	10ms
+	RTOS_Add_Task(6,	RunGatedTask,		&sw2PressTask,	1,		0,		"SW2 Press");		// HANDLE_SW2_PRESS_DEADLINE	10ms
+	RTOS_Add_Task(7,	RunGatedTask,		&readPadTask,	1,		0,		"Read Pad");		// READ_NUMPAD_DEADLINE			25ms
+	RTOS_Add_Task(8,	RunGatedTask,		&mainMenuTask,	1,		0,		"Main Menu");		// MAIN_MENU_UPDATE_DEADLINE	50ms
+	RTOS_Add_Task(9,	RunGatedTask,		&padPressTask,	1,		0,		"Pad Press");		// HANDLE_NUMPAD_PRESS_DEADLINE	100ms
 
 	// The RTOS's own timekeeping would time RunGatedTask() every tick, including the ticks where the
 	// task isn't ready and nothing runs. Turn it off so only real runs are timed (by TimedRun()),
@@ -484,7 +484,7 @@ int main(void)
 		.tasks = {calcVoltage, calcFrequency, displayUpdate, 
 						handleSW1Press, readPad, handlePadPress, 
 						handleSW2Press, updateMainMenu, handleNewRPM},
-		.deadlines = {VOLTAGE_DEADLINE, FREQ_DEADLINE, DISPLAY_DEADLINE, 
+		.deadlines = {VOLTAGE_DEADLINE, FREQ_DEADLINE, DISPLAY_REFRESH_DEADLINE, 
 						HANDLE_SW1_PRESS_DEADLINE, READ_NUMPAD_DEADLINE, HANDLE_NUMPAD_PRESS_DEADLINE, 
 						HANDLE_SW2_PRESS_DEADLINE, MAIN_MENU_UPDATE_DEADLINE, NEW_RPM_DEADLINE},
 		.cooldowns = {0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -495,9 +495,9 @@ int main(void)
 		.coolDownFn = {voltCooldown, freqCooldown, dispCooldown, 
 						handleSW1PressCooldown, readPadCooldown, handlePadPressCooldown, 
 						handleSW2PressCooldown, updateMainMenuCooldown, handleNewRPMCooldown},
-		.tkID = {TASK_PRIORITY_3, TASK_PRIORITY_1, TASK_PRIORITY_9, 
-						TASK_PRIORITY_4, TASK_PRIORITY_6, TASK_PRIORITY_8, 
-						TASK_PRIORITY_5, TASK_PRIORITY_7, TASK_PRIORITY_2},
+		.tkID = {TASK_PRIORITY_3, TASK_PRIORITY_1, TASK_PRIORITY_4, 
+						TASK_PRIORITY_5, TASK_PRIORITY_7, TASK_PRIORITY_9, 
+						TASK_PRIORITY_6, TASK_PRIORITY_8, TASK_PRIORITY_2},
 	};
 	// End Set up Scheduler Tasks
 	while (TRUE)

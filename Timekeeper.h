@@ -42,12 +42,12 @@ typedef enum {
 	TASK_PRIORITY_1,		// calc frequency							(deadline 15 ms)
 	TASK_PRIORITY_2,		// handle new RPM (PID + PWM)				(deadline 25 ms)
 	TASK_PRIORITY_3,		// calc voltage							(deadline 400 ms)
-	TASK_PRIORITY_4,		// HMI: handle SW1 press					(deadline 10 ms)
-	TASK_PRIORITY_5,		// HMI: handle SW2 press					(deadline 10 ms)
-	TASK_PRIORITY_6,		// HMI: read numpad						(deadline 25 ms)
-	TASK_PRIORITY_7,		// HMI: update main menu					(deadline 50 ms)
-	TASK_PRIORITY_8,		// HMI: handle numpad press				(deadline 100 ms)
-	TASK_PRIORITY_9,		// HMI: display update						(deadline 600 ms)
+	TASK_PRIORITY_4,		// HMI: display update						(deadline 4 ms per step)
+	TASK_PRIORITY_5,		// HMI: handle SW1 press					(deadline 10 ms)
+	TASK_PRIORITY_6,		// HMI: handle SW2 press					(deadline 10 ms)
+	TASK_PRIORITY_7,		// HMI: read numpad						(deadline 25 ms)
+	TASK_PRIORITY_8,		// HMI: update main menu					(deadline 50 ms)
+	TASK_PRIORITY_9,		// HMI: handle numpad press				(deadline 100 ms)
 	TIMEKEEPER_NUM_DEFINED_TASKS	// keep last - number of tasks defined above, also used as a "none" sentinel
 } Timekeeper_Task_ID;
 
