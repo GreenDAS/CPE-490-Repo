@@ -112,6 +112,7 @@ void _init_(){
 		0.15,                      			// P Gain
 		(float[3]){0.05, 100.0, -100.0} 	// I Values: iGain, integratorMax, integratorMin
 	);
+	MotorPID->setPoint = targetRPM; // Start with the default target so the PID never divides by a 0 set point
 
 	MotorPWM->updateDutyCycle(MotorPWM, 0.5); // Sets Initial Duty Cycle to be 50%
 	MotorPWM->finalizePinOutSetup(MotorPWM); // Finalizes the Pin Out Setup

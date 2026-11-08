@@ -57,6 +57,7 @@
 void PID_CurrentPosChanged(PIDController* self, double newPos, double overTime){
     self->previousPos = self->currentPos;
     self->currentPos = newPos;
+    if (self->setPoint <= 0) { return; } // No set point yet - error would be -inf (divide by 0), so skip this update
     self->error = ((self->setPoint - self->currentPos) * 100) / (self->setPoint); // Scale error to range [0, 100]
     self->UpdatePI(self, overTime);
 }
@@ -81,6 +82,7 @@ void PID_CurrentPosChanged(PIDController* self, double newPos, double overTime){
 void PID_SetPointChanged(PIDController* self, double newPos, double overTime){
     //self->ResetIntegrator(self);
     self->setPoint = newPos;
+    if (self->setPoint <= 0) { return; } // Invalid set point - error would be -inf (divide by 0), so skip this update
     self->error = ((self->setPoint - self->currentPos) * 100) / (self->setPoint); // Scale error to range [0, 100], 7k is the max position, mul by 100 to get percentage
     self->UpdatePI(self, overTime);
 }

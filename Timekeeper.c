@@ -29,7 +29,6 @@ static uint32_t Timekeeper_Elapsed_Cycles(uint32_t start_cycles, uint32_t end_cy
  */
 void Timekeeper_Init(void) {
 	// --- DWT cycle counter, used for max-runtime measurement ---
-	// (turned on first so the start_cycles values below come from a counter that is actually running)
 	CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
 	DWT->CYCCNT = 0;
 	DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
@@ -37,11 +36,9 @@ void Timekeeper_Init(void) {
 	// --- Period tracking ---
 	// CPE 490's tasks are released every tick and then gated by their ready/cooldown functions,
 	// so there's no fixed configured period to store: period_us stays 0 ("not periodic").
-	// min/max period still record the time seen between dispatches.
+	// min/max period still record the time seen between real runs (Timekeeper_Reset_All() below clears them).
 	for (uint8_t i = 0; i < TIMEKEEPER_NUM_TASKS; i++) {
 		timekeeper_tasks[i].period_us = 0;
-		timekeeper_tasks[i].max_period_us = -1;
-		timekeeper_tasks[i].start_cycles = DWT->CYCCNT;	// so the first run of each task has a valid period
 	}
 
 	Timekeeper_Reset_All();
@@ -57,14 +54,22 @@ void Timekeeper_Start(Timekeeper_Task_ID task_id) {
 	uint32_t startOfNewCycleTime = DWT->CYCCNT;	// grab this immediately so the rest of this function doesn't get counted
 	Timekeeper_Task_t *task = &timekeeper_tasks[task_id];
 
-	// update the period_us, min_period_us, max_period_us, and jitter_range_us for this task based on the time since its last run
-	uint32_t elapsed_period_us = Timekeeper_Elapsed_Cycles(task->start_cycles, startOfNewCycleTime) / TIMEKEEPER_CYCLES_PER_US;
-	// update min_period_us based on the time since the last run. If this is the first run, min_period_us is set to elapsed_period_us.
-	task->min_period_us = (task->min_period_us == 0) ? elapsed_period_us : ((elapsed_period_us < task->min_period_us) ? elapsed_period_us : task->min_period_us);
-	// update max_period_us based on the time since the last run. If this is the first run, max_period_us is set to elapsed_period_us.
-	task->max_period_us = (task->min_period_us == elapsed_period_us) ? 0 : ((elapsed_period_us > task->max_period_us) ? elapsed_period_us : task->max_period_us);
-	// 0 until at least two runs have completed, then the difference between the last two periods seen
-	task->jitter_range_us = (task->max_period_us - task->min_period_us);
+	// update min_period_us, max_period_us, and jitter_range_us from the time since this task's last start.
+	// The first run after Init/Reset has no previous start to measure from, so it only records its start time.
+	if (task->has_run) {
+		uint32_t elapsed_period_us = Timekeeper_Elapsed_Cycles(task->start_cycles, startOfNewCycleTime) / TIMEKEEPER_CYCLES_PER_US;
+		// first period seen sets both min and max, after that keep the smallest / largest
+		if (task->period_samples == 0 || elapsed_period_us < task->min_period_us) {
+			task->min_period_us = elapsed_period_us;
+		}
+		if (task->period_samples == 0 || elapsed_period_us > task->max_period_us) {
+			task->max_period_us = elapsed_period_us;
+		}
+		task->period_samples++;
+		// spread between the longest and shortest period seen so far. 0 until at least two periods have been seen
+		task->jitter_range_us = task->max_period_us - task->min_period_us;
+	}
+	task->has_run = 1;
 
 	// record the start time for this run, and mark the task as running
 	task->start_cycles = startOfNewCycleTime;
@@ -177,7 +182,7 @@ uint32_t Timekeeper_Get_Max_Period_us(Timekeeper_Task_ID task_id) {
 }
 
 /**
- * @brief Clears the recorded stats (max/last runtime, overrun count) for one task. Leaves its limit alone
+ * @brief Clears the recorded stats (max/last runtime, overrun count, min/max period, jitter) for one task. Leaves its limit alone
  * @param task_id which task to reset
  * @retval None
  */
@@ -187,6 +192,11 @@ void Timekeeper_Reset_Task(Timekeeper_Task_ID task_id) {
 	timekeeper_tasks[task_id].last_runtime_us = 0;
 	timekeeper_tasks[task_id].overrun_count = 0;
 	timekeeper_tasks[task_id].running = 0;
+	timekeeper_tasks[task_id].min_period_us = 0;
+	timekeeper_tasks[task_id].max_period_us = 0;
+	timekeeper_tasks[task_id].jitter_range_us = 0;
+	timekeeper_tasks[task_id].period_samples = 0;
+	timekeeper_tasks[task_id].has_run = 0;	// next Start() only records a start time, so the period stats don't include the time since the reset
 }
 
 /**

@@ -379,7 +379,7 @@ typedef struct {
 	void (*task)(void);			// The task itself
 	int  (*taskCond)(void);		// Ready fn - task only runs when this returns non-zero
 	int  (*coolDownFn)(void);	// Cooldown fn - ms to wait after a run before the task can run again
-	int  cooldown;				// ms left on the current cooldown
+	uint32_t readyAt;			// RTOS tick (ms) the cooldown ends on - the task can't run before this tick
 	Timekeeper_Task_ID tkID;	// Timekeeper slot (= RTOS priority)
 } GatedTask;
 
@@ -394,20 +394,21 @@ static GatedTask padPressTask		= {handlePadPress,	handlePadPressReady,	handlePad
 static GatedTask dispUpdaTask		= {displayUpdate,	dispUpdaReady,			dispCooldown,			0,	TASK_PRIORITY_9};
 
 // Called by the RTOS once per tick for each gated task
+// The cooldown is timed against the RTOS tick count (1 tick = 1 ms), not counted down per call, so it stays
+// in real ms even when a long task makes this wrapper miss some ticks
 void RunGatedTask(void *context)
 {
 	GatedTask *self = (GatedTask *)context;
-	if (self->cooldown > 0)
+	if ((int32_t)(RTOS_Get_Tick_Count() - self->readyAt) < 0)
 	{
-		self->cooldown--; // Still cooling down, try again next tick
-		return;
+		return; // Still cooling down, try again next tick (signed difference keeps this right when the tick count wraps)
 	}
 	if (!self->taskCond())
 	{
 		return; // Not ready yet
 	}
-	TimedRun(self->task, self->tkID);			// Run the Task
-	self->cooldown = self->coolDownFn();		// Set the cooldown
+	TimedRun(self->task, self->tkID);									// Run the Task
+	self->readyAt = RTOS_Get_Tick_Count() + (uint32_t)self->coolDownFn();	// Set the cooldown
 }
 
 // readVoltage() used to run every tick before the EDF picked a task, so it gets the top priority

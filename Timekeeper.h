@@ -59,9 +59,11 @@ typedef struct {
 	uint32_t period_us;			// how often this task is scheduled to run, in microseconds. 0 = not periodic This is set by the scheduler when the task is started, and used to track min/max period seen so far
 	uint32_t min_period_us;		// shortest period seen so far, in microseconds.
 	uint32_t max_period_us;		// longest period seen so far, in microseconds.
-	uint32_t jitter_range_us;		// difference between the last two periods seen, in microseconds. 0 = not enough data yet
+	uint32_t jitter_range_us;		// max_period_us - min_period_us, in microseconds. 0 = not enough data yet
+	uint32_t period_samples;		// number of periods measured (runs after the first one) since Init/Reset
 	uint32_t overrun_count;	// number of times this task has run longer than limit_us
 	uint8_t running;			// 1 between a Start() and its matching Stop() - basic misuse guard
+	uint8_t has_run;			// 1 once the task has started at least once since Init/Reset, so start_cycles holds a real start time
 } Timekeeper_Task_t;
 
 extern Timekeeper_Task_t timekeeper_tasks[TIMEKEEPER_NUM_TASKS];
