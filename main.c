@@ -2,8 +2,10 @@
  * Author  Daniel S.
  * Date    11/13/2025
  * File    main.c
- * Version V1.5
+ * Version V1.6
  * Completes Lab 9
+ * V1.6 (10/27/2026): EDF loop replaced by the O(1) RTOS from senior design (RTOS.c/.h)
+ *                    Old EDF loop kept behind USE_OLD_EDF_SCHEDULER (globals.h) for Timekeeper comparisons
  *
  **************************************************************************
  */
@@ -22,6 +24,8 @@
 #include "globals.h"
 #include "pwm_lib.h"
 #include "pid.h"
+#include "RTOS.h"
+#include "Timekeeper.h"
 
 //------------------------------------------------------------------------------
 // # defines
@@ -337,6 +341,100 @@ int handlePadPressCooldown() { return 0; }		// Run as fast as possible after rea
 int handleSW2PressCooldown() { return 0; }		// Run as fast as possible after SW2 is pressed
 int handleNewRPMCooldown() { return (int)((30/(targetRPM * 7)) * 1000); }		// Run as fast as possible after new RPM is measured
 // Colleen was here :)
+
+//------------------------------------------------------------------------------
+// Scheduler Glue
+//------------------------------------------------------------------------------
+
+/* USE_OLD_EDF_SCHEDULER (globals.h) picks which scheduler runs the tasks:
+ *   0 = new O(1) RTOS (RTOS.c/.h)
+ *   1 = old EDF loop (V1.5), kept here so the two can be compared
+ * Either way, Timekeeper times each task's actual run (the task fn itself, not the ready/cooldown checks),
+ * and a task lands in the same timekeeper_tasks[] slot under both schedulers (slot = RTOS priority).
+ * So: run one, note timekeeper_tasks[] in the debugger, flip the switch, run the other, compare.
+ *   max_runtime_us					- longest single run of the task
+ *   min_period_us / max_period_us	- shortest / longest time between the starts of two runs
+ *   jitter_range_us				- max_period_us - min_period_us
+ */
+
+// Runs one task with Timekeeper wrapped around it
+static void TimedRun(void (*task)(void), Timekeeper_Task_ID id)
+{
+	Timekeeper_Start(id);
+	task();
+	Timekeeper_Stop(id);
+}
+
+#if !USE_OLD_EDF_SCHEDULER
+
+/* The RTOS releases tasks on a fixed period. These tasks are event driven
+ * instead (a ready fn says when they can run, a cooldown fn says how long to
+ * wait after a run), so each one is registered with a 1 tick (1 ms) period and
+ * run through RunGatedTask(), which checks those the same way the old EDF loop did.
+ * The old EDF deadlines never changed at runtime, so EDF picked tasks in a fixed
+ * order: shortest deadline first. That order is kept within each group in main(), but the
+ * control tasks (measurements + PID) all sit above the Human Machine Interface tasks (0 = highest).
+ */
+typedef struct {
+	void (*task)(void);			// The task itself
+	int  (*taskCond)(void);		// Ready fn - task only runs when this returns non-zero
+	int  (*coolDownFn)(void);	// Cooldown fn - ms to wait after a run before the task can run again
+	int  cooldown;				// ms left on the current cooldown
+	Timekeeper_Task_ID tkID;	// Timekeeper slot (= RTOS priority)
+} GatedTask;
+
+static GatedTask freqCalcTask		= {calcFrequency,	freqCalcReady,			freqCooldown,			0,	TASK_PRIORITY_1};
+static GatedTask newRPMTask			= {handleNewRPM,	handleNewRPMReady,		handleNewRPMCooldown,	0,	TASK_PRIORITY_2};
+static GatedTask voltCalcTask		= {calcVoltage,		voltCalcReady,			voltCooldown,			0,	TASK_PRIORITY_3};
+static GatedTask sw1PressTask		= {handleSW1Press,	handleSW1PressReady,	handleSW1PressCooldown,	0,	TASK_PRIORITY_4};
+static GatedTask sw2PressTask		= {handleSW2Press,	handleSW2PressReady,	handleSW2PressCooldown,	0,	TASK_PRIORITY_5};
+static GatedTask readPadTask		= {readPad,			readPadReady,			readPadCooldown,		0,	TASK_PRIORITY_6};
+static GatedTask mainMenuTask		= {updateMainMenu,	updateMainMenuReady,	updateMainMenuCooldown,	0,	TASK_PRIORITY_7};
+static GatedTask padPressTask		= {handlePadPress,	handlePadPressReady,	handlePadPressCooldown,	0,	TASK_PRIORITY_8};
+static GatedTask dispUpdaTask		= {displayUpdate,	dispUpdaReady,			dispCooldown,			0,	TASK_PRIORITY_9};
+
+// Called by the RTOS once per tick for each gated task
+void RunGatedTask(void *context)
+{
+	GatedTask *self = (GatedTask *)context;
+	if (self->cooldown > 0)
+	{
+		self->cooldown--; // Still cooling down, try again next tick
+		return;
+	}
+	if (!self->taskCond())
+	{
+		return; // Not ready yet
+	}
+	TimedRun(self->task, self->tkID);			// Run the Task
+	self->cooldown = self->coolDownFn();		// Set the cooldown
+}
+
+// readVoltage() used to run every tick before the EDF picked a task, so it gets the top priority
+void ReadVoltageTask(void *context)
+{
+	(void)context;
+	TimedRun(readVoltage, TASK_PRIORITY_0);
+}
+
+#else
+
+/* Old EDF scheduler task table (from V1.5) */
+#define MAX_TASKS 9 // Maximum number of tasks for EDF Scheduler
+typedef struct {
+	void (*tasks[MAX_TASKS])(void);         // Task function pointers
+	int  deadlines[MAX_TASKS];              // Deadlines for each task
+	int  cooldowns[MAX_TASKS];              // Cooldown counters for each task
+	int  clksWaited[MAX_TASKS];             // Clocks waited for each task
+	int  (*taskCond[MAX_TASKS])(void);      // Condition functions to check if task is ready
+	int  (*coolDownFn[MAX_TASKS])(void);    // Cooldown functions for each task
+	Timekeeper_Task_ID tkID[MAX_TASKS];     // Timekeeper slot for each task (same slot the task uses under the RTOS)
+} EDFToDo;
+
+EDFToDo schedulerTasks; // EDF Scheduler Tasks
+
+#endif
+
 //------------------------------------------------------------------------------
 // Main
 //------------------------------------------------------------------------------
@@ -344,6 +442,41 @@ int handleNewRPMCooldown() { return (int)((30/(targetRPM * 7)) * 1000); }		// Ru
 int main(void)
 {
 	_init_(); // Sets up classes and other variables
+
+#if !USE_OLD_EDF_SCHEDULER
+
+	// Set up the RTOS (also starts Timekeeper's DWT cycle counter)
+	// SysTick is already ticking from _init_(), but RTOS_Tick() won't release anything until RTOS_Start()
+	RTOS_Init();
+
+	// Priority: control path first (measurements + PID), Human Machine Interface (buttons, numpad, LCD) last.
+	// Within each group the order follows the old EDF deadlines (shortest first).
+	//			  Prio	Function			Context			Period	Offset	Name
+	// Control
+	RTOS_Add_Task(0,	ReadVoltageTask,	NULL,			1,		0,		"Read Voltage");	// Every tick
+	RTOS_Add_Task(1,	RunGatedTask,		&freqCalcTask,	1,		0,		"Calc Freq");		// FREQ_DEADLINE				15ms
+	RTOS_Add_Task(2,	RunGatedTask,		&newRPMTask,	1,		0,		"New RPM");			// NEW_RPM_DEADLINE				25ms (PID)
+	RTOS_Add_Task(3,	RunGatedTask,		&voltCalcTask,	1,		0,		"Calc Volt");		// VOLTAGE_DEADLINE				400ms
+	// Human Machine Interface
+	RTOS_Add_Task(4,	RunGatedTask,		&sw1PressTask,	1,		0,		"SW1 Press");		// HANDLE_SW1_PRESS_DEADLINE	10ms
+	RTOS_Add_Task(5,	RunGatedTask,		&sw2PressTask,	1,		0,		"SW2 Press");		// HANDLE_SW2_PRESS_DEADLINE	10ms
+	RTOS_Add_Task(6,	RunGatedTask,		&readPadTask,	1,		0,		"Read Pad");		// READ_NUMPAD_DEADLINE			25ms
+	RTOS_Add_Task(7,	RunGatedTask,		&mainMenuTask,	1,		0,		"Main Menu");		// MAIN_MENU_UPDATE_DEADLINE	50ms
+	RTOS_Add_Task(8,	RunGatedTask,		&padPressTask,	1,		0,		"Pad Press");		// HANDLE_NUMPAD_PRESS_DEADLINE	100ms
+	RTOS_Add_Task(9,	RunGatedTask,		&dispUpdaTask,	1,		0,		"Display");			// DISPLAY_DEADLINE				600ms
+
+	// The RTOS's own timekeeping would time RunGatedTask() every tick, including the ticks where the
+	// task isn't ready and nothing runs. Turn it off so only real runs are timed (by TimedRun()),
+	// the same as the EDF build. Overruns are only counted, nothing gets cut off.
+	RTOS_Set_Timekeeping(FALSE);
+	// Timekeeper_Set_Limit_us(TASK_PRIORITY_2, 500); // Example: count an overrun whenever New RPM takes longer than 500us
+
+	// Hand control to the RTOS - this never returns
+	RTOS_Start();
+
+#else
+
+	Timekeeper_Init(); // Starts the DWT cycle counter Timekeeper times tasks with
 
 	// Set up Scheduler Tasks
 	schedulerTasks = (EDFToDo){
@@ -361,6 +494,9 @@ int main(void)
 		.coolDownFn = {voltCooldown, freqCooldown, dispCooldown, 
 						handleSW1PressCooldown, readPadCooldown, handlePadPressCooldown, 
 						handleSW2PressCooldown, updateMainMenuCooldown, handleNewRPMCooldown},
+		.tkID = {TASK_PRIORITY_3, TASK_PRIORITY_1, TASK_PRIORITY_9, 
+						TASK_PRIORITY_4, TASK_PRIORITY_6, TASK_PRIORITY_8, 
+						TASK_PRIORITY_5, TASK_PRIORITY_7, TASK_PRIORITY_2},
 	};
 	// End Set up Scheduler Tasks
 	while (TRUE)
@@ -369,7 +505,7 @@ int main(void)
 		{
 		} // Wait for SysTick
 
-		readVoltage();
+		TimedRun(readVoltage, TASK_PRIORITY_0);
 
 		uint32_t taskToRun = 0;
 		// Picks the Best Task To Run (BTTR)
@@ -418,11 +554,13 @@ int main(void)
 		// Checks the BTTR to see if it should be ran
 		if (schedulerTasks.taskCond[taskToRun]() && (schedulerTasks.cooldowns[taskToRun] == 0))
 		{
-			schedulerTasks.tasks[taskToRun]();											  // Run the selected Task
+			TimedRun(schedulerTasks.tasks[taskToRun], schedulerTasks.tkID[taskToRun]);	  // Run the selected Task (timed)
 			schedulerTasks.cooldowns[taskToRun] = schedulerTasks.coolDownFn[taskToRun](); // Set the cooldown
 			schedulerTasks.clksWaited[taskToRun] = 0;									  // Reset clks waited (Could be used for priority in the EDF if need be)
 		}
 
 		systickFlag = 0; // Clear the systick Flag
 	}
+
+#endif
 }

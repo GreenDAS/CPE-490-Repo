@@ -61,14 +61,13 @@ double timeElapsed = 0.0;
 
 float targetRPM = 50;
 
-EDFToDo schedulerTasks;
 dispState displayState = SUCCESS;
 
 // FLAGS
 
     // System
         // Volatile
-            volatile unsigned int systickFlag = 0; 
+            volatile unsigned int systickFlag = 0; // Only used by the old EDF loop
 
     // Switches
 

@@ -17,7 +17,7 @@ INCUDES
 #include "timer_lib.h"
 #include "lcd_lib.h"
 #include "globals.h"
-#include "globals.h"
+#include "RTOS.h"
 
 #define DEBOUNCE_TIME_MS 500  // 500 ms debounce time - Also done to prevent multiple presses when getting user input
 		                      // Not a fan of this method, but it works for now
@@ -98,10 +98,14 @@ SysTick ISR
 
 
 
-// Currently a Cooperative RTOS & EDF
+// System tick (1ms)
 void SysTick_Handler(void)
 {
-	systickFlag = 1;
+#if USE_OLD_EDF_SCHEDULER
+	systickFlag = 1;	// Old EDF loop waits on this
+#else
+	RTOS_Tick();		// Releases any RTOS tasks that are due
+#endif
 }
 
 /*------------------------------------------------------------------------

@@ -45,7 +45,8 @@
     //
 
 // Scheduler Config
-    #define MAX_TASKS           9                   // Maximum number of tasks for EDF Scheduler
+    #define USE_OLD_EDF_SCHEDULER 0                 // 0 = new O(1) RTOS, 1 = old EDF loop (for Timekeeper comparisons, see main.c)
+    // Tasks run on the RTOS (RTOS.c/.h). Priorities are set in main.c: control tasks first, HMI tasks last, by deadline within each group
     #define SYSTICK_MAX         1200                // SysTick max value ( Doesn't need to change unless a deadline is longer than this )
     // Deadlines
         #define VOLTAGE_DEADLINE    400             // 400ms
@@ -90,16 +91,6 @@
     } dispState;
 
 
-/* EDF scheduler task table */
-    typedef struct {
-        void (*tasks[MAX_TASKS])(void);         // Task function pointers
-        int  deadlines[MAX_TASKS];              // Deadlines for each task
-        int  cooldowns[MAX_TASKS];              // Cooldown counters for each task
-        int  clksWaited[MAX_TASKS];             // Clocks waited for each task
-        int  (*taskCond[MAX_TASKS])(void);      // Condition functions to check if task is ready
-        int  (*coolDownFn[MAX_TASKS])(void);    // Cooldown functions for each task
-    } EDFToDo;
-
 /* Forward declarations – NEVER include full structs here */
 struct IODevice;
 struct GeneralPurposeTimer;
@@ -143,14 +134,13 @@ extern double       timeElapsed;                // Time elapsed for frequency me
 
 extern float            targetRPM;              // Target RPM value
 
-extern EDFToDo          schedulerTasks;         // EDF Scheduler Tasks
 extern dispState      	displayState;           // Current display state
 
 // FLAGS
 
     // System
         // Volatile
-            extern volatile unsigned int systickFlag;       // SysTick Flag
+            extern volatile unsigned int systickFlag;       // SysTick Flag (only used by the old EDF loop)
 
     // Switches
 

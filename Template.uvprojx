@@ -499,6 +499,26 @@
               <FileType>5</FileType>
               <FilePath>.\pwm_lib.h</FilePath>
             </File>
+            <File>
+              <FileName>RTOS.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\RTOS.c</FilePath>
+            </File>
+            <File>
+              <FileName>RTOS.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\RTOS.h</FilePath>
+            </File>
+            <File>
+              <FileName>Timekeeper.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Timekeeper.c</FilePath>
+            </File>
+            <File>
+              <FileName>Timekeeper.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Timekeeper.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
